@@ -5,7 +5,7 @@
 %Listen einrÃ¼cken
 \usepackage{enumitem}
 %deutsche Umlaute
-\usepackage[ansinew]{inputenc}
+\usepackage[utf8]{inputenc}
 %Trennung von deutschen Umlauten
 \usepackage[T1]{fontenc}
 %fÃ¼r Zitate
@@ -20,7 +20,7 @@
 \usepackage{tabularx}
 %Verlinkung
 \usepackage{hyperref}
-%urls sollen erkannt werden
+%für url erkennung
 \usepackage{url}
 
 %\makeatletter
@@ -32,7 +32,6 @@
 
 	%Festlegung des Zitatstyles - Harvardmethode: Abkuerzung Autor + Jahr
 	\bibliographystyle{alphadin}
-	\graphicspath{{android\_pages/graphics}}
 
 \begin{titlepage}
 	%Eine mbox wird verwendet um Text zusammenzuhalten
@@ -44,19 +43,17 @@
    	%Mittige Textausrichtung (\centerline fÃ¼r eine Zeile)
    	\centering
    	%Das Argument erscheint in KapitÃ¤lchen (small capitals).
-	\textsc{App-Security in iOS und Android}
+	\textsc{Security in Android}
 	%Umbruch bezogen auf die HÃ¶he des Kleinbuchstaben x in diesem Element * Faktor
 	\\[3ex]
    	Seminararbeit
    	\rmfamily\Large
    	\vspace{1\baselineskip}\\
    	%Externes einbinden einer Textdatei
-   	\input{version.txt}\mbox{}
-	\vspace{3\baselineskip}\\
+   	%\input{version.txt}\mbox{}
+%	\vspace{3\baselineskip}\\
 	Hochschule f"ur angewandte Wissenschaften W"urzburg-Schweinfurt
    	\vspace{5\baselineskip}\\
-   	\rmfamily\Large
-   	David Artmann\\
    	\rmfamily\Large
    	Kristoffer Schneider
    	\vspace{1\baselineskip}\\
@@ -73,27 +70,17 @@
 	
 	%Abbildungsverzeichnis
 	\listoffigures
-	
-	%01.Vorwort
 	\newpage
-	\input{ios_pages/01_vorwort.tex}
-	
-	%Das Android Betriebssystem 
-	\newpage
+
 	\input{android_pages/Das_Android_Betriebssystem.tex}
-	
-	%02.Apple's law enforcement process guidelines
 	\newpage
-	\input{ios_pages/02_apple_law_enforcement.tex}
 	
-	%03.Sicherheitsarchitektur iOS
+	\input{android_pages/Grundlegender_Aufbau_einer_Android_App.tex}
 	\newpage
-	\input{ios_pages/03_Sicherheitsarchitektur_ios.tex}
 	
-	%04.Geheime Dienste
+	\input{android_pages/Sicherheitsaspekter_der_Android_Architektur.tex}
 	\newpage
-	\input{ios_pages/04_geheime_dienste.tex}
 	
-	\newpage
+	
 
 \end{document}

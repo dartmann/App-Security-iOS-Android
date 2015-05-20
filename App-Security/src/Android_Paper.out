@@ -1,0 +1,5 @@
+\BOOKMARK [1][-]{section.1}{Das Android Betriebssystem}{}% 1
+\BOOKMARK [1][-]{section.2}{Grundlegender Aufbau einer Android App}{}% 2
+\BOOKMARK [1][-]{section.3}{Sicherheitsaspekte der Android-Architektur}{}% 3
+\BOOKMARK [2][-]{subsection.3.1}{Basis Rechtesystem}{section.3}% 4
+\BOOKMARK [2][-]{subsection.3.2}{Sandboxing und Permissions}{section.3}% 5
