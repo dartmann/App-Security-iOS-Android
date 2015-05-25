@@ -1,15 +1,17 @@
 	\section{Grundlegender Aufbau einer Android App}
 	\begin{quote}
-	Android apps are written in the Java programming language. The Android SDK tools compile your code - along with any data and resource files - into an APK: an \textit{Android package}, which is an archive file with an .apk suffix. One APK file contains all the contents of an Android app and is the file that Android-powered devices use to install the app.
+	Android apps are written in the Java programming language. The Android SDK tools compile your code - along with any data and resource files - into an APK: an \textit{Android package}, which is an archive file with an .apk suffix. One APK file contains all the contents of an Android app and is the file that Android-powered devices use to install the app.\\
+	(Android: Application Fundamentals,\\ http://developer.android.com/guide/components/fundamentals.html,\\ 20.5.2015)
 	\end{quote}
 	
-	Eine App besteht im Kern aus zwei Teilen. Den eigentlichen Programmkomponenten und einer Manifest Datei.
-	\\
+\begin{flushleft}
+	Eine App besteht im Kern aus zwei Teilen. Den eigentlichen Programmkomponenten und einer Manifest Datei (AndroidManifest.xml).\\
+\end{flushleft}
 	Als Programmkomponenten k"onnen unter anderem vorkommen:
 	\begin{itemize}\itemsep0pt
 		\item Activities - stellen die Benutzeroberfl"ache dar
 		\item Services - kann im Hintergrund laufen, auch wenn die App minimiert ist
-		\item Content Provider - stellt Daten für die eigene und evtl f"ur andere Apps zur Verf"ugung
+		\item Content Provider - stellt Daten f"ur die eigene und evtl f"ur andere Apps zur Verf"ugung
 		\item Broadcast Receiver - um Systemweite Benachrichtigungen zu empfangen (z.B dass ein Download beendet wurde)
 	\end{itemize}
 	In der Manifest-Datei werden Eigenschaften der App definiert. Darunter z"ahlen beispielsweisse:
@@ -20,4 +22,4 @@
 		\item optional eine UserId ( siehe \ref*{sec:BasisRechteSystem} )
 		\item Permissions ( siehe \ref*{sec:SandBoxingNPermissions} )
 	\end{itemize}
-	Desweiteren muss jede App signiert werden. Das hierfür benötigte Zertifikat kann sich jeder selbst generieren und muss nicht durch einen Certification Authority ( CA ) beglaubigt werden. Dabei wird angeraten, dass ein Entwickler für all seine Apps dasselbe Zertifikat nutzt.
+	Des weiteren muss jede App signiert werden. Das hierf"ur ben"otigte Zertifikat kann sich jeder Entwickler selbst generieren und muss nicht durch einen Certification Authority (CA) beglaubigt werden. Dabei wird angeraten, dass ein Entwickler f"ur all seine Apps dasselbe Zertifikat nutzt. Mithilfe der dadurch gegebenen Signatur wird eine \textit{Same-Origin-Policy} erschaffen, die bei jedem Update sicherstellt, dass dieses wirklich vom Entwickler der Applikation stammt und nicht durch einen dritten eingebracht wurde
