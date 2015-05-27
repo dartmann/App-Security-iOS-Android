@@ -1,18 +1,18 @@
 %Papierformat
 \documentclass[12pt,a4paper]{scrartcl}
-%deutsche Silbentrennung
+%Deutsche Silbentrennung
 \usepackage[ngerman]{babel}
-%Listen einrÃƒÂ¼cken
+%Listen einrücken
 \usepackage{enumitem}
-%deutsche Umlaute
+%Deutsche Umlaute
 \usepackage[ansinew]{inputenc}
 %Trennung von deutschen Umlauten
 \usepackage[T1]{fontenc}
-%fÃƒÂ¼r Zitate
+%Für Zitate
 \usepackage[numbers,square]{natbib}
 %Grafikpaket laden
 \usepackage{graphicx}
-%Grafik Floating einschrÃƒÂ¤nken
+%Grafik Floating einschränken
 \usepackage{placeins}
 %Referenzierung mit Name
 \usepackage{titleref}
@@ -20,8 +20,10 @@
 \usepackage{tabularx}
 %Verlinkung
 \usepackage{hyperref}
-%urls sollen erkannt werden
+%Urls sollen erkannt werden
 \usepackage{url}
+%Ermöglicht es von Schrift umflossene Bilder und Tabellen einzufügen
+\usepackage{wrapfig}
 
 %\makeatletter
 %\newcommand\footnoteref[1]{\protected@xdef\@thefnmark{\ref{#1}}\@footnotemark}
@@ -73,19 +75,19 @@
 	
 	%01.Vorwort
 	\newpage
-	\input{ios_pages/01_vorwort.tex}
+	\input{ios/pages/01_vorwort.tex}
 	
 	%02.Apple's law enforcement process guidelines
 	\newpage
-	\input{ios_pages/02_apple_law_enforcement.tex}
+	\input{ios/pages/02_apple_law_enforcement.tex}
 	
 	%03.Sicherheitsarchitektur iOS
 	\newpage
-	\input{ios_pages/03_Sicherheitsarchitektur_ios.tex}
+	\input{ios/pages/03_Sicherheitsarchitektur_ios.tex}
 	
 	%04.Geheime Dienste
 	\newpage
-	\input{ios_pages/04_geheime_dienste.tex}
+	\input{ios/pages/04_geheime_dienste.tex}
 	
 	\newpage
 
