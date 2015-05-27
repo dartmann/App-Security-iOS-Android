@@ -1,8 +1,0 @@
-\select@language {ngerman}
-\contentsline {section}{\numberline {1}Vorwort}{4}{section.1}
-\contentsline {section}{\numberline {2}Das Android Betriebssystem}{5}{section.2}
-\contentsline {section}{\numberline {3}Grundlegender Aufbau einer Android App}{6}{section.3}
-\contentsline {section}{\numberline {4}Sicherheitsaspekte der Android-Architektur}{7}{section.4}
-\contentsline {subsection}{\numberline {4.1}Basis Rechtesystem}{7}{subsection.4.1}
-\contentsline {subsection}{\numberline {4.2}Sandboxing und Permissions}{7}{subsection.4.2}
-\contentsline {subsubsection}{\numberline {4.2.1}Permissions im Detail}{7}{subsubsection.4.2.1}

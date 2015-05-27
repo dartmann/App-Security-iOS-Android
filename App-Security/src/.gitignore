@@ -1,5 +1,10 @@
-/document.aux
-/document.lof
-/document.log
-/document.out
-/document.toc
+.gitignore
+/*.aux
+/*.lof
+/*.log
+/*.out
+/*.toc
+/Android_Paper.synctex.gz
+/document.synctex.gz
+/Android_Paper.pdf
+/Android_Paper.tex
