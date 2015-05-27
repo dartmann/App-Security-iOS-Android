@@ -1,0 +1,28 @@
+\section{Sicherheitsaspekte der Android-Architektur}
+
+	Bereits durch die Architektur des Betriebssystems, insbesondere durch die restriktive Rechtevergabe und das Sandboxing, wird versucht ein möglichst sicheres System bereitzustellen.
+
+	\subsection{Basis Rechtesystem}\label{sec:BasisRechteSystem}
+	Von Linux wurde auch das Basis-Rechtesystem "ubernommen. Hierbei bekommt jede App eine eindeutige User-ID (UID) zugewiesen, welche im Normalfall zur Installationszeit zugeteilt wird. Jeder Nutzer, und somit auch jede App, arbeitet grunds"atzlich erst einmal nur innerhalb der ihm zugewiesenen virtuellen Maschine und dem damit verbundenen Dateisystem.\\\\
+	Da es dennoch in vielen F"allen n"otig ist Daten zwischen verschiedenen Apps auszutauschen, gibt es mehrer M"oglichkeiten dies zu tun. Die "ublichen Wege w"aren Intends oder SharedPreferences. Zus"atzlich gibt es noch die M"oglichkeit mehreren Apps dieselbe UID zuweisen zu lassen. Dies ist allerdings nur m"oglich wenn die entsprechenden Applikationen mit dem selben Zertifikat signiert wurden und in deren Manifest Datei eine gemeinsame UID festgelegt wurde.
+	Durch dieses Rechtesystem wird versucht sicherzustellen, dass kein Nutzerprogramm als \textit{root} ausgef"uhrt wird.
+	
+	\subsection{Sandboxing und Permissions} \label{sec:SandBoxingNPermissions}
+	Wie bereits erw"ahnt, laufen die Applikationen jeweils in ihrer eigenen Sandbox. Grunds"atzlich ist die App damit in ihrer Ausführung auf ihren Bereich beschr"ankt und kann nicht mit anderen Prozessen und Daten ausserhalb interagieren. Dennoch ist es in den meisten F"allen sinnvoll mit Systemservices und Nutzerdaten zu interagieren die nicht in der eigenen Sandbox verf"ugbar sind. 
+	
+	\subsubsection{Permissions im Detail}
+	Um nun die bestehenden Zugriffsrechte erweitern zu k"onnen, m"ussen die entsprechenden Rechte (Permissions) in der Manifest Datei deklariert und angefordert werden. Zu Installationszeit werden diese Permissions dem Nutzer angezeigt und dieser wird gefragt ob er den Rechtsw"unschen der App zustimmt oder nicht. Dabei gilt das \textit{Alles-Oder-Nichts-Prinzip}, d.h. entweder bekommt die Anwendung alle Rechte oder keine - was eine nicht Installation zur Folge hat. Des weiteren können die Berechtigungen nach der Installation nicht mehr angepasst werden.\\
+	Oben genannte Berechtigungen sind beispielsweiße f"ur Zugriffe auf externe Speichermedien oder auch die Kamera n"otig. Dabei ist allerdings zu beachten, dass die Permissions zum Teil sehr grob definiert sind. Wodurch für den Nutzer nicht unbedingt erkenntlich ist, welche Informationen eine App warum abgreift und ob die App wirklich gebraucht des Rechts macht.\\
+	Um die Problematik dessen zu verdeutlichen, gehe ich nun exemplarisch auf besonders problematische Permissions eingehen.\\\\
+	RECORD\_AUDIO Permission:
+	\begin{quote}
+	Allows an application to record audio \footnote{https://developer.android.com/reference/android/Manifest.permission.html\#RECORD\_AUDIO}
+	\end{quote}
+	Dabei ist für den Nutzer nicht sichtbar wann eine Aufnahme läuft, ausser die Applikation stellt dafür einen Hinweis bereit - wobei hier die Frage ist ob dieser auch wirklich verlässlich ist. Stellt die App einen Service bereit, kann ein solcher Mitschnitt auch im Hintergrund geschehen. Die einzige Chance AUDIO\_RECORD zur Laufzeit zu unterbinden ist es den Service bzw. die App "uber den Anwendungsmanager zu beenden.\\
+	Dieses Problem ist auf die meisten anderen Berechtigungen übertragbar.
+	
+	 
+	
+	
+
+	
