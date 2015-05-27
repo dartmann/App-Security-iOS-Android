@@ -1,15 +1,15 @@
 \section{Sicherheitsarchitektur iOS}
 	\subsection{Secure boot chain}
-	Apple hat eine Kette aneinander gereihter, vom Vorgänger abhängiger Prozesse
-	entwickelt, um den Startvorgang möglichst abzusichern und eine Manipulation
-	der Low-Level Software auszuschließen, da iOS nur auf Geräten startet, welche
+	Apple hat eine Kette aneinander gereihter, vom VorÃ¤nger abhÃ¤ngiger Prozesse
+	entwickelt, um den Startvorgang mÃ¶glichst abzusichern und eine Manipulation
+	der Low-Level Software auszuschlieÃŸen, da iOS nur auf GerÃ¤ten startet, welche
 	auf diesem Wege erfolgreich validiert wurden. Dieses "`secure boot chain"'
-	genannte Verfahren sieht vor, nach dem Start eines iOS Gerätes zuerst
-	Code aus einem nur lesbaren Speicherbereich auszuführen. Dieser hardware of
-	trust genannte unveränderbare Code ist bei der Manufaktur der Chips eingebettet 
-	worden und somit implizit vertraulich. Das Boot ROM enthält zusätzlich Apple's 
-	öffentlichen Schlüssel des Root Zertifikats, welcher sicher stellt, dass der 
-	Low-Level-Bootloader von Apple signiert ist, bevor er ausgeführt wird. 
+	genannte Verfahren sieht vor, nach dem Start eines iOS GerÃ¤tes zuerst
+	Code aus einem nur lesbaren Speicherbereich auszufÃ¼hren. Dieser hardware of
+	trust genannte unverÃ¤nderbare Code ist bei der Manufaktur der Chips eingebettet 
+	worden und somit implizit vertraulich. Das Boot ROM enthÃ¤lt zusÃ¤tzlich Apple's 
+	Ã¶ffentlichen SchlÃ¼ssel des Root Zertifikats, welcher sicher stellt, dass der 
+	Low-Level-Bootloader von Apple signiert ist, bevor er ausgefÃ¼hrt wird. 
 	
 	%\begin{figure}[h]
 		%\centering
