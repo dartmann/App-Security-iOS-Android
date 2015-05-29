@@ -1,4 +1,6 @@
 .gitignore
+/*.bbl
+/*.blg
 /*.aux
 /*.lof
 /*.log

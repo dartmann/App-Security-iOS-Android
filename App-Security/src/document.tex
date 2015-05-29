@@ -9,7 +9,7 @@
 %Trennung von deutschen Umlauten
 \usepackage[T1]{fontenc}
 %Für Zitate
-\usepackage[numbers,square]{natbib}
+%\usepackage[numbers,square]{natbib}
 %Grafikpaket laden
 \usepackage{graphicx}
 %Grafik Floating einschränken
@@ -24,6 +24,9 @@
 \usepackage{url}
 %Erm�glicht es von Schrift umflossene Bilder und Tabellen einzufügen
 \usepackage{wrapfig}
+%bibtex zeugs
+\usepackage{cite}
+
 
 %\makeatletter
 %\newcommand\footnoteref[1]{\protected@xdef\@thefnmark{\ref{#1}}\@footnotemark}
@@ -33,8 +36,10 @@
 \begin{document}
 
 	%Festlegung des Zitatstyles - Harvardmethode: Abkürzung Autor + Jahr
-	\bibliographystyle{alphadin}
-	\graphicspath{{android\_pages/graphics}}
+	\bibliographystyle{plain}
+	%bibtex
+	\bibliography{android_pages/bibtex/bib.bib}
+
 
 \begin{titlepage}
 	%Eine mbox wird verwendet um Text zusammenzuhalten
