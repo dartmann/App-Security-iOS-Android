@@ -1,4 +1,4 @@
-%Papierformat
+%Papierformat, mit Koma-Script Dokumentenklasse (Europäisches Design)
 \documentclass[12pt,a4paper]{scrartcl}
 %Deutsche Silbentrennung
 \usepackage[ngerman]{babel}
@@ -8,8 +8,9 @@
 \usepackage[utf8]{inputenc}
 %Trennung von deutschen Umlauten
 \usepackage[T1]{fontenc}
-%Für Zitate
-%\usepackage[numbers,square]{natbib}
+%Bibtex für Zitate,
+% see: https://en.wikibooks.org/wiki/LaTeX/Bibliography_Management#Customization
+\usepackage[]{natbib}
 %Grafikpaket laden
 \usepackage{graphicx}
 %Grafik Floating einschränken
@@ -19,13 +20,15 @@
 %Unterschritszeilen
 \usepackage{tabularx}
 %Verlinkung
-\usepackage{hyperref}
+\usepackage[colorlinks=true,linkcolor=blue]{hyperref}
 %Urls sollen erkannt werden
 \usepackage{url}
-%Erm�glicht es von Schrift umflossene Bilder und Tabellen einzufügen
+%Ermöglicht es von Schrift umflossene Bilder und Tabellen einzufügen
 \usepackage{wrapfig}
-%bibtex zeugs
-\usepackage{cite}
+%Zitieren
+%\usepackage{cite}
+%Umbennen der Bibliography Angabe in Literatur
+\renewcommand{\bibname}{Literatur}
 
 
 %\makeatletter
@@ -34,49 +37,12 @@
 
 %Dokumentbeginn
 \begin{document}
-
-	%Festlegung des Zitatstyles - Harvardmethode: Abkürzung Autor + Jahr
-	\bibliographystyle{plain}
-	%bibtex
-	\bibliography{android_pages/bibtex/bib.bib}
-
-
-\begin{titlepage}
-	%Eine mbox wird verwendet um Text zusammenzuhalten
-	%vspace erzeugte die in Klammern angegebenen Zeilenabstände
-	%baselineskip setzt zeilenabstand
-   	\mbox{}\vspace{5\baselineskip}\\
-   	%Schriftart und Größe als Attribut
-   	\rmfamily\huge
-   	%Mittige Textausrichtung (\centerline für eine Zeile)
-   	\centering
-   	%Das Argument erscheint in KapitÃ¤lchen (small capitals).
-	\textsc{App-Security in iOS und Android}
-	%Umbruch bezogen auf die Höhe des Kleinbuchstaben x in diesem Element * Faktor
-	\\[3ex]
-   	Seminararbeit
-   	\rmfamily\Large
-   	\vspace{1\baselineskip}\\
-   	%Externes einbinden einer Textdatei
-   	\input{version.txt}\mbox{}
-	\vspace{3\baselineskip}\\
-	Hochschule f"ur angewandte Wissenschaften W"urzburg-Schweinfurt
-   	\vspace{5\baselineskip}\\
-   	\rmfamily\Large
-   	David Artmann\\
-   	\rmfamily\Large
-   	Kristoffer Schneider
-   	\vspace{1\baselineskip}\\
-   	%Heutiges Datum
-   	\today
-\end{titlepage}
+	
+	\input{general/titlepage.tex}
 
 	%Inhaltsverzeichnis
 	\tableofcontents
 	\newpage
-	%Falls nötig...
-	%Literaturliste im Inhaltsverzeichnis anzeigen
-	%\addcontentsline{toc}{section}{Literatur}
 	
 	%Abbildungsverzeichnis
 	\listoffigures
@@ -96,20 +62,28 @@
 	\input{ios/pages/1_introduction/apple_law_enforcement.tex}
 	
 	%Grundlegender Aufbau einer Android App
-	\newpage
+	%\newpage
 	\input{android_pages/Grundlegender_Aufbau_einer_Android_App}
 	
 	%Sicherheitsarchitektur iOS
 	\newpage
-	\input{ios/pages/2_securityarchitecture_of_ios/sicherheitsarchitektur_ios.tex}
+	\input{ios/pages/2_securityarchitecture_of_ios/systemsicherheit_unter_ios.tex}
 	
-	\newpage 
+	%\newpage 
 	\input{android_pages/Sicherheitsaspekter_der_Android_Architektur}
 	
 	%Geheime Dienste
 	\newpage
 	\input{ios/pages/3_proprietary_and_opensource/geheime_dienste.tex}
-	
-	\newpage
 
+
+	%Referenzen zum Ende
+	%Festlegung des Zitatstyles - Harvardmethode: Abkürzung Autor + Jahr
+	\bibliographystyle{plain}
+	%bibtex referenzen
+	\newpage
+	\bibliography{general/bibtex/bibtex.bib}
+	%Bibliography im Inhaltsverzeichnis anzeigen(muss unterhalb von bibliography
+	% sein)
+	\addcontentsline{toc}{section}{Literatur}
 \end{document}

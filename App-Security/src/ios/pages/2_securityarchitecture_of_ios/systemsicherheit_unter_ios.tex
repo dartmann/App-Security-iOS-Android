@@ -1,0 +1,109 @@
+\section{Systemsicherheit unter iOS}
+	Eine Reihe von aneinander gereihten und von einander abhängigen Prozessen
+	trägt maßgeblich zur Systemsicherheit bei. Dies berücksichtigt vor allem den
+	Startvorgang, die Software Updates - auch von Drittanbietern - und den Secure
+	Enclave. Dies stellt sicher, dass alle Kernkomponenten, ob Hard- oder
+	Software, möglichst gefeit vor Angriffen sind, ohne dabei die
+	Nutzerfreundlichkeit zu beeinflussen. Wenn dabei ein dieser Schritte invalide
+	ist, unterbricht der Startvorgang und das Gerät wird in den Recovery Modus
+	versetzt. Wenn der Boot-ROM nicht geladen werden kann, wird der DFU (Device
+	Firmware Upgrade) Modus betreten. Nachfolgend werden die an diesem Prozess
+	beteiligten Komponenten detailliert vorgestellt.
+	%\begin{wrapfigure}[Zeilen]{Position}[Ueberhang]{Breite}
+	%\begin{wrapfigure}[0]{r}[0.5cm]{6cm}
+	\begin{wrapfigure}[3]{r}{5cm}
+		\includegraphics[width=\linewidth]{ios/media/security-model.jpg}
+		\caption{Sicherheitsmodel von iOS}
+		\label{fig:security-model}
+	\end{wrapfigure}
+
+	\subsection{Secure boot chain}
+		%TODO: design in a nicer way, when this subsection is finished
+		Dieses Verfahren stellt eine Manipulation der \\
+		Low-Level Software sicher. Nur iOS Geräte, \\
+		die eine erfolgreiche Validierung dieser\\ 
+		Vertrauenskette bestanden haben, starten\\ 
+		ordnungsgemäß. Dabei wird nach dem Start\\
+		eines iOS Gerätes zuerst Code aus einem nur lesbaren\\
+		Speicherbereich ausgeführt. Dieser \textit{hardware of trust}\\ 
+		genannte und unveränderbare Code ist bei der\\
+		Manufaktur der Chips eingebettet worden und somit\\
+		implizit vertraulich. Das Boot ROM enthält zusätzlich\\
+		den öffentlichen Schlüssel der Wurzel\\ 
+		Zertifizierungsstelle von Apple,\\
+		welcher eine Signierung des Low-Level-Bootloaders\\
+		durch Apple sicher stellt, bevor er ausgeführt wird.\\ 
+		Dies ist der erste Schritt in der "`chain of trust"',\\ 
+		in welcher jeder Teilnehmer sicher stellt,\\ 
+		dass der darauf	folgende von Apple signiert	ist.\\
+		Nach erfolgreicher Abarbeitung aller Aufgaben des LLB,\\
+		überprüft und startet dieser iBoot, den nächsten\\
+		Bootloader, welcher wiederrum das selbe Prozedere mit\\
+		dem iOS Kernel startet.\\
+		Bei Geräten mit Mobilfunk Zugang führt das Basisband\\
+		Untersystem seinen eigenen ähnlichen Prozess mit\\
+		signierter Software und verifizierten Schlüsseln\\
+		vom Basisband Prozessor durch.\\
+		
+		%\begin{figure}[h]
+			%\centering
+	 		%\includegraphics[width=0.3\linewidth]{ios/media/security-model.jpg}
+	        %\caption{Sicherheitsarchitektur Diagramm von iOS}
+	        %\label{fig:security-model}
+	    %\end{figure}\\
+	    %ref: Figure \ref{fig:security-model} shows the sec. arch.
+	    
+	    %\begin{wrapfigure}[Zeilen]{Position}[Ueberhang]{Breite}
+		
+	\subsection{Authorisierung von System Software}
+		Dieser Prozess soll einen Downgrade auf eine ältere Version von iOS
+		verhindern. Der im folgenden Kapitel besprochene Secure Enclave Co-Prozessor
+		nutzt diese Technik für Integritätsprüfung seiner Software ebenfalls. Im Falle
+		eines iOS Updates wird entweder von iTunes oder vom Gerät selbst einer der
+		Apple Installations Authorisations Server kontaktiert. Diesem wird eine Liste
+		von verschlüsselten Messungen pro Komponente, welche am Update
+		beteiligt ist, gesandt. Zusätzlich wird ein	zufälliger Anti-Replay Wert und
+		die eindeutige ID (ECID) des Gerätes verschickt. Diese Auflistung von gegen
+		Versionen, für die ein Update genehmigt ist geprüft. Bei Übereinstimmung wird
+		die ECID zu den Messungen hinzugefügt und das Ergebnis signiert, was einer
+		Personalisierung der Daten gleicht.	Anschließend werden alle signierten Daten
+		zum Gerät geschickt. Die sichere Startkette von Prozessen verifiziert die
+		Signatur der empfangenen Daten auf den Absender Apple und ob die Prüfsumme der
+		Signatur dem entspricht, was das lokale Ergebnis von verschlüsselten Messungen
+		und ECID ergibt.\\
+		Mit diesen Schritten wird eine Authorisierung nur für bestimmte Geräte sicher
+		gestellt. Außerdem verhindert der Anti-Replay Wert ein mitschneiden der Server
+		Antwort und das Verwenden der Daten bei anderen Geräten oder ein manipulieren
+		der Daten.
+	\subsection{Secure Enclave}
+		%TODO: get more details for ensuring the facts in this chapter
+		Dieser Co-Prozessor kommt in Geräten mit A7 oder jüngeren A-Serien Prozessoren
+		vor. Er verwendet seinen eigenen sicheren Startvorgang, ist separiert vom
+		Applikations Prozessor und verwendet verschlüsselten Speicher, sowie einen
+		Hardware Zufallszahlen Generator. Die Technologie basiert auf ARM's
+		TrustZone\footnote{http://www.arm.com/products/processors/technologies/trustzone/index.php}
+		und wurde von Apple für die eigenen Ansprüche angepasst. Der Kernel dieser
+		Einheit basiert auf der L4-Familie mit leichten Modifikationen. Die auf
+		Interrupts basierende Kommunikation zwischen dem Applikationsprozessor und dem
+		Secure Enclave (SE) läuft über einem nur den beiden zur Verfügung stehenden
+		Speicherbereich. Der SE ist verantwortlich für das Schlüssel Management der
+		Datenverschlüsselung und stellt die Integrität dieser sicher, auch wenn der
+		Kernel des iOS Systems kompromitiert ist. Beim Herstellungsprozess erhält
+		jeder SE eine einzigartige ID (UID), auf welche nur er zugreifen kann und
+		welche auch Apple selbst nicht bekannt ist.	Mit dieser UID wird beim
+		Systemstart der Speicherbereich des SE zusammen mit einem einmaligen Schlüssel
+		verschlüsselt. Zusätzlich werden jegliche vom SE in den Speicher geschriebene
+		Daten mit der UID und einem Anti-Replay Zufallswert verschlüsselt. Eine der
+		Hauptaufgaben des Secure Enclave ist die verarbeitung der Fingerabdruck-Daten
+		der Touch ID; im Detail vorgestellt im folgenden letzten Kapitel der
+		Sicherheitskomponenten. Alle Kommunikation zwischen Touch ID und SE wird über
+		einen seriellen Bus abgearbeitet. Der Applikationsprozessor leitet
+		die Fingerabdrucksdaten an den SE weiter kann diese aber aufgrund einer
+		Verschlüsselung der Daten mit einem Sitzungsschlüssel nicht lesen. Dieser
+		Session Key wurde durch den für Touch ID und SE bereit gestellten
+		öffentlichen Schlüssel erzeugt. Der Austausch des Sitzungsschlüssels wird
+		durch AES Key Wrapping realisiert. Dabei erzeugen beide Seiten einen
+		zufälligen Schlüssel, welche den Sitzungsschlüssel bilden. Zum verschlüsselten
+		Transport wird AES-CCM genutzt.
+	\subsection{Touch ID}
+		\cite{Zdziarski2012}
