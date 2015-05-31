@@ -1,6 +1,40 @@
 \section{Sicherheitsaspekte der Android-Architektur}
 
-	Bereits durch die Architektur des Betriebssystems, insbesondere durch die restriktive Rechtevergabe und das Sandboxing, wird versucht, ein möglichst sicheres System bereitzustellen. Unterstützt wird das Vorhaben ab Android Version 4.3 zusätzlich durch den Einsatz von Security-Enhanced Linux (SELinux).
+	Bereits durch die Architektur des Betriebssystems, insbesondere durch die restriktive Rechtevergabe und das Sandboxing, wird versucht, ein möglichst sicheres System bereitzustellen. Ab Android Version 4.3 kommt zusätzlich noch \textit{Security-Enhanced Linux (SELinux)} zum Einsatz.\\
+	Verschlüsselungen und Signaturen werden Hardwareseitig durch eine \textit{Trusted Execution Environment (TEE)} unterstützt. TEE stellt einen besonders geschützten Bereich auf dem Prozessor dar, auf dem nur berechtige Anwendungen ausgeführt werden können. Die Implementierung ist dabei Prozessor Hersteller abhängig - auf ARM wird dabei, wie bei iOS, auf \textit{TrustZone}\cite{TEE_ARM} zurückgegriffen.
+	
+	\subsection{Verified Boot}
+	Bereits während des Bootvorgangs muss die Sicherheit und Integrität des Bootmediums sichergestellt werden. Dadurch kann eine Veränderung, z.B. durch eine Infektion, frühzeitig erkannt werden.\\
+	Der Integritätscheck basiert auf der Kernelfunktion \textit{dm-verity} welche einen Hash-Tree, unter Nutzung von SHA-256, aufbaut.
+	\begin{figure}[h]
+	\centering
+	\includegraphics[width=0.7\linewidth]{android_pages/graphics/dm-verity-table}
+	\caption[Aufbau des Hash-Trees]{Aufbau des von dm-verity erstellten Hash-Trees\protect\cite{VerifiedBoot}}
+	\label{fig:dm-verity-table}
+	\end{figure}
+	Da allerdings diese Überprüfung vom Kernel übernommen wird, muss auch die Integrität des Kernels und Bootloaders überprüft werden. Die geschieht mittels eines Schlüssels der über einen in Hardware festgeschriebenen OEM Keys überprüft wird. Sollte dies nicht erfolgreich sein, wird die Partition über ein Zertifikat, welches in der Paritions Signatur zu finden ist, verifiziert. Ist dies der Fall wird dem Nutzer des Geräts eine Warnung angezeigt. Aus diesem System ergeben sich folgende Boot Status:\\
+	\begin{quote}
+		\begin{itemize}\itemsep0pt
+			\item GREEN, indicating a full chain of trust extending from the bootloader to verified partitions, including the bootloader, boot partition, and all verified partitions. 
+			\item YELLOW, indicating the boot partition has been verified using the embedded certificate, and the signature is valid. The bootloader is required to display a notification and the fingerprint of the public key during boot.
+			\item ORANGE, indicating a device may be freely modified. Device integrity is left to the user to verify out-of-band. The bootloader must display a warning to the user before allowing the boot process to continue. 
+			\item RED, indicating the device has failed verification. The bootloader must display a warning to the user before allowing the boot process to continue. 
+		\end{itemize}
+		\cite{VerifyingBoot}
+	\end{quote}
+	Da dieser Ablauf nur bei offiziellen Boot-Images möglich ist, aber viele auch ein Custom-ROM nutzen, wurden zusätzlich noch zwei grundlegende Status mit eingebaut. \textit{LOCKED} und \textit{UNLOCKED};  über diese Status wird angegeben ob gegen einen OEM Key geprüft (LOCKED) werden soll oder nicht (UNLOCKED). Damit ist es möglich eigene Boot Images zu nutzen. Es kommt lediglich beim Hochfahren des Systems eine Meldung.
+	Der komplette Ablauf ist in der nachfolgenden Grafik nochmal übersichtlich dargestellt.
+	\begin{figure}[h]
+		\centering
+		\includegraphics[width=0.6\linewidth, height=0.4\textheight]{android_pages/graphics/VerifiedBoot}
+		\caption[Verified boot flow\protect\cite{VerifyingBoot}]{Verified boot flow\protect\cite{VerifyingBoot}}
+		\label{fig:VerifiedBoot}
+	\end{figure}
+
+\begin{flushleft}
+	Zu beachten ist allerdings, dass dieses Feature erst mit Android 4.4 eingeführt wurde. In Älteren Versionen gibt es keinerlei derartigen Check.
+\end{flushleft}
+
 
 	\subsection{Basis Rechtesystem}\label{sec:BasisRechteSystem}
 	Von Linux wurde auch das Basis-Rechtesystem "ubernommen. Hierbei bekommt jede App eine eindeutige User-ID (UID) zugewiesen, welche im Normalfall zur Installationszeit zugeteilt wird. Jeder Nutzer, und somit auch jede App, arbeitet grundsätzlich erst einmal nur innerhalb der ihm zugewiesenen virtuellen Maschine und dem damit verbundenen Dateisystem.\\\\
