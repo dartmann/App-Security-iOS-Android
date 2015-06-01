@@ -1,15 +1,15 @@
-\section{Systemsicherheit unter iOS}
+\section{Komponenten der Systemsicherheit unter iOS}
 	Eine Kette von aneinander gereihten und von einander abhängigen Prozessen
 	trägt maßgeblich zur Systemsicherheit bei. Dies berücksichtigt vor allem den
 	Startvorgang, die Software Updates - auch von Drittanbietern - und den Secure
-	Enclave. Dies stellt sicher, dass alle Kernkomponenten, ob Hard- oder
-	Software, möglichst gefeit vor Angriffen sind, ohne dabei die
-	Nutzerfreundlichkeit zu beeinflussen. Wenn dabei ein dieser Schritte invalide
-	ist, unterbricht der Startvorgang und das Gerät wird in den Recovery Modus
-	versetzt. Wenn der Boot-ROM nicht geladen werden kann, wird der DFU (Device
+	Enclave (siehe \ref{sec:secure_enclave}). Dies stellt sicher, dass alle
+	Kernkomponenten, ob Hard- oder Software, möglichst gefeit vor Angriffen sind, ohne dabei die
+	Nutzerfreundlichkeit zu beeinflussen. Wenn dabei einer dieser Schritte
+	fehlschlägt, unterbricht der Startvorgang und das Gerät wird in den
+	Recovery Modus versetzt. Wenn der Boot-ROM nicht geladen werden kann, wird der DFU (Device
 	Firmware Upgrade) Modus betreten.\\ 
-	Nachfolgend werden die an diesem Prozess beteiligten Komponenten detailliert
-	vorgestellt und beschrieben.
+	Nachfolgend werden die Komponenten welche maßgeblich zur Systemsicherheit und
+	an der Wahrung der Integrität dieser beteiligt sind	detailliert vorgestellt und beschrieben.
 	
 	\begin{figure}[h]
 		\centering
@@ -56,7 +56,7 @@
 		gestellt. Außerdem verhindert der Anti-Replay Wert ein mitschneiden der Server
 		Antwort und das Verwenden der Daten bei anderen Geräten oder ein manipulieren
 		der Daten.
-	\subsection{Secure Enclave}
+	\subsection{Secure Enclave}\label{sec:secure_enclave}
 		%TODO: get more details for ensuring the facts in this chapter
 		Dieser Co-Prozessor kommt in Geräten mit A7 oder jüngeren A-Serien Prozessoren
 		vor. Er verwendet seinen eigenen sicheren Startvorgang, ist separiert vom
