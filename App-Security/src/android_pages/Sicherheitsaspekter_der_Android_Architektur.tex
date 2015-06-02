@@ -5,24 +5,25 @@
 	
 	\subsection{Verified Boot}
 	Bereits während des Bootvorgangs muss die Sicherheit und Integrität des Bootmediums sichergestellt werden. Dadurch kann eine Veränderung, z.B. durch eine Infektion, frühzeitig erkannt werden.\\
-	Der Integritätscheck basiert auf der Kernelfunktion \textit{dm-verity} welche einen Hash-Tree, unter Nutzung von SHA-256, aufbaut.
+	Der Integritätscheck basiert auf der Kernelfunktion \textit{dm-verity} welche einen Hash-Tree, unter Nutzung von SHA-256, aufbaut. Dabei werden von jedem 4K Sektor ein Hash berechnet und je zwei Hashes zu einem gehasht. Diese Operation wird solange wiederholt bis nur noch ein einziger Wert übrige ist - der \textit{root hash}.
 	\begin{figure}[h]
 	\centering
 	\includegraphics[width=0.7\linewidth]{android_pages/graphics/dm-verity-table}
 	\caption[Aufbau des Hash-Trees]{Aufbau des von dm-verity erstellten Hash-Trees\protect\cite{VerifiedBoot}}
 	\label{fig:dm-verity-table}
 	\end{figure}
-	Da allerdings diese Überprüfung vom Kernel übernommen wird, muss auch die Integrität des Kernels und Bootloaders überprüft werden. Die geschieht mittels eines Schlüssels der über einen in Hardware festgeschriebenen OEM Keys überprüft wird. Sollte dies nicht erfolgreich sein, wird die Partition über ein Zertifikat, welches in der Paritions Signatur zu finden ist, verifiziert. Ist dies der Fall wird dem Nutzer des Geräts eine Warnung angezeigt. Aus diesem System ergeben sich folgende Boot Status:\\
-	\begin{quote}
-		\begin{itemize}\itemsep0pt
-			\item GREEN, indicating a full chain of trust extending from the bootloader to verified partitions, including the bootloader, boot partition, and all verified partitions. 
-			\item YELLOW, indicating the boot partition has been verified using the embedded certificate, and the signature is valid. The bootloader is required to display a notification and the fingerprint of the public key during boot.
-			\item ORANGE, indicating a device may be freely modified. Device integrity is left to the user to verify out-of-band. The bootloader must display a warning to the user before allowing the boot process to continue. 
-			\item RED, indicating the device has failed verification. The bootloader must display a warning to the user before allowing the boot process to continue. 
-		\end{itemize}
-		\cite{VerifyingBoot}
-	\end{quote}
-	Da dieser Ablauf nur bei offiziellen Boot-Images möglich ist, aber viele auch ein Custom-ROM nutzen, wurden zusätzlich noch zwei grundlegende Status mit eingebaut. \textit{LOCKED} und \textit{UNLOCKED};  über diese Status wird angegeben ob gegen einen OEM Key geprüft (LOCKED) werden soll oder nicht (UNLOCKED). Damit ist es möglich eigene Boot Images zu nutzen. Es kommt lediglich beim Hochfahren des Systems eine Meldung.
+	Da allerdings diese Überprüfung vom Kernel übernommen wird, muss auch die Integrität des Kernels und Bootloaders überprüft werden. Die geschieht mittels einer Signatur und eines, in Hardware festgeschriebenen, OEM Keys. Sollte dieser Test nicht erfolgreich sein, wird die Partition über ein Zertifikat, welches in der Paritions Signatur zu finden ist, verifiziert. Diese Variante wird auch genutzt, um inoffizielle Images zu verifizieren. \\
+	Um grundsätzlich zwischen einem Gerät mit offiziellen und inoffiziellen Image zu unterscheiden, gibt es zwei Status: \textit{LOCKED} und \textit{UNLOCKED}
+%	\begin{quote}
+	%	\begin{itemize}\itemsep0pt
+		%	\item GREEN, indicating a full chain of trust extending from the bootloader to verified partitions, including the %bootloader, boot partition, and all verified partitions. 
+		%	\item YELLOW, indicating the boot partition has been verified using the embedded certificate, and the signature is %valid. The bootloader is required to display a notification and the fingerprint of the public key during boot.
+		%	\item ORANGE, indicating a device may be freely modified. Device integrity is left to the user to verify %out-of-band. The bootloader must display a warning to the user before allowing the boot process to continue. 
+		%	\item RED, indicating the device has failed verification. The bootloader must display a warning to the user before %allowing the boot process to continue. 
+	%	\end{itemize}
+	%	\cite{VerifyingBoot}
+	%\end{quote}
+	%Da ersteres Vorgehen nur bei offiziellen Boot Images möglich ist, wurden zusätzlich noch zwei grundlegende Status mit %eingebaut. \textit{LOCKED} und \textit{UNLOCKED};  über diese Status wird angegeben ob gegen einen OEM Key geprüft %(LOCKED) werden soll oder nicht (UNLOCKED). Damit ist es möglich eigene Boot Images zu nutzen. Es kommt lediglich beim %Hochfahren des Systems eine Meldung.
 	Der komplette Ablauf ist in der nachfolgenden Grafik nochmal übersichtlich dargestellt.
 	\begin{figure}[h]
 		\centering
@@ -53,8 +54,11 @@
 	Allows an application to record audio \footnote{https://developer.android.com/reference/android/Manifest.permission.html\#RECORD\_AUDIO}
 	\end{quote} 
 	Dabei ist für den Nutzer nicht sichtbar, wann eine Aufnahme läuft, ausser die Applikation stellt dafür einen Hinweis bereit - wobei hier die Frage ist ob dieser auch wirklich verlässlich ist. Stellt die App einen Service bereit, kann ein solcher Mitschnitt auch im Hintergrund geschehen, und damit auch während eines Telefonats. Die einzige Chance RECORD\_AUDIO zur Laufzeit zu unterbinden ist, den Service bzw. die App über den Anwendungsmanager zu beenden.\\
-	Dieses Problem ist auf die meisten anderen Berechtigungen übertragbar.\\
-	Für die nächste Android Version, Android M, ist eine Verbesserung dieses Berechtigungssystems geplant und auch bereits vorgestellt worden. Es wird nun ermöglicht zur Laufzeit von Applikationen diesen Berechtigungen zu entziehen und freizugeben. Damit bekommt der Nutzer deutlich mehr Möglichkeiten, um seine Daten zu schützen. Allerdings wird es wohl kein Update für ältere Versionen geben, wodurch dort das Problem bestehen bleibt.
+	Dieses Problem ist auf die meisten anderen Berechtigungen übertragbar.\\\\
+%	Für die nächste Android Version, Android M, ist eine Verbesserung dieses Berechtigungssystems geplant und auch bereits vorgestellt worden. Es wird nun ermöglicht zur Laufzeit von Applikationen diesen Berechtigungen zu entziehen und freizugeben. Damit bekommt der Nutzer deutlich mehr Möglichkeiten, um seine Daten zu schützen. Allerdings wird es wohl kein Update für ältere Versionen geben, wodurch dort das Problem bestehen bleibt.
+	Mit Android 4.3 (Kitkat) wurde eine versteckte Einstellungs-Activity namens \textit{App Ops} eingeführt. Darin konnte man einsehen welche App, wann welche Permission genutzt hat, und dieser einzelne Rechte zu entziehen und wieder zu erlauben. Diese Funktion konnte nur durch das Anlegen eines Activity Shortcuts und der direkten Verwendung in einer App genutzt werden. Leider wurde diese versteckte Einstellung aus den nächsten Versionen entfernt - bis Android M. \cite{HiddenActivity} \\
+	Für Android M wurde mittlerweile angekündigt, dass eine derartige Einstellung nun fest mit eingebaut sein wird.
+	Allerdings wird es wohl kein Update für ältere Versionen geben, wodurch das Problem in diesen bestehen bleibt.
 	
 	\subsubsection{Besonderheit: Systemapps}
 	Apps des Smartphone Hersteller können Rechte besitzen, die für normale Anwendungen nicht verfügbar sind, um Basis Apps und Services bereit zustellen. Hierfür werden alle Hersteller Applikationen mit sogenannten \textit{Publisher Keys} signiert, dadurch können, wie bereits unter \ref{sec:BasisRechteSystem} erklärt, diese Anwendung bspw. im selben Prozess laufen.
