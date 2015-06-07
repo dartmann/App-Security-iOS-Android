@@ -1,0 +1,98 @@
+\section{Proprietät von iOS}
+	\begin{quote}
+		Synonym for closed-source or non-free, e.g. software issued without license
+		rights permitting the public to independently review, develop and redistribute it.
+		\footnote{http://www.catb.org/jargon/html/P/proprietary.html}
+	\end{quote}
+	Im Gegensatz zu anderen Herstellern mobiler Betriebssysteme lizenziert Apple
+	iOS nicht für andere Hardwarehersteller, sondern produziert alles im
+	eigenen Hause. IOS wird somit nur auf Hardware aus dem eigenen kontrollierten
+	Herstellungsprozess eingesetzt. Dieser proprietäre Ansatz birgt gewisse
+	Gefahren, die in diesem Kapitel (siehe: \ref{sec:undocumented-services})
+	beleuchten werden sollen.
+	\subsection{Undokumentierte und kritische
+	Dienste}\label{sec:undocumented-services}
+		%TODO: rewrite this header
+		% Drei Dienste wurden erst im Juni 2013 offiziell dokumentiert, siehe:
+		% https://support.apple.com/en-us/HT203034 und das auch erst nachdem sie
+		% zdziarski in seinem paper gerügt hat.
+		Apple kann SMS, Fotos, Videos, Kontakte, Musik, Aufnahmen und Anruferhistorie
+		aus passcode geschützten Geräten auslesen. Möglich machen dies nicht
+		dokumentierte Dienste, welche auf jedem Gerät mit iOS installiert sind. In
+		diesem Kapitel will ich auf diese Dienste eingehen und deren genauen
+		Einsatzzweck erläutern.
+		\subsubsection{lockdownd - remote access}
+			Der Dienst \textsl{lockdownd} ermöglicht den Zugriff auf ein iOS Gerät
+			per TCP auf Port 62078 über einen USB-Anschluss. Dies wird über das eigene
+			Protokoll \textsl{usbmux} gehandhabt. Dieses erlaubt TCP Verbindungen zum
+			lokalen System über einen USB Anschluss mit übergebenen	Portnummern.
+		\subsubsection{com.apple.mobile.pcapd}
+			Pcapd stellt einen Überwachungsdienst dar, welcher auf der
+			Programmierschnittstelle
+			pcap\footnote{http://www.tcpdump.org/manpages/pcap.3pcap.html} aufbaut und
+			diese in Form der Bibliothek \textsl{libpcap} implementiert. Mit diesem
+			Dienst ist es möglich jeglichen Netzwerkverkehr mitzulesen und zu speichern.
+			Sniffer\footnote{http://de.wikipedia.org/wiki/Sniffer}, z.B.
+			Whireshark\footnote{https://www.wireshark.org/}, greifen auf diese
+			Schnittstelle zurück, um Pakete direkt an der Netzwerkschnittstelle
+			abzufragen. Dem Benutzer des iOS Gerätes wird es visuell nicht erläutert,
+			wenn dieser Dienst aktiviert ist. Zusätzlich ist kein Entwickler-Modus von
+			nöten, um diesen zu aktivieren. Seit iOS8 ist es nicht mehr möglich diesen
+			Dienst über WiFi anzusprechen.
+		\subsubsection{com.apple.mobile.file\_relay}
+			Hinter diesem Paket verbirgt sich ein Dienst mit dem auf sensible und
+			persönliche Daten zugegriffen werden kann. Darunter auch das Adressbuch, GPS
+			Daten, Fotos und der Möglichkeit ein Image der Metadaten des Dateisystems
+			abzugreifen. Apple schreibt dazu:
+			\begin{quote}
+				In iOS 8 and later, this capability requires additional configuration before
+				use.
+			\end{quote}
+			Was eventuell auf eine Verbesserung des Zugriffs auf diesen Dienst hinweisen
+			könnte. Beispielsweise nur noch Authorisierter vom Benutzer erlaubter
+			Zugriff.
+		\subsubsection{com.apple.mobile.house\_arrest}
+			Apple dokumentiert hier eine Verwendung von iTunes für den Transfer von Daten
+			auf und von dem Gerät. Zusätzlich wird dieses Feature von Xcode verwendet,
+			wenn Testdaten zu einem Gerät geschickt werden sollen und sich die relevante
+			App im Entwicklermodus befindet. Laut Zdziarski hat dieser Dienst Zugriff auf
+			die Library, den Cache, Cookies und bevorzugte Ordner, welche hoch sensible
+			Daten beinhalten - wie den Zwischenspeicher des sozialen Streams von Facebook
+			oder Twitter - obwohl die iTunes GUI dies nicht erlaubt.
+	\subsection{Historische Exploits}
+		In der Geschichte von iOS hat es bereits diverse
+		Exploits\footnote{http://wirtschaftslexikon.gabler.de/Definition/exploit.html}
+		gegeben. In diesem Kapitel will ich einige der bekanntesten vorstellen.
+		\subsubsection{libTiff Exploit} 
+			Eine auf einem Pufferüberlauf der libtiff Bibliothek basierenden
+			Sicherheitslücke. Dabei wurde die genannte Bibliothek gepatcht, um einen
+			Jailbreak zu starten.
+			\footnote{https://www.theiphonewiki.com/wiki/LibTiff\_Exploit} Dieser Exploit
+			stammt aus der Anfangszeit von iOS in der alle Prozesse noch mit root
+			Rechten liefen.
+		\subsubsection{Ikee Virus}
+			Dabei handelt es sich um einen der ersten Würmer unter iOS. Der	Author Ikex
+			wollte damit auf nicht veränderte Standardpasswörter der SSH Zugänge, bei
+			iPhones mit Jailbreak hinweisen. Er nutzte mit dem in C geschriebenen
+			Programm lediglich das Passwort \textsl{alpine}, deaktivierte bei
+			erfolgreichem login den SSH Dienst und versuchte dann das Skript auf
+			zufällig ausgewählten IP-Adressen auszuführen.
+			\footnote{https://www.theiphonewiki.com/wiki/Ikee-virus}. Eine unter dem
+			Namen \textsl{Ikee.B} veränderte Variante stahl Inhalte des Gerätes und
+			machte dieses zum Zombie und somit Teil eines Botnetzes.
+		\subsubsection{SpyPhone}
+			Diese App wurde vom Author Seriot Nicolas\footnote{http://seriot.ch/} als
+			\textsl{proof of concept} erstellt. Dabei nutzte er nur die gegebenen
+			legitimen API's zum Erstellen von Apps für den AppStore. Obwohl diese App
+			komplett innerhalb ihrer von iOS vorgeschriebenen Sandbox lief, konnte
+			Sie dennoch:
+			\begin{itemize}\itemsep0pt
+				\item{Die Nummer des Gerätes auslesen}
+				\item{Vom Adressbuch lesen und ebenfalls darin schreiben}
+				\item{E-Mail Kontoinformationen auslesen}
+				\item{Den Zwischenspeicher der Tastatur mitlesen}
+				\item{Auf das GPS zugreifen}
+				\item{WLAN Zugangspunkte auslesen}
+			\end{itemize}
+	\subsection{Jailbreak}
+		%TODO
