@@ -1,7 +1,7 @@
 %TODO: maybe rename this whole into verified boot?!
-\section{Komponenten der Systemsicherheit unter iOS}
-	Eine Kette von aneinander gereihten und von einander abhängigen Prozessen
-	trägt maßgeblich zur Systemsicherheit bei. Dies berücksichtigt vor allem den
+\section{Komponenten der Systemsicherheit unter
+iOS}\label{sec:components-syssec} Eine Kette von aneinander gereihten und
+von einander abhängigen Prozessen trägt maßgeblich zur Systemsicherheit bei. Dies berücksichtigt vor allem den
 	Startvorgang, die Software Updates - auch von Drittanbietern - und den Secure
 	Enclave (siehe \ref{sec:secure_enclave}). Dies stellt sicher, dass alle
 	Kernkomponenten, ob Hard- oder Software, möglichst gefeit vor Angriffen sind, ohne dabei die
@@ -21,7 +21,7 @@
 
 	%TODO: look at learning ios security, there this whole process is explained
 	% good
-	\subsection{Secure boot chain}
+	\subsection{Secure boot chain}\label{sec:secure-boot-chain}
 		Dieses Verfahren stellt eine Manipulation der Low-Level Software sicher. Nur
 		iOS Geräte, die eine erfolgreiche Validierung dieser Vertrauenskette bestanden
 		haben, starten ordnungsgemäß. Dabei wird nach dem Start eines iOS Gerätes
@@ -39,7 +39,7 @@
 		Basisband Untersystem seinen eigenen ähnlichen Prozess mit signierter 
 		Software und verifizierten Schlüsseln vom Basisband Prozessor durch.
 		
-	\subsection{Authorisierung von System Software}
+	\subsection{Authorisierung von System Software}\label{sec:code-signing}
 		Dieser Prozess soll einen Downgrade auf eine ältere Version von iOS
 		verhindern. Der im folgenden Kapitel besprochene Secure Enclave Co-Prozessor
 		nutzt diese Technik für Integritätsprüfung seiner Software ebenfalls. Im Falle

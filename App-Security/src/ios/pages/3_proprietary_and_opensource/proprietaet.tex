@@ -1,4 +1,5 @@
 \section{Proprietät von iOS}
+	Definition Proprietär:
 	\begin{quote}
 		Synonym for closed-source or non-free, e.g. software issued without license
 		rights permitting the public to independently review, develop and redistribute it.
@@ -9,9 +10,11 @@
 	eigenen Hause. IOS wird somit nur auf Hardware aus dem eigenen kontrollierten
 	Herstellungsprozess eingesetzt. Dieser proprietäre Ansatz birgt gewisse
 	Gefahren, die in diesem Kapitel (siehe: \ref{sec:undocumented-services})
-	beleuchten werden sollen.
-	\subsection{Undokumentierte und kritische
-	Dienste}\label{sec:undocumented-services}
+	beleuchten werden sollen. Außerdem hat sich gezeigt, dass die Nutzergemeinde
+	versucht aus der Proprietät zu entkommen bzw. sie zu umgehen (siehe:
+	\ref{sec:jailbreaking}).
+	
+	\subsection{Undokumentierte und kritische Dienste}\label{sec:undocumented-services}
 		%TODO: rewrite this header
 		% Drei Dienste wurden erst im Juni 2013 offiziell dokumentiert, siehe:
 		% https://support.apple.com/en-us/HT203034 und das auch erst nachdem sie
@@ -59,6 +62,7 @@
 			die Library, den Cache, Cookies und bevorzugte Ordner, welche hoch sensible
 			Daten beinhalten - wie den Zwischenspeicher des sozialen Streams von Facebook
 			oder Twitter - obwohl die iTunes GUI dies nicht erlaubt.
+			
 	\subsection{Historische Exploits}
 		In der Geschichte von iOS hat es bereits diverse
 		Exploits\footnote{http://wirtschaftslexikon.gabler.de/Definition/exploit.html}
@@ -70,10 +74,10 @@
 			\footnote{https://www.theiphonewiki.com/wiki/LibTiff\_Exploit} Dieser Exploit
 			stammt aus der Anfangszeit von iOS in der alle Prozesse noch mit root
 			Rechten liefen.
-		\subsubsection{Ikee Virus}
-			Dabei handelt es sich um einen der ersten Würmer unter iOS. Der	Author Ikex
-			wollte damit auf nicht veränderte Standardpasswörter der SSH Zugänge, bei
-			iPhones mit Jailbreak hinweisen. Er nutzte mit dem in C geschriebenen
+		\subsubsection{Ikee Virus}\label{sec:ikee-exploit}
+			Dabei handelt es sich um einen der ersten Würmer unter iOS. Der	Author Ashley Towns
+			wollte 2009 damit auf nicht veränderte Standardpasswörter der SSH Zugänge,
+			bei iPhones mit Jailbreak hinweisen. Er nutzte mit dem in C geschriebenen
 			Programm lediglich das Passwort \textsl{alpine}, deaktivierte bei
 			erfolgreichem login den SSH Dienst und versuchte dann das Skript auf
 			zufällig ausgewählten IP-Adressen auszuführen.
@@ -94,5 +98,38 @@
 				\item{Auf das GPS zugreifen}
 				\item{WLAN Zugangspunkte auslesen}
 			\end{itemize}
-	\subsection{Jailbreak}
-		%TODO
+			
+	\subsection{Jailbreaking}\label{sec:jailbreaking}
+		Der aus dem englischsprachligen Raum stammende Begriff bezeichnet unter iOS
+		das gezielte Aushebeln der von Apple vorgegebenen Restriktionen. Oft werden
+		dabei eigene Paketverwaltungstools wie
+		Cydia\footnote{http://cydia.saurik.com/} installiert, um auch von Apple nicht
+		signierte Apps auf die modifizierten Geräte aufspielen zu können.\\
+		Es werden zwei Arten von Jailbreaks unterschieden, der \textsl{tethered
+		jailbreak} und der \textsl{untethered jailbreak}. Dabei bedeuted tethered,
+		dass eine Anbindung an einen Computer, auf welchem eine Jailbreaking Software
+		- beispielsweise \textsl{redsn0w}\footnote{http://blog.iphone-dev.org/}, oder
+		\textsl{TaiG}\footnote{http://www.taig.com/en/} - installiert sein muss, die
+		den Prozess unterstützt.
+		Untethered Jailbreaks kommen ohne diese Anbindung aus und arbeiten autark.
+		Das Prinzip des Jailbreakings ist dabei immer das selbe: es wird mit
+		Hilfe eines Exploits das System kompromittiert. Zu Beginn wurden oft
+		Hardwarefehler ausgenutzt, die während des
+		DFU-Modus (siehe: \ref{sec:components-syssec}) installiert wurden.
+		Später kamen \textsl{Userland-Exploits} dazu, welche während dem
+		laufenden Betrieb von iOS gestartet werden und sich Schwachstellen im
+		Betriebssystem zu nutze machen.
+		%TODO: after dicussion with junker-schilling add more content or not
+	
+	\subsection{Vorteile der Proprietät}
+		Obwohl der Nutzer unter iOS dazu gezwungen wird, sich den Vorgaben zu beugen,
+		hat es auch seine Vorteile, dies zu akzeptieren. So sind bei aktivem Jailbreak
+		Sicherheitsmechanismen wie die Signaturprüfung (siehe:
+		\ref{sec:code-signing}), oder die Apple's Secure Boot
+		Chain (siehe: \ref{sec:secure-boot-chain}) modifiziert beziehungsweise
+		deaktiviert worden, was ein enormes Sicherheitsrisiko darstellen kann.
+		Außerdem haben uns Exploits wie Ikee (siehe: \ref{sec:ikee-exploit}) gezeigt,
+		dass zu viel Macht an falscher Stelle verbunden mit Unwissenheit meist mehr
+		Schaden anrichtet, statt Erleichterung zu schaffen.
+		Das BSI warnt zudem in einem Überblickspapier zu iOS offiziell vor dem Einsatz
+		von Jailbreaks.\footnote{https://www.bsi.bund.de/SharedDocs/Downloads/DE/BSI/Grundschutz/Download/Ueberblickspapier\_Apple\_iOS\_pdf}
