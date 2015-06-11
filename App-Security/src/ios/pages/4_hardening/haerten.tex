@@ -88,6 +88,58 @@
 			für den Angreifer. Diese Herangehensweise ist unauffälliger, als
 			beispielsweise ein komplettes "`Nullen"' der Datenbank und kostet den
 			Angreifer frustrierende Zeit.\\
-			
+			Im Falle einer Manipulation muss davon ausgegangen werden, dass der Benutzer
+			nicht mehr vertrauenswürdig ist. Somit sollte eine eventuell vorhandene
+			Anbindung an entfernte Resourcen (z.B. Server, welche Daten für die App
+			speichern) unterbrochen werden. Dies kann bereits mit dem Setzen eines Flags
+			in einer Konfigurationsdatei, oder dem Deaktivieren der Credentials des
+			Nutzers auf Serverseite realisiert werden. Auf diese Weise handeln wir
+			präventiv gegen weitere Schäden, ohne dass der Angreifer davon etwas
+			erfährt.\\
+		\subsubsection{Jailbreakerkennung}
+			Es kann erwünscht sein, dass die entwickelte App nicht auf
+			\textsl{jailbroken} iOS Geräten installiert werden darf. Da man sich bei
+			diesen Geräten nicht mehr auf den nativen von iOS gegebenen Schutz (siehe:
+			Kapitel \ref{sec:components-syssec}) verlassen kann (siehe: Kapitel
+			\ref{sec:jailbreaking}). Diese Erkennung wird über einen
+			Integritätstest der Sandbox mit dem Ausführen des Befehls \textsl{fork}
+			getestet\cite[S.328]{Zdziarski2012}. Dieser erlaubt der App einen
+			Kinds-Prozess zu starten. Wenn die Sandbox kompromittiert wurde, oder die App
+			außerhalb dieser läuft, wird die Operation erfolgreich ausgeführt. Folgender
+			Programmcodeauszug zeigt besagten Vorgang:
+			\lstdefinestyle{customc}{
+				belowcaptionskip=1\baselineskip,
+			  	breaklines=true,
+			  	frame=L,
+			  	xleftmargin=\parindent,
+			  	language=C,
+			  	showstringspaces=false,
+			  	basicstyle=\footnotesize\ttfamily,
+			  	keywordstyle=\bfseries\color{green!40!black},
+			  	commentstyle=\itshape\color{purple!40!black},
+			  	identifierstyle=\color{blue},
+			  	stringstyle=\color{orange},
+			}
+			\lstinputlisting[language=C]{ios/code/jailbreakdetection.c}
 	\subsection{Tips für den Benutzer}
-		%TODO
+		Als Endnutzer hat man ebenfalls eine gewisse Fülle an Möglichkeiten seine
+		Daten zu schützen und bedächtig vorzugehen. Dies bezieht sich in diesem Fall
+		aber auf die Ebene des User Interfaces und dessen Einstellungen.
+		\subsubsection{Lockscreen einschränken}
+			In früheren iOS Versionen gab es bereits mehrere Male die Möglichkeit den
+			gesperrten Bildschirm des Gerätes zu umgehen
+			\footnote{https://www.exploit-db.com/exploits/28978/}\footnote{https://www.youtube.com/watch?v=NTA8k4tyY78}.
+			Dies kann verhindert werden indem dafür nötige Dienste - zumindest für den Lockscreen
+			- deaktiviert werden. Wenn die Sprachsteuerung \textsl{Siri} nicht benötigt
+			wird, sollte diese ebenfalls für den Sperrbildschirm deaktiviert werden.
+			Generell gilt hier ein Weniger-ist-Besser-Vorgehen.
+		\subsubsection{iOS 9}
+			Zum Zeitpunkt des Entstehens dieser Arbeit befindet sich iOS 9 noch im
+			Entwicklungsstatus. Dennoch lohnt ein Blick auf ein kommendes Feature dieses
+			jüngsten Apple Sprößlings: der Zwei-Wege-Authentifizierung. Diese wird mit
+			iOS 9 nativ eingeführt und fordert den Nutzer - sofern aktiviert - dazu auf
+			beim Einloggen in seinen Apple ID Account von einem bisher unbekannten
+			Browser oder Gerät einen Verifizierungsschlüssel einzugeben, der auf seinen
+			restlichen iOS Geräten angezeigt
+			wird\footnote{https://www.apple.com/ios/ios9-preview/}.
+		%TODO: check other possibilities
