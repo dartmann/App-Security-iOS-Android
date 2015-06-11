@@ -31,9 +31,48 @@
 			vorherigen verschlüsselten Chiffre XOR-verknüpft wird und anschließend
 			ebenfalls chiffriert wird. Somit ist jeder Block von der bisherigen Ketten
 			verschlüsselter Daten abhängig.
-		\subsubsection{Sicherung des Hauptschlüssels}			
+		\subsubsection{Sicherung des Hauptschlüssels}\label{sec:master-key}		
 			Falls ein Master-Key - also ein übergeordneter Schlüssel - zur
 			Verschlüsselung eingesetzt wird, sollte dieser zwingend ebenso verschlüsselt
-			werden. 
+			werden. Das National Institute of Standards and Technology (NIST)
+			empfiehlt\cite{NISTPBKDF2010} dazu Passwort basierte 
+			Schlüsselableitungsfunktionen (Password-Based Key Derivation Function),
+			allgemein unter dem Kürzel \textsl{PBKDF2} bekannt.
+			Diese leiten die Eingabe über mehrere, beziehungsweise eine gewünschte Anzahl
+			von Iterationen zu einem Schlüssel der gewünschten Komplexität ab. Dieses
+			Ergebnis wird dann genutzt, um den Master-Key zu verschlüsseln. Der
+			eigentliche Vorteil bei dieser Herangehensweise liegt darin, dass der
+			Master-Key nie geändert werden muss. Wenn der Nutzer beispielsweise sein
+			Passwort ändert, muss der Master-Key nur mit dem neuen Passwort abgeleitet
+			über die PBKDF verschlüsselt werden. Außerdem ist es bei diesem Ansatz
+			möglich mehrere Kopien des Hauptschlüssel in verschiedenen Wegen
+			abgespeichert werden können. Ein Anwendungsbeispiel stellt die
+			Verwendung von Rücksetzungsmechanismen von Passwörtern dar, wobei der
+			Benutzer aufgefordert wird die Antwort auf eine bestimmte Frage zu geben,
+			welche er zur Erstellung des Passwortes festgelegt hat.
+		\subsubsection{Sicherung durch die Lokation}
+			Sogenannte Geo-Encryption bringt einen weiteren Faktor in die Kette der
+			möglichen Verschlüsselungsverbesserungen für unsere Applikation. Damit wird
+			ein gewisser Aufenthaltsort, oder ein Radius um diesen vorgeschrieben. Das
+			Gerät muss sich in diesem befinden, um eine Entschlüsselung zu ermöglichen.
+		\subsubsection{Zusätzliche Sicherung durch das Tempus}
+			Die Zeit kann zur Optimierung jeder Art der Verschlüsselung beitragen, indem
+			die Entschlüsselung nur in einem gewissen Zeitfenster erlaubt wird.
+		\subsubsection{Bipartite Schlüssel}
+			Diese Vorgehensweise stellt eine - ähnlich zur Geo-Verschlüsselung - zweite
+			Abhängigkeit im Entschlüsselungsprozess dar. Hierbei werden zwei Schlüssel
+			beim erstmaligen Start der Applikation erzeugt und mit einander
+			XOR-verknüpft. Dieses Ergebnis wird dann zum Verschlüsseln des
+			Hauptschlüssels (siehe: \ref{sec:master-key}) verwendet. Einer der beiden
+			Schlüssel wird durch die Passphraseeingabe des Nutzers erzeugt wird und der
+			andere ein Zufallswert ist, welcher an einen entfernten Server geschickt
+			wird. Beim Start der App muss sich der Benutzer sowohl durch seine
+			gewählte Passphrase lokal authentifizieren, als auch beim Server anmelden, um
+			den dort gespeicherten Zufallswert zu erhalten. Diese beiden Werte werden
+			anschließend XOR-verknüpft, um damit den Master-Key zu entschlüsseln, mit
+			welchem die Daten entschlüsselt werden. Falls ein Gerät als
+			gestohlen vermutet wird, kann hier einfach der Serverseitige Schlüssel verworfen
+			werden und jegliche Bemühungen des Angreifers, an die Daten zu kommen, wären
+			vergebens.
 	\subsection{Tips für den Benutzer}
-	%TODO
+		%TODO
