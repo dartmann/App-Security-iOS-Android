@@ -20,13 +20,16 @@
 %Unterschritszeilen
 \usepackage{tabularx}
 %Verlinkung
-\usepackage[colorlinks=true,linkcolor=blue]{hyperref}
+% see:https://en.wikibooks.org/wiki/LaTeX/Hyperlinks
+\usepackage[]{hyperref}
 %Urls sollen erkannt werden
 \usepackage{url}
 %Ermöglicht es von Schrift umflossene Bilder und Tabellen einzufügen
 \usepackage{wrapfig}
 %Umbennen der Bibliography Angabe in Literatur
 \renewcommand{\bibname}{Literatur}
+%Festlegung des Zitierstiles
+\bibliographystyle{plain}
 
 %\makeatletter
 %\newcommand\footnoteref[1]{\protected@xdef\@thefnmark{\ref{#1}}\@footnotemark}
@@ -97,8 +100,6 @@
 	\input{ios/pages/4_hardening/haerten.tex}
 
 	%Referenzen zum Ende
-	%Festlegung des Zitatstyles - Harvardmethode: Abkürzung Autor + Jahr
-	\bibliographystyle{plain}
 	%bibtex referenzen
 	\newpage
 	\bibliography{general/bibtex/bibtex.bib}

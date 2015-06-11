@@ -4,8 +4,8 @@
 	Endgerätes erheblich verbessern können. Dabei ist es allerdings
 	essentiell, dass diese Apps korrekt vom Betriebssystem behandelt werden, da
 	andernfalls die Systemsicherheit, die Stabilität oder gar die Nutzerdaten
-	gefährdet werden können. Wie bereits im Kapitel Systemsicherheit (siehe:
-	\ref{sec:components-syssec}) vorgestellt, wird auch hier eine Art
+	gefährdet werden können. Wie bereits im Kapitel \ref{sec:components-syssec}
+	Systemsicherheit vorgestellt, wird auch hier eine Art
 	Schichtensystem angewendet, um eine Signierung und Verifikation, sowie ein
 	Sandboxing der Apps sicherzustellen.
 	
@@ -14,8 +14,8 @@
 		und Apps gestartet werden dürfen. Dazu werden diese auf eine Signierung durch
 		ein von Apple ausgestelltes Zerifikat geprüft. Das zwingende Vorhandensein
 		dieses Zertifikats stellt eine Adaption der \textsl{chain of trust} (siehe:
-		\ref{sec:secure-boot-chain}) auf die Applikationsebene dar. So muss jeder
-		private Entwickler als auch jedes Unternehmen seine Identität bei Apple
+		Kapitel \ref{sec:secure-boot-chain}) auf die Applikationsebene dar. So muss
+		jeder private Entwickler als auch jedes Unternehmen seine Identität bei Apple
 		verifizieren, bevor ein Entwicklerzertifikat von Apple für diese ausgestellt
 		wird. Somit ist sicher gestellt, dass jede App im AppStore auf eine
 		Privatperson zurückzuführen ist, was auch ein gesteigertes Vertrauen der
@@ -80,8 +80,8 @@
 		
 		\subsubsection{ASLR}
 			Für zusätzlichen Laufzeitschutz wurde \textsl{Address space layout
-			randomization}\cite{iOS4SecurityEvalutaion} ab iOS 4.3 eingeführt. Dies weist
-			Programmen zufällige Speicheradressen zu. Somit sollen Angriffe die auf
+			randomization}\cite[S.1]{iOS4SecurityEvalutaion} ab iOS 4.3 eingeführt. Dies
+			weist Programmen zufällige Speicheradressen zu. Somit sollen Angriffe die auf
 			Speicherüberläufen basieren verhindert werden\cite[S.131]{Levin2012}. Jedoch
 			wird nur der Heap und die Bibliotheken der App durch ASLR geschützt, wenn
 			die App nicht mit einer Unterstützung für \textsl{Position Independent
@@ -90,7 +90,7 @@
 				\centering
 				\includegraphics[width=0.9\linewidth]{ios/media/aslr-pie.jpg}
 				\caption{ASLR in Abhängigkeit von PIE
-				\cite{iOS4SecurityEvalutaion}}
+				\cite[S.1]{iOS4SecurityEvalutaion}}
 				\label{fig:aslr}
 			\end{figure}\\
 		

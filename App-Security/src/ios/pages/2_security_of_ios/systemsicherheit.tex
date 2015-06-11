@@ -1,20 +1,22 @@
 \section{Komponenten der Systemsicherheit unter
-iOS}\label{sec:components-syssec} Eine Kette von aneinander gereihten und
-von einander abhängigen Prozessen trägt maßgeblich zur Systemsicherheit bei. Dies berücksichtigt vor allem den
+iOS}\label{sec:components-syssec} 
+	Eine Kette von aneinander gereihten und von einander abhängigen Prozessen trägt
+	maßgeblich zur Systemsicherheit von iOS bei. Dies berücksichtigt vor allem den
 	Startvorgang, die Software Updates - auch von Drittanbietern - und den Secure
-	Enclave (siehe \ref{sec:secure_enclave}). Dies stellt sicher, dass alle
-	Kernkomponenten, ob Hard- oder Software, möglichst gefeit vor Angriffen sind, ohne dabei die
-	Nutzerfreundlichkeit zu beeinflussen. Wenn dabei einer dieser Schritte
-	fehlschlägt, unterbricht der Startvorgang und das Gerät wird in den
-	Recovery Modus versetzt. Wenn der Boot-ROM nicht geladen werden kann, wird der DFU (Device
-	Firmware Upgrade) Modus betreten.\\ 
+	Enclave (siehe: Kapitel \ref{sec:secure_enclave}). Dies stellt sicher, dass
+	alle Kernkomponenten, ob Hard- oder Software, möglichst gefeit vor Angriffen sind,
+	ohne dabei die Nutzerfreundlichkeit zu beeinflussen. Wenn dabei einer dieser
+	Schritte fehlschlägt, unterbricht der Startvorgang und das Gerät wird in den
+	Recovery Modus versetzt. Wenn der Boot-ROM nicht geladen werden kann, wird der
+	DFU (Device Firmware Upgrade) Modus betreten.\\
 	Nachfolgend werden die Komponenten welche maßgeblich zur Systemsicherheit und
 	an der Wahrung der Integrität dieser beteiligt sind	detailliert vorgestellt und beschrieben.
 	
 	\begin{figure}[h]
 		\centering
 		\includegraphics[width=0.4\linewidth]{ios/media/security-model.jpg}
-		\caption{Sicherheitsmodel von iOS \cite[S.4]{iOSSecurityApr2015}}
+		\caption{Sicherheitsmodel von iOS 
+		\cite[S.4]{iOSSecurityApr2015}}
 		\label{fig:security-model}
 	\end{figure}
 
@@ -79,8 +81,8 @@ von einander abhängigen Prozessen trägt maßgeblich zur Systemsicherheit bei. 
 		jegliche vom SE in den Speicher geschriebene Daten mit der UID und einem
 		Anti-Replay Zufallswert verschlüsselt. Eine der Hauptaufgaben des Secure
 		Enclave ist die verarbeitung der Fingerabdruck-Daten des Touch
-		ID (siehe: \ref{sec:touch_id}). Alle Kommunikation zwischen Touch ID und SE
-		wird über einen seriellen Bus abgearbeitet. Der Applikationsprozessor leitet die Fingerabdrucksdaten an den
+		ID (siehe: Kapitel \ref{sec:touch_id}). Alle Kommunikation zwischen Touch ID
+		und SE wird über einen seriellen Bus abgearbeitet. Der Applikationsprozessor leitet die Fingerabdrucksdaten an den
 		SE weiter kann diese aber aufgrund einer Verschlüsselung der Daten mit einem
 		Sitzungsschlüssel nicht lesen. Dieser Session Key wurde durch den für Touch ID
 		und SE bereit gestellten öffentlichen Schlüssel erzeugt. Der Austausch des
