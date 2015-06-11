@@ -7,17 +7,33 @@
 		Der Entwickler ist verantwortlich für die Sicherheit seiner Anwendung und
 		sollte jegliche mögliche Optionen der zusätzlichen Absicherung seiner
 		Applikation in Erwägung ziehen. 
-		\subsubsection{Verschlüsselung implementieren}
+		\subsubsection{Passwortstärke}
 			Die Verschlüsselung ist eine der wichtigsten Arten seine Daten zu schützen,
 			aber auch die kritischste, wenn es um die Implementierung geht. Daher richten
 			Hacker ihr Augenmerk zuerst auf die Implementierung und nicht die
 			eigentlichen verschlüsselten Daten. Hierbei ist es besonders wichtig, keine
 			schwachen Passwörter zu erlauben. Eine strenge Passwortrichtlinie ist
 			Pflicht, auch wenn es die Useability negativ beeinflusst. Die gewählten
-			Passwörter sollten aus vielen Zeichen bestehen, welche wiederrum zu einem
-			Anteil aus Zahlen, Sonderzeichen und Zeichen, in Groß- und Kleinschreibweise,
-			bestehen. Zusätzlich sollten bestimmte Muster verhindert werden, wie
-			beispielsweise die  Beispiel über die QUERTZ-Tastatur entlang fahren.
-			Passwörter eingeben zu können die
+			Passwörter sollten aus vielen Zeichen bestehen (mindestens 12 Zeichen),
+			welche wiederrum zu einem Anteil aus Zahlen, Sonderzeichen und Zeichen, in
+			Groß- und Kleinschreibweise, bestehen. Zusätzlich sollten bestimmte Muster,
+			wie entlang der QUERTZ-Tastatur zu fahren, einfache Wörter, welche meist in
+			Dictionaries enthalten sind und strukturierte Daten wie ein Datum, verhindert
+			werden.
+		\subsubsection{Common Crypto Library}
+			IOS bietet mit der \textsl{Common Crypto Library}\footnote{https://goo.gl/5ApuXL}
+			(3CC oder auch CCCrypt) eine Möglichkeit auf C-Ebene 
+			Verschlüsselungsalgorithmen wie AES, DES oder 3DES einzusetzen. Dabei bietet
+			3CC je nach eingesetztem Algorithmus Block- beziehungsweise Stromchiffre an.
+			Zusätzlich wird mit dem \textsl{Cipher Block Chaining} (CBC) eine
+			Möglichkeit angeboten, um Man-In-The-Middle, sowie Replay-Angriffe zu
+			verhindern. Dies ist möglich, da bei CBC jeder Klartext-Block mit dem
+			vorherigen verschlüsselten Chiffre XOR-verknüpft wird und anschließend
+			ebenfalls chiffriert wird. Somit ist jeder Block von der bisherigen Ketten
+			verschlüsselter Daten abhängig.
+		\subsubsection{Sicherung des Hauptschlüssels}			
+			Falls ein Master-Key - also ein übergeordneter Schlüssel - zur
+			Verschlüsselung eingesetzt wird, sollte dieser zwingend ebenso verschlüsselt
+			werden. 
 	\subsection{Tips für den Benutzer}
 	%TODO
