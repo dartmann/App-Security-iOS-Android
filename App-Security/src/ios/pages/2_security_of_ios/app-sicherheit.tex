@@ -22,14 +22,14 @@
 		Nutzer in die Qualität der Apps zur Folge hat.\\
 		Allerdings muss an diesem Punkt erwähnt werden, dass Apple Ausnahmen dieser
 		Verifikation in Form des \textsl{iOS Developer Enterprise
-		Program}\footnote{https://developer.apple.com/programs/ios/enterprise/}
+		Program}\cite{AppleDevProg2015}
 		erlaubt und so Apps auch ohne das Veröffentlichen im AppStore auf iOS Geräte
 		installiert werden können. Dabei prüft Apple das anfragende Unternehmen auf
 		Eignung durch deren D-U-N-S Nummer - einem Zahlensystem zur eindeutigen
 		Identifizierung von Firmen. Populär wurde eine jüngste Ausnutzung dieses
 		Privileges, bei welcher über eine Webseite bei Einwilligung eine App
 		installiert wird, welche dann ein Abonnement verkaufen will
-		\footnote{http://heise.de/-2679222}. Apple dachte diese Möglichkeit nur für
+		\cite{HeiseCheatApp2015}. Apple dachte diese Möglichkeit nur für
 		Firmen, die ihr eigenes Mobile Device Management betreiben, an. Hier wurde
 		also entweder der ausstellende Account gekapert oder diese Lizenz vom
 		Eigentümer schlichtweg missbraucht.\\
@@ -55,7 +55,8 @@
 			\begin{figure}[h]
 				\centering
 				\includegraphics[width=0.9\linewidth]{ios/media/sandboxing.png}
-				\caption{Sandboxing unter iOS \cite{IOSSandboxing}}
+				\caption{Sandboxing unter iOS 
+				\cite{IOSSandboxing}}
 				\label{fig:sandboxing}
 			\end{figure}
 			Von dort ist es ihr nicht möglich Daten anderer Drittanbieter- oder
@@ -66,7 +67,7 @@
 			vorgesehen und so hat sich die Entwicklergemeinde selbst einen Weg in Form von
 			\textsl{URL-Schemas} gebahnt. Später kam eine weitere Möglichkeit mit dem
 			Nutzen einer gemeinsamen \textsl{Key-Chain} pro AppGroup
-			dazu\cite[S.83]{Banks2015}.\\%TODO: ref to AppGroups
+			dazu\cite[S.83]{Banks2015}.
 				
 		\subsubsection{Entitlements}
 			Einen weiteren Schutz zur Laufzeit stellen sogenannte \textsl{Entitlements}
@@ -76,7 +77,7 @@
 			Berechtigung besonders oft, da dies verhindert, dass der relevante Prozess als
 			root laufen muss. Zusätzlich verringert dies das Risiko einer ungewollten
 			Rechteerweiterung durch einen manipulierten Hintergrundprozess oder einer
-			Systemapp.\\
+			Systemapp.
 		
 		\subsubsection{ASLR}
 			Für zusätzlichen Laufzeitschutz wurde \textsl{Address space layout
@@ -92,7 +93,7 @@
 				\caption{ASLR in Abhängigkeit von PIE
 				\cite[S.1]{iOS4SecurityEvalutaion}}
 				\label{fig:aslr}
-			\end{figure}\\
+			\end{figure}
 		
 		\subsubsection{ARM Never eXecute}
 			Mit dem \textsl{NX-Bit} markiert iOS einzelne Speicherseiten entweder mit dem
@@ -102,5 +103,3 @@
 			- was bedeuted, dass der Instruction Pointer versucht diesen Bereich
 			aufzurufen. Dieser Seitenfehler wird von iOS registriert und damit die
 			Ausführung des Programmes unterbunden\cite[S.310]{Levin2012}.
-			
-		%TODO: permissions wrapped in "`sicherheit auf nutzerebene"'

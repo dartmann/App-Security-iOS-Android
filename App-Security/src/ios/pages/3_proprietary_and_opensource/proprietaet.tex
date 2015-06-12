@@ -4,7 +4,7 @@
 		Proprietäre Software (lateinisch proprie "`eigentümlich"', "`eigen"',
 		"`ausschließlich"') wird eine Software bezeichnet, die das Recht und die
 		Möglichkeiten der Wieder- und Weiterverwendung durch Dritte stark einschränkt.
-		\footnote{https://de.wikipedia.org/wiki/Proprietäre\_Software}
+		\cite{WikiProprietary2015}
 	\end{quote}
 	Im Gegensatz zu anderen Herstellern mobiler Betriebssysteme lizenziert Apple
 	iOS nicht für andere Hardwarehersteller, sondern produziert alles im
@@ -33,12 +33,12 @@
 		\subsubsection{com.apple.mobile.pcapd}
 			Pcapd stellt einen Überwachungsdienst dar, welcher auf der
 			Programmierschnittstelle
-			pcap\footnote{http://www.tcpdump.org/manpages/pcap.3pcap.html} aufbaut und
+			pcap\cite{PCAP2015} aufbaut und
 			diese in Form der Bibliothek \textsl{libpcap} implementiert. Mit diesem
 			Dienst ist es möglich jeglichen Netzwerkverkehr mitzulesen und zu speichern.
-			Sniffer\footnote{http://de.wikipedia.org/wiki/Sniffer}, z.B.
-			Whireshark\footnote{https://www.wireshark.org/}, greifen auf diese
-			Schnittstelle zurück, um Pakete direkt an der Netzwerkschnittstelle
+			Sniffer, z.B.
+			Whireshark\cite{WHIRESHARK2015}, greifen auf
+			diese Schnittstelle zurück, um Pakete direkt an der Netzwerkschnittstelle
 			abzufragen. Dem Benutzer des iOS Gerätes wird es visuell nicht erläutert,
 			wenn dieser Dienst aktiviert ist. Zusätzlich ist kein Entwickler-Modus von
 			nöten, um diesen zu aktivieren. Seit iOS8 ist es nicht mehr möglich diesen
@@ -53,7 +53,7 @@
 				use.\cite{AppleDiagnosticCap2015}
 			\end{quote}
 			Was eventuell auf eine Verbesserung des Zugriffs auf diesen Dienst hinweisen
-			könnte. Beispielsweise nur noch Authorisierter vom Benutzer erlaubter
+			könnte. Beispielsweise nur noch authorisierter vom Benutzer genehmigter
 			Zugriff.
 		\subsubsection{com.apple.mobile.house\_arrest}
 			Apple dokumentiert hier eine Verwendung von iTunes für den Transfer von Daten
@@ -65,14 +65,12 @@
 			oder Twitter - obwohl die iTunes GUI dies nicht erlaubt.
 			
 	\subsection{Historische Exploits}
-		In der Geschichte von iOS hat es bereits diverse
-		Exploits\footnote{http://wirtschaftslexikon.gabler.de/Definition/exploit.html}
+		In der Geschichte von iOS hat es bereits diverse Exploits\cite{Exploit2015}
 		gegeben. In diesem Kapitel will ich einige der bekanntesten vorstellen.
 		\subsubsection{libTiff Exploit} 
 			Eine auf einem Pufferüberlauf der libtiff Bibliothek basierenden
 			Sicherheitslücke. Dabei wurde die genannte Bibliothek gepatcht, um einen
-			Jailbreak zu starten.
-			\footnote{https://www.theiphonewiki.com/wiki/LibTiff\_Exploit} Dieser Exploit
+			Jailbreak zu starten.\cite{LibTiffExploit2015} Dieser Exploit
 			stammt aus der Anfangszeit von iOS in der alle Prozesse noch mit root
 			Rechten liefen.
 		\subsubsection{Ikee Virus}\label{sec:ikee-exploit}
@@ -81,12 +79,11 @@
 			bei iPhones mit Jailbreak hinweisen. Er nutzte mit dem in C geschriebenen
 			Programm lediglich das Passwort \textsl{alpine}, deaktivierte bei
 			erfolgreichem login den SSH Dienst und versuchte dann das Skript auf
-			zufällig ausgewählten IP-Adressen auszuführen.
-			\footnote{https://www.theiphonewiki.com/wiki/Ikee-virus}. Eine unter dem
-			Namen \textsl{Ikee.B} veränderte Variante stahl Inhalte des Gerätes und
+			zufällig ausgewählten IP-Adressen auszuführen.\cite{IkeeExploit2009}. Eine
+			unter dem Namen \textsl{Ikee.B} veränderte Variante stahl Inhalte des Gerätes und
 			machte dieses zum Zombie und somit Teil eines Botnetzes.
 		\subsubsection{SpyPhone}
-			Diese App wurde vom Author Seriot Nicolas\footnote{http://seriot.ch/} als
+			Diese App wurde vom Author Seriot Nicolas als
 			\textsl{proof of concept} erstellt. Dabei nutzte er nur die gegebenen
 			legitimen API's zum Erstellen von Apps für den AppStore. Obwohl diese App
 			komplett innerhalb ihrer von iOS vorgeschriebenen Sandbox lief, konnte
@@ -104,17 +101,15 @@
 		Der aus dem englischsprachligen Raum stammende Begriff bezeichnet unter iOS
 		das gezielte Aushebeln der von Apple vorgegebenen Restriktionen. Oft werden
 		dabei eigene Paketverwaltungstools wie
-		Cydia\footnote{http://cydia.saurik.com/} installiert, um auch von Apple nicht
+		Cydia\cite{Cydia2015} installiert, um auch von Apple nicht
 		signierte Apps auf die modifizierten Geräte aufspielen zu können.\\
 		Es werden zwei Arten von Jailbreaks unterschieden, der \textsl{tethered
 		jailbreak} und der \textsl{untethered jailbreak}. Dabei bedeuted tethered,
 		dass eine Anbindung an einen Computer, auf welchem eine Jailbreaking Software
-		- beispielsweise \textsl{redsn0w}\footnote{http://blog.iphone-dev.org/}, oder
-		\textsl{TaiG}\footnote{http://www.taig.com/en/} - installiert sein muss, die
-		den Prozess unterstützt.
-		Untethered Jailbreaks kommen ohne diese Anbindung aus und arbeiten autark.
-		Das Prinzip des Jailbreakings ist dabei immer das selbe: es wird mit
-		Hilfe eines Exploits das System kompromittiert. Zu Beginn wurden oft
+		- beispielsweise \textsl{redsn0w}, oder	\textsl{TaiG} - installiert sein muss, die
+		den Prozess unterstützt. Untethered Jailbreaks kommen ohne diese Anbindung aus
+		und arbeiten autark. Das Prinzip des Jailbreakings ist dabei immer das selbe:
+		es wird mit Hilfe eines Exploits das System kompromittiert. Zu Beginn wurden oft
 		Hardwarefehler ausgenutzt, die während des
 		DFU-Modus (siehe: Kapitel \ref{sec:components-syssec}) installiert wurden.
 		Später kamen \textsl{Userland-Exploits} dazu, welche während dem
@@ -125,13 +120,12 @@
 	\subsection{Vorteile der Proprietät}
 		Obwohl der Nutzer unter iOS dazu gezwungen wird, sich den Vorgaben zu beugen,
 		hat es auch seine Vorteile, dies zu akzeptieren. So sind bei aktivem Jailbreak
-		Sicherheitsmechanismen wie die Signaturprüfung (siehe:
-		%TODO: ref the code signing of the app sec section
-		\ref{sec:code-signing}), oder die Apple's Secure Boot
-		Chain (siehe: Kapitel \ref{sec:secure-boot-chain}) modifiziert beziehungsweise
-		deaktiviert worden, was ein enormes Sicherheitsrisiko darstellen kann.
-		Außerdem haben uns Exploits wie Ikee (siehe: Kapitel \ref{sec:ikee-exploit})
-		gezeigt, dass zu viel Macht an falscher Stelle verbunden mit Unwissenheit meist mehr
-		Schaden anrichtet, statt Erleichterung zu schaffen.
-		Das BSI warnt zudem in einem Überblickspapier zu iOS offiziell vor dem Einsatz
-		von Jailbreaks.\footnote{https://www.bsi.bund.de/SharedDocs/Downloads/DE/BSI/Grundschutz/Download/Ueberblickspapier\_Apple\_iOS\_pdf}
+		Sicherheitsmechanismen wie die Signaturprüfung (siehe: Kapitel
+		\ref{sec:code-signing}), oder die Apple Secure Boot	Chain (siehe: Kapitel
+		\ref{sec:secure-boot-chain}) modifiziert beziehungsweise deaktiviert worden,
+		was ein enormes Sicherheitsrisiko darstellen kann. Außerdem haben uns Exploits
+		wie Ikee (siehe: Kapitel \ref{sec:ikee-exploit}) gezeigt, dass zu viel Macht
+		an falscher Stelle verbunden mit Unwissenheit meist mehr Schaden anrichtet,
+		statt Erleichterung zu schaffen. Das BSI warnt zudem in einem Überblickspapier
+		zu iOS offiziell vor dem Einsatz von
+		Jailbreaks.\cite{BSIJailbreak2013}

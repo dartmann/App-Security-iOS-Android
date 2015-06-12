@@ -34,7 +34,7 @@
 		Speicher geschrieben wird, erhält einen 256 Bit explizit ihr zugewiesenen
 		\textsl{Per-File} Schlüssel. Dieser wird von der
 		%TODO: get infos about AES-CBC + the initialization vector
-		Verschlüsselungsengine (siehe: \ref{sec:crypto-engine}) mit Hilfe von
+		Verschlüsselungsengine (siehe: Kapitel \ref{sec:crypto-engine}) mit Hilfe von
 		AES Cipher Block Chaining verschlüsselt. Der Per-File Schlüssel wird mit
 		einem von vier Klassenschlüsseln ummantelt und in den Meta-Daten gespeichert.
 		Der Klassenschlüssel ist zusätzlich noch mit der UID und für manche auch mit
@@ -45,10 +45,10 @@
 		System Key} entschlüsselt. Dieser ist im \textsl{Effaceable Storage}
 		gespeichert - einem dedizierten Bereich im NAND-Speicher, welcher direkt
 		adressiert und sicher gelöscht werden kann.
-		Sobald dieser Speicher und somit der darin enthaltene Dateisystem Schlüssel
+		Sobald dieser Speicher und somit der darin enthaltene Dateisystemschlüssel
 		gelöscht wurde, macht dies alle Dateien auf dem Gerät kryptografisch
 		unwiederherstellbar. Sobald der Benutzer einen Passcode auf dem System
-		einrichtet, aktiviert er Data Protection.
+		einrichtet, aktiviert er Data Protection automatisch.
 		\begin{figure}[h]
 			\centering
 			\includegraphics[width=0.9\linewidth]{ios/media/data-protection.jpg}
