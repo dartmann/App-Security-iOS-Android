@@ -66,10 +66,10 @@ iOS}\label{sec:components-syssec}
 		vor. Er verwendet seinen eigenen sicheren Startvorgang, ist separiert vom
 		Applikations Prozessor und verwendet verschlüsselten Speicher, sowie einen
 		Hardware Zufallszahlen Generator. Die Technologie basiert auf ARM's
-		TrustZone\footnote{http://www.arm.com/products/processors/technologies/trustzone/index.php}
+		TrustZone\cite{TrustZone2015}
 		und wurde von Apple für die eigenen Ansprüche angepasst. Der Kernel dieser
 		Einheit basiert auf der L4
-		Mikrokernel-Familie\footnote{http://os.inf.tu-dresden.de/L4/} mit leichten
+		Mikrokernel-Familie\cite{L4MicroKernel2015} mit leichten
 		Modifikationen. Die auf Interrupts basierende Kommunikation zwischen dem Applikationsprozessor und dem Secure Enclave (SE) läuft über
 		einem nur den beiden zur Verfügung stehenden Speicherbereich. Der SE ist
 		verantwortlich für das Schlüssel Management der Datenverschlüsselung und
@@ -111,7 +111,6 @@ iOS}\label{sec:components-syssec}
 		Stunden ungültig, bzw. wenn das iOS Gerät neu gestartet wurde, oder der
 		Fingerabdruck fünf mal falsch registriert wurde.\\
 		Dass diese Technik nicht als Sicher angesehen werden darf, haben bereits
-		Miglieder des Chaos Computer Club gezeigt
-		\footnote{http://www.ccc.de/de/updates/2013/ccc-breaks-apple-touchid}, dabei 
+		Miglieder des Chaos Computer Club gezeigt\cite{CCCBreakTouch2015}, dabei 
 		wurde mit simpelsten Haushaltsmitteln ein Fingerabdruck gefälscht, den das
 		Smartphone irrtümlicher weise akzeptiert hat.
