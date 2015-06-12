@@ -5,22 +5,22 @@
 	
 	\subsection{Verifikation der Bootmedien} \label{sec:VerifikationDerBootmedien}
 	Um bereits bei Systemstart eine Veränderung oder Ersetzung der Paritionen zu erkennen, wurde mit Android 4.4 eine Boot Verification eingeführt. Das Verfahren basiert auf der Funktion dm-verity des Device Mappers, welcher im Linux Kernel zu finden ist. Da diese Überprüfung durch den Kernel ausgeführt wird, muss vor dem Start von dm-verity erst der Bootloader und die Boot-Partition selbst auf ihre Integrität überprüft werden.
+	Die Verifikation des Bootloaders ist nur schwer möglich, daher wird hierbei auf eine Hardware basierende root-of-trust, hier auf Basis des TEE, gesetzt. \\
 	
 	\subsubsection{Integritätscheck durch den Bootloader}
-	Die Verifikation des Bootloaders ist nur schwer möglich, daher wird hierbei auf eine Hardware basierende root-of-trust, hier auf Basis des TEE, gesetzt. \\
-	Um die Boot- und Recovery-Parition zu validieren gibt es zwei Möglichkeiten. Für die Validierung offizieller Images wird ein in Hardware festgeschriebener, unveränderlicher, Key verwendet. Sollte dies nicht möglich sein, aufgrund eines veränderten Images, kann auf ein in der Partitionssignatur gespeichertes Zertifikat zurückgegriffen werden.
-\begin{flushleft}	
+	Grundsätzlich ist Implementierung des Bootloader und dessen Vorgehen stark Geräteabhängig, daher werde ich hier im Folgenden lediglich das prinzipielle Vorgehen, welches durch das AOSP unterstützt wird, erläutern.\\
+	Um die Boot- und Recovery-Partition (\textit{/boot, /recovery}) zu validieren gibt es zwei Möglichkeiten. Ist auf den beiden Partition jeweils ein offizielles Images des Smartphone Herstellers, kann auf einen OEM Key zurückgegriffen werden. Dieser ist in einem read-only in der Hardware festgeschrieben und wird vom Hersteller des Systems - zumeist der Smartphone Hersteller - festgelegt. Sollte eine Veränderung des Images vorgenommen worden sein, egal ob bewusst durch den Nutzer oder durch Schadcode, ist dieses Vorgehen nicht mehr möglich. Um aber dennoch eine Modifikation durch den Nutzer grundsätzlich zu ermöglichen, gibt es noch eine zweite Möglichkeit. Dabei wird auf ein, in der Paritionssignatur gespeichertes, Zertifikat zurückgegriffen.\\\\
 	Um zu unterscheiden ob ein offizielles oder inoffizielles Image erwartet wird, kann der Bootloader zwischen zwei Status unterscheiden:\\
-\end{flushleft}
+	
 	\begin{itemize}\itemsep0pt
 		\item LOCKED - das aktuelle Boot-Image ist ein offizielles und kann mittels OEM Key verifiziert werden
 		\item UNLOCKED - das aktuelle Boot-Image wurde verändert, und kann daher nicht mit dem OEM Key veriiziert werden
 	\end{itemize}
 	
 \begin{flushleft}
-	Diese und weitere Informationen zum Bootstatus werden in einer speziellen und besonders geschützten System Partition gespeichert. \\
+	Diese und andere Informationen sind zwischen verschiedenen Images weites gehend gleich und werden daher auf einer extra Partition gespeichert (zumeist \textit{/misc} oder \textit{/param}), welche somit im Falle eines Wechsel des Images nicht neu aufgesetzt werden muss.
 \end{flushleft}
-	Um eine eigene Betriebssystemversion installieren zu können, ist es zuerst notwendig, den Bootloader freizuschalten. Wurde dies getan, wird beim Hochfahren immer eine Warnung ausgegeben, um den Nutzer darauf hinzuweisen, dass die Parition nicht mittels des festgeschrieben Keys verifiziert werden konnte. Daraus ergeben sich mehrere Mögliche Zustände des Systems:\\\\
+	 Wurde dies getan, wird beim Hochfahren immer eine Warnung ausgegeben, um den Nutzer darauf hinzuweisen, dass die Partition nicht mittels des festgeschrieben Keys verifiziert werden konnte. Daraus ergeben sich mehrere mögliche Zustände des Systems:\\\\
 	
 	\begin{figure}[h]
 		\centering
@@ -30,10 +30,13 @@
 	\end{figure}
 	
 \begin{flushleft}
-	Mit diesem Vorgehen wird auch die Integrität des Kernels sichergestellt, der das weitere Vorgehen steuert.
+	Mit diesem Vorgehen wird auch die Integrität des Kernels sichergestellt, welcher in der \textit{/boot-} Partition abgelegt ist. Die Steuerung wird nach diesem Vorgang an den Kernel übergeben, welcher die Verifikation weiterer Partitionen übernimmt.\newline\\
+
+	Um zu verhindern, dass Angreifer einfach den Bootloader manipulieren um an Daten heranzukommen, muss die Partition welche die Nutzerdaten beinhaltet (\textit{/userdata}) vor einer Veränderung an dem Bootsystem formatiert werden.
 \end{flushleft}
 	
 	\subsubsection{Integritätscheck weiterer Paritionen}
+	Weitere Integritätschecks werden von der Kernelfunktion dm-verity übernommen.
 	dm-verity arbeitet mit einem SHA-256 Hash-tree, der wie folgt aufgebaut ist:\\
 	Für jeden 4K Sektor auf der Parition wird ein Hashwert berechnet. Jeweils zwei dieser Werte werden wiederum zu einem Neuen verrechnet. Dies wird solange wiederholt, bis nur noch ein Hashwert, der \textit{root-hash}, übrig ist. Um nun die Integrität sicherzustellen wird dieser root-hash, mit einem bereits berechneten Soll-Wert verglichen. Sind diese identisch, ist die Parition integer.
 	
@@ -45,9 +48,9 @@
 	\end{figure}
 	
 \begin{flushleft}
-	Um Manipulationen am Soll-Wert zu unterbinden, wird der root-hash mit einem RSA Schlüssel signiert. Zu finden ist der Soll-Wert in der Boot-Partition.\\
+	Um Manipulationen am Soll-Wert zu unterbinden, wird der Hash-Tree und ein Salt mit einem RSA Schlüssel signiert. Der genutzte RSA Public Key wird in der Boot-Partition abgelegt. Der Hash-Tree und der Salt hingegen werden hinter dem letzten Datenblock auf die zu verifizierenden Partitionen geschrieben. Besonders geeignet ist dieses Verfahren für Read-Only Paritionen, wie die System-Partition welche das Betriebssystem beherbergt.\\
+	Welche Paritionen mittels vm-verity auf ihre Integrität überprüft werden sollen, wird über einen Eintrag zu der jeweiligen Partition in der fstab-Datei festgelegt.
 \end{flushleft}
-	Welche weiteren Paritionen mittels vm-verity auf ihre Integrität überprüft werden sollen, wird über einen Eintrag zu der jeweiligen Partition in der fstab-Datei festgelegt.
 
 	\subsection{Basis Rechtesystem}\label{sec:BasisRechteSystem}
 	Von Linux wurde auch das Basis-Rechtesystem Übernommen, allerdings wird es leicht abgewandelt genutzt. Anstatt das ein Nutzer des Mobilsystems eine eindeutige User-ID (UID) zugewiesen bekommt, wird jede Applikation auf dem System als ein Nutzer angesehen und bekommt zur Installationszeit eine UID. Jeder Nutzer, und somit auch jede App, arbeitet grundsätzlich erst einmal nur innerhalb der ihm zugewiesenen virtuellen Maschine und dem damit verbundenen Dateisystem.\\\\
@@ -56,6 +59,9 @@
 	
 	\subsection{Sandboxing und Permissions} \label{sec:SandBoxingNPermissions}
 	Wie bereits erwähnt, laufen die Applikationen jeweils in ihrer eigenen Sandbox. Grundsätzlich ist die App damit in ihrer Ausführung auf ihren Bereich beschränkt und kann nicht mit anderen Prozessen und Daten ausserhalb interagieren. Dennoch ist es in den meisten Fällen sinnvoll mit Systemservices und Nutzerdaten zu interagieren, die nicht in der eigenen Sandbox verfügbar sind. 
+	
+	\subsubsection{Sandboxing}
+	Das Sandboxing in Android basiert auf dem Rechtesystem des Linux-Kernels und der JVM. Prozesse eines Nutzer können nicht den Prozess eines anderen beeinflussen, noch auf dessen Arbeitspeicher oder internen Dateien zugreifen. Damit laufen die Nutzerprozesse jeweils isoliert von einander. Zusätzlich wird für die Ausführung von Bytecode eine JVM eingesetzt, welche auch nochmal eine Abstraktionsebene bereitstellt und den Einsatz von Exploits die auf einem Bufferoverflow basieren an verhindern soll.
 	
 	\subsubsection{Permissions im Detail}
 	Um nun die bestehenden Zugriffsrechte erweitern zu können, müssen die entsprechenden Rechte (Permissions) in der Manifest Datei deklariert und angefordert werden. Zu Installationszeit werden diese Permissions dem Nutzer angezeigt und dieser wird gefragt, ob er den Rechtswünschen der App zustimmt oder nicht. Dabei gilt das \textit{Alles-Oder-Nichts-Prinzip}, d.h. entweder bekommt die Anwendung alle Rechte oder keine - was eine nicht Installation zur Folge hat. Des weiteren können die Berechtigungen nach der Installation nicht mehr angepasst werden.\\
