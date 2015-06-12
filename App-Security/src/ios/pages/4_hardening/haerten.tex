@@ -133,13 +133,43 @@
 			Lockscreen - deaktiviert werden. Wenn die Sprachsteuerung \textsl{Siri} nicht benötigt
 			wird, sollte diese ebenfalls für den Sperrbildschirm deaktiviert werden.
 			Generell gilt hier ein Weniger-ist-Besser-Vorgehen.
-		\subsubsection{iOS 9}
-			Zum Zeitpunkt des Entstehens dieser Arbeit befindet sich iOS 9 noch im
-			Entwicklungsstatus. Dennoch lohnt ein Blick auf ein kommendes Feature dieses
-			jüngsten Apple Sprößlings: der Zwei-Wege-Authentifizierung. Diese wird mit
-			iOS 9 nativ eingeführt und fordert den Nutzer - sofern aktiviert - dazu auf
-			beim Einloggen in seinen Apple ID Account von einem bisher unbekannten
-			Browser oder Gerät einen Verifizierungsschlüssel einzugeben, der auf seinen
-			restlichen iOS Geräten angezeigt wird\cite{AppleiOS9Preview2015}.
-		\subsubsection{App Berechtigungen minimieren}
-			%TODO
+		\subsubsection{Zwei-Faktor-Authentifizierung }
+			Zu einem der wichtigsten sicherungssteigernden Möglichkeit von iOS Nutzern
+			gehört die Zwei-Faktor-Authentifizierung. Diese fordert den Nutzer - sofern
+			aktiviert - dazu auf beim Einloggen in seinen Apple ID Account von einem
+			bisher unbekannten Browser oder Gerät einen Verifizierungsschlüssel
+			einzugeben, der auf seinen restlichen iOS Geräten angezeigt
+			wird\cite{AppleiOS9Preview2015}.
+		\subsubsection{Privacy}
+			Ab iOS 8 muss der Entwickler in seiner App hinterlegen, warum diese ein
+			bestimmtes Recht, wie zum Beispiel Lokalisierungsdienste, erhalten will.
+			Dieser Dialog erscheint, sobald die App dieses Recht erfragt und wird für den
+			Nutzer sichtbar als Dialogbox mit Wahloptionen angezeigt.
+			\begin{figure}[h]
+				\centering
+				\includegraphics[width=0.4\linewidth]{ios/media/privacy-dialog.jpg}
+				\caption{Authorisierungsdialog für den Aufenthaltsort 
+				\cite[S.535]{LearnIOS7Dev2013}}
+				\label{fig:privacy-dialog}
+			\end{figure}
+			Sobald dieser Dialog durch eine Auswahl verschwindet, kann man diese
+			Einstellung auch unter den Systemeinstellungen finden. Dazu öffnet man diese
+			und wählt danach den Punkt "`Privacy"'. Unter dieser Auswahl werden alle Apps
+			angezeigt, die den Lokalisierungsdienst nutzen. So hat der Nutzer zu jeder
+			Zeit die Möglichkeit die Einstellungen zu ändern und es nach seinem Belieben
+			anzupassen. Außerdem ist es möglich diese Regeln jeweils für
+			Kontakte, Kalender, Erinnerungen, Fotos, Bluetooth, Mikrophon, Kamera, HealthKit, HomeKit und
+			Motion Activity individuell einzustellen. Zusätzlich gibt es noch
+			Einstellungen für die sozialen Netzwerke Facebook und Twitter. Zuletzt kann
+			man das Advertising gezielt beeinflussen, indem man es über "`Limit Ad
+			Tracking"' setzt. Über diese Einstellung wird gezielt Werbung für den Nutzer
+			aufgrund dessen Verhalten generiert und dann in entsprechenden Umgebungen
+			(Browser, oder App mit Werbung) angezeigt. Hier muss erwähnt werden, dass
+			diese Einstellung auf Browserseite nur bei dem unter iOS vorinstallierten
+			Safari wirkt. Alle anderen ignorieren diese Einstellung.
+			\cite{AppleMngPrivacy2015}\cite[S.131]{IKungFu2014}.
+		\subsubsection{Periodisches Ändern der Apple-ID}
+			Durch ein regelmäßiges Ändern des Passwortes der Apple-ID verhindert man,
+			dass ein Passwort das in die falschen Hände gelangte, lange von Nutzen ist.
+			Dies ist nicht nur empfehlenswert für iOS, sondern sollte bei allen
+			Passwörtern generell angewandt werden.
