@@ -9,16 +9,16 @@
 	
 	\subsubsection{Integritätscheck durch den Bootloader}
 	Grundsätzlich ist Implementierung des Bootloader und dessen Vorgehen stark Geräteabhängig, daher werde ich hier im Folgenden lediglich das prinzipielle Vorgehen, welches durch das AOSP unterstützt wird, erläutern.\\
-	Um die Boot- und Recovery-Partition (\textit{/boot, /recovery}) zu validieren gibt es zwei Möglichkeiten. Ist auf den beiden Partition jeweils ein offizielles Images des Smartphone Herstellers, kann auf einen OEM Key zurückgegriffen werden. Dieser ist in einem read-only in der Hardware festgeschrieben und wird vom Hersteller des Systems - zumeist der Smartphone Hersteller - festgelegt. Sollte eine Veränderung des Images vorgenommen worden sein, egal ob bewusst durch den Nutzer oder durch Schadcode, ist dieses Vorgehen nicht mehr möglich. Um aber dennoch eine Modifikation durch den Nutzer grundsätzlich zu ermöglichen, gibt es noch eine zweite Möglichkeit. Dabei wird auf ein, in der Paritionssignatur gespeichertes, Zertifikat zurückgegriffen.\\\\
+	Um die Boot- und Recovery-Partition (\textit{/boot, /recovery}) zu validieren gibt es zwei Möglichkeiten. Ist auf den beiden Partition jeweils ein offizielles Images des Smartphone Herstellers, kann auf einen OEM Key zurückgegriffen werden. Dieser ist in einem read-only in der Hardware festgeschrieben und wird vom Hersteller des Systems - zumeist der Smartphone Hersteller - festgelegt. Sollte eine Veränderung des Images vorgenommen worden sein, egal ob bewusst durch den Nutzer oder durch Schadcode, ist dieses Vorgehen nicht mehr möglich. Um aber dennoch eine Modifikation durch den Nutzer grundsätzlich zu ermöglichen, gibt es noch einen zweiten Weg. Dabei wird auf ein, in der Paritionssignatur gespeichertes, Zertifikat zurückgegriffen.\\\\
 	Um zu unterscheiden ob ein offizielles oder inoffizielles Image erwartet wird, kann der Bootloader zwischen zwei Status unterscheiden:\\
 	
 	\begin{itemize}\itemsep0pt
 		\item LOCKED - das aktuelle Boot-Image ist ein offizielles und kann mittels OEM Key verifiziert werden
-		\item UNLOCKED - das aktuelle Boot-Image wurde verändert, und kann daher nicht mit dem OEM Key veriiziert werden
+		\item UNLOCKED - das aktuelle Boot-Image wurde verändert, und kann daher nicht mit dem OEM Key verifiziert werden
 	\end{itemize}
 	
 \begin{flushleft}
-	Diese und andere Informationen sind zwischen verschiedenen Images weites gehend gleich und werden daher auf einer extra Partition gespeichert (zumeist \textit{/misc}), welche somit im Falle eines Wechsel des Images nicht neu aufgesetzt werden muss.
+	Diese und andere Versionsunabhängigen Informationen sind zwischen verschiedenen Images weites gehend gleich und werden daher auf einer extra Partition gespeichert (zumeist \textit{/misc}), welche somit im Falle eines Wechsel des Images nicht neu aufgesetzt werden muss.
 \end{flushleft}
 	 Wurde dies getan, wird beim Hochfahren immer eine Warnung ausgegeben, um den Nutzer darauf hinzuweisen, dass die Partition nicht mittels des festgeschrieben Keys verifiziert werden konnte. Daraus ergeben sich mehrere mögliche Zustände des Systems:\\\\
 	
@@ -35,7 +35,7 @@
 	Um zu verhindern, dass Angreifer einfach den Bootloader manipulieren um an Daten heranzukommen, muss die Partition welche die Nutzerdaten beinhaltet (\textit{/userdata}) vor einer Veränderung an dem Bootsystem formatiert werden.
 \end{flushleft}
 	
-	\subsubsection{Integritätscheck weiterer Paritionen}
+	\subsubsection{Integritätscheck mittels dm-verity}
 	Weitere Integritätschecks werden von der Kernelfunktion dm-verity übernommen.
 	dm-verity arbeitet mit einem SHA-256 Hash-tree, der wie folgt aufgebaut ist:\\
 	Für jeden 4K Sektor auf der Parition wird ein Hashwert berechnet. Jeweils zwei dieser Werte werden wiederum zu einem Neuen verrechnet. Dies wird solange wiederholt, bis nur noch ein Hashwert, der \textit{root-hash}, übrig ist. Um nun die Integrität sicherzustellen wird dieser root-hash, mit einem bereits berechneten Soll-Wert verglichen. Sind diese identisch, ist die Parition integer.
@@ -87,7 +87,6 @@
 	Dabei ist für den Nutzer nicht sichtbar, wann eine Aufnahme läuft, ausser die Applikation stellt dafür einen Hinweis bereit - wobei hier die Frage ist ob dieser auch wirklich verlässlich ist. Stellt die App einen Service bereit, kann ein solcher Mitschnitt auch im Hintergrund geschehen, und damit auch während eines Telefonats. Die einzige Chance RECORD\_AUDIO zur Laufzeit zu unterbinden ist, den Service bzw. die App über den Anwendungsmanager zu beenden.	Ausnahmen für diese Problematik sind Module wie GPS, WLAN und Bluetooth. Diese kann der Nutzer des Geräts abschalten und damit den Zugriff darauf verweigern.
 	Dennoch ist das Problem auf viele Permissions übertragbar.\\\\
 	Systemintern werden Permissions durch Nutzergruppen im Linux Berechtigungssystem dargestellt\cite[S. 28]{Drake2014}. Jeder Linux-Nutzer wird allen Gruppen entsprechend der Berechtigungen zugewiesen.
-%	Für die nächste Android Version, Android M, ist eine Verbesserung dieses Berechtigungssystems geplant und auch bereits vorgestellt worden. Es wird nun ermöglicht zur Laufzeit von Applikationen diesen Berechtigungen zu entziehen und freizugeben. Damit bekommt der Nutzer deutlich mehr Möglichkeiten, um seine Daten zu schützen. Allerdings wird es wohl kein Update für ältere Versionen geben, wodurch dort das Problem bestehen bleibt.
 	Mit Android 4.3 (Kitkat) wurde eine versteckte Einstellungs-Activity namens \textit{App Ops} eingeführt. Darin konnte man einsehen welche App, wann welche Permission genutzt hat, und dieser einzelne Rechte zu entziehen und wieder zu erlauben. Diese Funktion konnte nur durch das Anlegen eines Activity Shortcuts und der direkten Verwendung in einer App genutzt werden. Leider wurde diese versteckte Einstellung aus den nächsten Versionen entfernt - bis Android M. \cite{HiddenActivity} \\
 	Für Android M wurde mittlerweile angekündigt, dass eine derartige Einstellung nun fest mit eingebaut sein wird.\cite{AndroidMPermission} Allerdings wird es wohl kein Update für ältere Versionen geben, wodurch das Problem in diesen bestehen bleibt.
 	
@@ -95,13 +94,13 @@
 	Apps der System Hersteller können Rechte besitzen, die für normale Anwendungen nicht verfügbar sind, um Basis Apps und Services bereitzustellen. Hierfür werden alle Hersteller Applikationen mit sogenannten \textit{Publisher Keys} signiert und bekommen ggf. im Kernel festgeschriebene UIDs zugeschrieben, welche erweiterte Rechte besitzen.
 	
 	\subsection{Verschlüsselung}
-	\subsubsection{Datenträger Verschlüsselung}
+	\subsubsection{Verschlüsselung von Datenträgern}
 	Mit Android 3.0 (Honeycomb) wurde die Möglichkeit eingeführt, die userdata-Partition vollständig zu verschlüsseln (Fulldisk Encryption - FDE). Basis der Verschlüsselung ist, wie bei der Verifikation der Partitionen (\ref{sec:VerifikationDerBootmedien}), eine Funktion des Device Mappers - dm-crypt.\\\\
 	Zum Ent-/Verschlüsseln wird der Blockchiffrenmodus Cipher Block Chaining (CBC) mit einem zufällig generierten 128-Bit AES Schlüssel (Disk Encryption Key, \textit{DEK}) verwendet. Die Verschlüsselung erfolgt Sektorweise. Da nicht immer seriell aus dem Speicher gelesen wird, kann nicht nur ein Initialisationsvektor (\textit{IV}) für die komplette Ent- und Verschlüsselung genutzt werden. Daher wird stattdessen für jeden Sektor anhand eines, vom Disk Encryption Key abgeleiteten, Salts \textit{S} und der Sektornummer \textit{SN} ein eigener IV berechnet.\\
 	Somit gilt:\\
 \begin{center}
 	\begin{math}
-	IV(SN) = AES_{S}(SN), mit S = SHA256(DEK)
+	IV(SN) = AES_{S}(SN)\end{math}, mit \begin{math}S = SHA256(DEK)
 	\end{math}
 \end{center}
 	Diese Art des Berechnung für einen IV nennt sich \textit{Encrypted Salt-Sector Initialization Vector} unter Nutzung der Hashfunktion \textit{SHA256} \textit{ESSIV:SHA256}.\cite[S. 259]{Elenkov2014} Das Nutzen dieses Verfahren in dieser Art und Weise schützt die Daten allerdings nicht vor Manipulationen, da keinerlei Integritätscheck vorgenommen wird. Es wurde bereits demonstriert, dass es möglich ist, in ein verschlüsseltes Ubuntu 12.04 eine Backdoor einzuschleusen. Da das von Ubuntu genutzte Verschlüsselungsverfahren zu dem von Android identisch ist, lässt sich dieser Angriff übertragen. \footnote{http://www.jakoblell.com/blog/2013/12/22/practical-malleability-attack-against-cbc-encrypted-luks-partitions}\\
@@ -120,6 +119,10 @@
 	   \footnote{https://source.android.com/devices/tech/security/encryption/index.html}
 	\end{quote}
 	Als Nutzerpasswort kann eine Pin oder ein klassisches Passwort dienen. Seit Version 5.0 ist es auch möglich ein Eingabemuster als Passwort zu nutzen. \\
-	Ein Vorteil, der durch das nutzen eines KEK und eines DEK zustande kommt, ist der, dass bei einer Änderung des Nutzerpasswortes nicht die komplette Partition neu verschlüsselt werden muss, sondern lediglich der DEK.
+	Ein Vorteil, der durch das nutzen eines KEK und eines DEK zustande kommt, ist der, dass bei einer Änderung des Nutzerpasswortes nicht die komplette Partition neu verschlüsselt werden muss, sondern lediglich der DEK. Android 5.0 Geräte werden mit dem ersten Start automatisch, unter Nutzung eines Standard Passwortes, verschlüsselt. 
+	
+	\subsubsection{Keystore Service}
+	Die FDE greift auf Partitions- und damit auf der Geräteebene. Hat es Schadcode erst einmal in ein laufendes System geschafft, wird dadurch der Schutz aber nicht mehr sichergestellt. Um dennoch einzelne Daten auf der Anwendungsebene sicher speichern zu können, kann mithilfe der durch das Entwicklungsframework bereitgestellte \textit{Cryptography Service Provider (CSP)} zurückgreifen. CSP stellen Algorithmen und Bibliotheken zum ent-/verschlüsseln, sowie zur Sicherstellung der Integrität von Daten bereit. Sollten die CSP aus dem Android Framework nicht reichen, kann man externe Nachladen. Dabei sollte man darauf achten, dass diese aus vertrauenswürdigen Quellen stammen, da die Sicherheit stark von der Richtigkeit der eingesetzten Algorithmen abhängig ist. Übrig bleibt dabei noch die Problematik, wie die Schlüssel für die Verschlüsselungen gespeichert werden sollen. Hierfür ist, seit Android 1.6, im Kernel ein Credential Service implementiert. Die im Service gespeicherten Daten werden wiederum durch ein vom Endnutzer bereitgestelltes Password verschlüsselt. Das Passwort kann in Form eines Musters, PINs oder eines üblichen Text Passworts vorliegen. Jeder Nutzer hat nur Zugriff auf die Daten im Keystore, die auch von ihm angelegt wurden.\\\\	
+	Bis zur Android Version 4.0 wurden in diesem Keystore jedoch nur Netzwerkschlüssel abgelegt werden. Mit Version 4.3 wurde als zusätzlichen Schutz hardwareseitige Unterstützung mithilfe der TEE eingebaut.
 
 	
