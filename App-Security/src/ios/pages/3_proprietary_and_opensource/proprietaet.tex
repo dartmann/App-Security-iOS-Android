@@ -10,10 +10,10 @@
 	iOS nicht für andere Hardwarehersteller, sondern produziert alles im
 	eigenen Hause. IOS wird somit nur auf Hardware aus dem eigenen kontrollierten
 	Herstellungsprozess eingesetzt. Dieser proprietäre Ansatz birgt gewisse
-	Gefahren, die in diesem Kapitel (siehe: Kapitel
-	\ref{sec:undocumented-services}) beleuchten werden sollen. Außerdem hat sich gezeigt, dass die Nutzergemeinde
-	versucht aus der Proprietät zu entkommen bzw. sie zu umgehen (siehe: Kapitel
-	\ref{sec:jailbreaking}).
+	Gefahren(Kapitel
+	\ref{sec:undocumented-services}), die in diesem Kapitel beleuchten werden
+	sollen. Außerdem hat sich gezeigt, dass die Nutzergemeinde versucht aus der
+	Proprietät zu entkommen bzw. sie zu umgehen (Kapitel \ref{sec:jailbreaking}).
 	
 	\subsection{Undokumentierte und kritische Dienste}\label{sec:undocumented-services}
 		%TODO: rewrite this header
@@ -27,21 +27,24 @@
 		Einsatzzweck erläutern.
 		\subsubsection{lockdownd - remote access}
 			Der Dienst \textsl{lockdownd} ermöglicht den Zugriff auf ein iOS Gerät
-			per TCP auf Port 62078 über einen USB-Anschluss. Dies wird über das eigene
-			Protokoll \textsl{usbmux} gehandhabt. Dieses erlaubt TCP Verbindungen zum
-			lokalen System über einen USB Anschluss mit übergebenen	Portnummern.
+			%TODO: check if lockdownd also could be connected over wifi?!
+			per TCP auf Port 62078 über einen USB-Anschluss.
+			Dies wird über das eigene Protokoll \textsl{usbmux} gehandhabt. Dieses
+			erlaubt TCP Verbindungen zum lokalen System über einen USB Anschluss mit
+			%TODO: double check this!
+			übergebenen	Portnummern. Der lockdownd Deamon erstellt nach eingehender
+			Anfrage eine TCP-Verbindung auf localhost unter dem angegebenen Port.
 		\subsubsection{com.apple.mobile.pcapd}
 			Pcapd stellt einen Überwachungsdienst dar, welcher auf der
 			Programmierschnittstelle
 			pcap\cite{PCAP2015} aufbaut und
 			diese in Form der Bibliothek \textsl{libpcap} implementiert. Mit diesem
 			Dienst ist es möglich jeglichen Netzwerkverkehr mitzulesen und zu speichern.
-			Sniffer, z.B.
-			Whireshark\cite{WHIRESHARK2015}, greifen auf
+			Snifferprogramme wie Whireshark\cite{WHIRESHARK2015}, greifen auf
 			diese Schnittstelle zurück, um Pakete direkt an der Netzwerkschnittstelle
 			abzufragen. Dem Benutzer des iOS Gerätes wird es visuell nicht erläutert,
 			wenn dieser Dienst aktiviert ist. Zusätzlich ist kein Entwickler-Modus von
-			nöten, um diesen zu aktivieren. Seit iOS8 ist es nicht mehr möglich diesen
+			nöten, um diesen zu aktivieren. Seit iOS 8 ist es nicht mehr möglich diesen
 			Dienst über WiFi anzusprechen.
 		\subsubsection{com.apple.mobile.file\_relay}
 			Hinter diesem Paket verbirgt sich ein Dienst mit dem auf sensible und
@@ -57,8 +60,9 @@
 			Zugriff.
 		\subsubsection{com.apple.mobile.house\_arrest}
 			Apple dokumentiert hier eine Verwendung von iTunes für den Transfer von Daten
-			auf und von dem Gerät. Zusätzlich wird dieses Feature von Xcode verwendet,
+			mit einem iOS Gerät. Zusätzlich wird dieses Feature von Xcode verwendet,
 			wenn Testdaten zu einem Gerät geschickt werden sollen und sich die relevante
+			%TODO: full name plus reference of his paper!!!
 			App im Entwicklermodus befindet. Laut Zdziarski hat dieser Dienst Zugriff auf
 			die Library, den Cache, Cookies und bevorzugte Ordner, welche hoch sensible
 			Daten beinhalten - wie den Zwischenspeicher des sozialen Streams von Facebook
@@ -70,19 +74,21 @@
 		\subsubsection{libTiff Exploit} 
 			Eine auf einem Pufferüberlauf der libtiff Bibliothek basierenden
 			Sicherheitslücke. Dabei wurde die genannte Bibliothek gepatcht, um einen
-			Jailbreak zu starten.\cite{LibTiffExploit2015} Dieser Exploit
+			Jailbreak zu starten\cite{LibTiffExploit2015}. Dieser Exploit
 			stammt aus der Anfangszeit von iOS in der alle Prozesse noch mit root
 			Rechten liefen.
 		\subsubsection{Ikee Virus}\label{sec:ikee-exploit}
 			Dabei handelt es sich um einen der ersten Würmer unter iOS. Der	Author Ashley Towns
 			wollte 2009 damit auf nicht veränderte Standardpasswörter der SSH Zugänge,
 			bei iPhones mit Jailbreak hinweisen. Er nutzte mit dem in C geschriebenen
-			Programm lediglich das Passwort \textsl{alpine}, deaktivierte bei
-			erfolgreichem login den SSH Dienst und versuchte dann das Skript auf
-			zufällig ausgewählten IP-Adressen auszuführen.\cite{IkeeExploit2009}. Eine
-			unter dem Namen \textsl{Ikee.B} veränderte Variante stahl Inhalte des Gerätes und
-			machte dieses zum Zombie und somit Teil eines Botnetzes.
+			Programm lediglich das Standardpasswort \textsl{alpine} des bei jailbroken
+			meist mit installierten SSH Dienstes, deaktivierte bei erfolgreichem login
+			den SSH Dienst und versuchte dann das Skript auf zufällig ausgewählten
+			IP-Adressen auszuführen.\cite{IkeeExploit2009}. Eine unter dem Namen
+			\textsl{Ikee.B} veränderte Variante stahl Inhalte des Gerätes und machte
+			dieses zum Zombie und somit Teil eines Botnetzes.
 		\subsubsection{SpyPhone}
+			%TODO: maybe reference to equal android example???
 			Diese App wurde vom Author Seriot Nicolas als
 			\textsl{proof of concept} erstellt. Dabei nutzte er nur die gegebenen
 			legitimen API's zum Erstellen von Apps für den AppStore. Obwohl diese App
@@ -98,6 +104,7 @@
 			\end{itemize}
 			
 	\subsection{Jailbreaking}\label{sec:jailbreaking}
+		%TODO: check writing
 		Der aus dem englischsprachligen Raum stammende Begriff bezeichnet unter iOS
 		das gezielte Aushebeln der von Apple vorgegebenen Restriktionen. Oft werden
 		dabei eigene Paketverwaltungstools wie
@@ -111,21 +118,21 @@
 		und arbeiten autark. Das Prinzip des Jailbreakings ist dabei immer das selbe:
 		es wird mit Hilfe eines Exploits das System kompromittiert. Zu Beginn wurden oft
 		Hardwarefehler ausgenutzt, die während des
-		DFU-Modus (siehe: Kapitel \ref{sec:components-syssec}) installiert wurden.
+		DFU-Modus (Kapitel \ref{sec:components-syssec}) installiert wurden.
 		Später kamen \textsl{Userland-Exploits} dazu, welche während dem
 		laufenden Betrieb von iOS gestartet werden und sich Schwachstellen im
 		Betriebssystem zu nutze machen.
 		%TODO: extend this section with more details
 	
 	\subsection{Vorteile der Proprietät}
-		Obwohl der Nutzer unter iOS dazu gezwungen wird, sich den Vorgaben zu beugen,
-		hat es auch seine Vorteile, dies zu akzeptieren. So sind bei aktivem Jailbreak
-		Sicherheitsmechanismen wie die Signaturprüfung (siehe: Kapitel
+		Obwohl der Nutzer unter iOS dazu gezwungen wird, sich den Vorgaben durch Apple
+		zu beugen, hat es auch seine Vorteile, dies zu akzeptieren. So sind bei
+		aktivem Jailbreak Sicherheitsmechanismen wie die Signaturprüfung (Kapitel
 		\ref{sec:code-signing}), oder die Apple Secure Boot	Chain (siehe: Kapitel
-		\ref{sec:secure-boot-chain}) modifiziert beziehungsweise deaktiviert worden,
-		was ein enormes Sicherheitsrisiko darstellen kann. Außerdem haben uns Exploits
-		wie Ikee (siehe: Kapitel \ref{sec:ikee-exploit}) gezeigt, dass zu viel Macht
-		an falscher Stelle verbunden mit Unwissenheit meist mehr Schaden anrichtet,
-		statt Erleichterung zu schaffen. Das BSI warnt zudem in einem Überblickspapier
-		zu iOS offiziell vor dem Einsatz von
-		Jailbreaks.\cite{BSIJailbreak2013}
+		\ref{sec:secure-boot-chain}) möglicherweise modifiziert beziehungsweise
+		deaktiviert worden, was ein enormes Sicherheitsrisiko darstellen kann.
+		Außerdem haben uns Exploits wie Ikee (Kapitel \ref{sec:ikee-exploit})
+		gezeigt, dass zu viel Macht an falscher Stelle, verbunden mit Unwissenheit,
+		meist mehr Schaden anrichtet, als Besserung zu bringen. Das BSI warnt
+		zudem in einem Überblickspapier zu iOS offiziell vor dem Einsatz von
+		Jailbreaks\cite{BSIJailbreak2013}.

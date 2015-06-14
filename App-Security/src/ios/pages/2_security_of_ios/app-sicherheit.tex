@@ -2,37 +2,40 @@
 	Mobile Betriebssysteme bauen zum größten Teil auf Applikationen - weiter
 	\textsl{Apps} genannt - auf, welche die produktive Nutzung eines mobilen
 	Endgerätes erheblich verbessern können. Dabei ist es allerdings
-	essentiell, dass diese Apps korrekt vom Betriebssystem behandelt werden, da
-	andernfalls die Systemsicherheit, die Stabilität oder gar die Nutzerdaten
+	essentiell, dass diese Apps korrekt durch das Betriebssystem behandelt werden,
+	da andernfalls die Systemsicherheit, die Stabilität oder gar die Nutzerdaten
 	gefährdet werden können. Wie bereits im Kapitel \ref{sec:components-syssec}
 	Systemsicherheit vorgestellt, wird auch hier eine Art
-	Schichtensystem angewendet, um eine Signierung und Verifikation, sowie ein
-	Sandboxing der Apps sicherzustellen.
+	Schichtensystem angewandt, um eine Signierung und Verifikation (Kapitel:
+	\ref{sec:appsigning}), sowie ein Sandboxing (Kapitel \ref{sec:sandboxing}) der
+	Apps sicherzustellen.
 	
-	\subsection{Signieren von Applikationen}
+	\subsection{Signieren von Applikationen}\label{sec:appsigning}
 		Nach dem Start des iOS Kernels, stellt dieser sicher, welche Nutzerprozesse
 		und Apps gestartet werden dürfen. Dazu werden diese auf eine Signierung durch
 		ein von Apple ausgestelltes Zerifikat geprüft. Das zwingende Vorhandensein
-		dieses Zertifikats stellt eine Adaption der \textsl{chain of trust} (siehe:
-		Kapitel \ref{sec:secure-boot-chain}) auf die Applikationsebene dar. So muss
-		jeder private Entwickler als auch jedes Unternehmen seine Identität bei Apple
-		verifizieren, bevor ein Entwicklerzertifikat von Apple für diese ausgestellt
-		wird. Somit ist sicher gestellt, dass jede App im AppStore auf eine
-		Privatperson zurückzuführen ist, was auch ein gesteigertes Vertrauen der
-		Nutzer in die Qualität der Apps zur Folge hat.\\
-		Allerdings muss an diesem Punkt erwähnt werden, dass Apple Ausnahmen dieser
-		Verifikation in Form des \textsl{iOS Developer Enterprise
+		dieses Zertifikats stellt eine Adaption der \textsl{chain of trust} (Kapitel
+		\ref{sec:secure-boot-chain}) auf die Applikationsebene dar. So muss jeder
+		Entwickler, egal ob Privatperson oder Unternehmen die eigene Identität
+		bei Apple verifizieren, bevor ein Entwicklerzertifikat von Apple für diese
+		ausgestellt wird. Somit ist sicher gestellt, dass jede App im AppStore auf 
+		eine Person oder ein Unternehmen zurückzuführen ist, was auch ein
+		gesteigertes Vertrauen der Nutzer in die Qualität der Apps zur Folge hat.\\
+		Allerdings muss an diesem Punkt erwähnt werden, dass Apple Ausnahmen dieses
+		Verifikationsprozesses in Form des \textsl{iOS Developer Enterprise
 		Program}\cite{AppleDevProg2015}
 		erlaubt und so Apps auch ohne das Veröffentlichen im AppStore auf iOS Geräte
 		installiert werden können. Dabei prüft Apple das anfragende Unternehmen auf
+		%TODO: add footmark of DUNS
 		Eignung durch deren D-U-N-S Nummer - einem Zahlensystem zur eindeutigen
 		Identifizierung von Firmen. Populär wurde eine jüngste Ausnutzung dieses
-		Privileges, bei welcher über eine Webseite bei Einwilligung eine App
-		installiert wird, welche dann ein Abonnement verkaufen will
-		\cite{HeiseCheatApp2015}. Apple dachte diese Möglichkeit nur für
-		Firmen, die ihr eigenes Mobile Device Management betreiben, an. Hier wurde
-		also entweder der ausstellende Account gekapert oder diese Lizenz vom
-		Eigentümer schlichtweg missbraucht.\\
+		Privileges, bei welcher über eine Webseite die der Nutzer mit seinem iOS
+		Gerät besucht ein Dialog erscheint, der bei Einwilligung eine App
+		installiert, welche dann ein Abonnement verkaufen will
+		\cite{HeiseCheatApp2015}. Apple dachte diese Möglichkeit nur für Firmen, die
+		ihr eigenes Mobile Device Management betreiben, an. Hier wurde also entweder
+		der ausstellende Account gekapert oder diese Lizenz vom Eigentümer
+		schlichtweg missbraucht.\\
 		Ab iOS 8 wird es Entwicklern erlaubt in ihren Apps Frameworks zu verwenden. Um
 		hier ein Laden von unsigniertem Code zu verhindern, wird beim Start einer App
 		die \textsl{Team-ID} geprüft - ein 10 stelliger alphanumerischer String,
@@ -40,18 +43,21 @@
 		Eine App darf nur Code laden, welcher entweder vom System kommt, oder die selbe
 		Team-ID besitzt. Weiterhin ist es unter iOS untersagt Apps von ungeprüften
 		Drittanbietern zu installieren. Dazu wird vom System zur Laufzeit die
+		%TODO: check if really signature or some kind of checksum??!!
 		Signatur der App mit denen der letzten Änderung verglichen.
 		
 	\subsection{Schutz zur Laufzeit}
 		Apple realisierte mehrere Sicherheitsmaßnahmen, um Applikationen und System zu
-		schützen. In diesem Kapitel werde ich diese erläutern.
+		schützen. Diese werden vom Author in diesem Kapitel erläutert und 
+		beschrieben.
 		
-		\subsubsection{Sandboxing} 
+		\subsubsection{Sandboxing}\label{sec:sandboxing}
 			Sobald eine App erfolgreich durch einen gültigen Author verifiziert wurde,
+			%TODO: add the directory in which the app got moved to be in a valid sandbox!
 			wird von iOS eine \textsl{Sandbox} geschaffen, was die Domäne der App
 			darstellt. Alle Drittanbieter und die meisten Systemapps laufen unter dem
-			Unix Benutzer \textsl{mobile}, welcher mit minimalen Rechten ausgestattet
-			ist.
+			Unix Benutzer \textsl{mobile}, welcher mit minimal nötigen Rechten
+			ausgestattet ist, um alle nötigen Apps starten zu können.
 			\begin{figure}[h]
 				\centering
 				\includegraphics[width=0.9\linewidth]{ios/media/sandboxing.png}
@@ -59,24 +65,27 @@
 				\cite{IOSSandboxing}}
 				\label{fig:sandboxing}
 			\end{figure}
-			Von dort ist es ihr nicht möglich Daten anderer Drittanbieter- oder
-			Systemapps zu erreichen. Jede App hat ein bei der Installation zufällig
-			zugewieses Home-Verzeichnis, in welchem Sie ihre Dateien hält. Wenn
-			andere als die eigenen Daten benötigt werden, wird dies nur mit vom System
-			vorgeschriebenen APIs ermöglicht. Zu Beginn war dies offiziell nicht
-			vorgesehen und so hat sich die Entwicklergemeinde selbst einen Weg in Form von
-			\textsl{URL-Schemas} gebahnt. Später kam eine weitere Möglichkeit mit dem
-			Nutzen einer gemeinsamen \textsl{Key-Chain} pro AppGroup
-			dazu\cite[S.83]{Banks2015}.
+			Aufgrund der virtuellen Sperre durch die Sandbox ist es einer App nicht
+			möglich Daten anderer Drittanbieter- oder Systemapps anzusprechen. Jede App
+			%TODO: what does random mean??
+			hat ein zufälliges bei der Installation zugewieses Home-Verzeichnis, in
+			welchem Sie ihre Dateien hält. Wenn andere als die eigenen Daten benötigt
+			werden, wird dies nur mit vom System vorgeschriebenen APIs ermöglicht. Zu
+			Beginn war dies offiziell nicht vorgesehen und so hat sich die
+			Entwicklergemeinde selbst einen Weg in Form von \textsl{URL-Schemas}
+			gebahnt. Später kam eine weitere Möglichkeit mit dem Nutzen einer
+			%TODO: explain AppGroup!
+			gemeinsamen \textsl{Key-Chain} pro AppGroup dazu\cite[S.83]{Banks2015}.
 				
 		\subsubsection{Entitlements}
+			%TODO: check Entitlements for more possible infos!
 			Einen weiteren Schutz zur Laufzeit stellen sogenannte \textsl{Entitlements}
 			dar, mit denen der Zugriff auf iCloud, Push	Notifications und
 			Nutzerinformationen geregelt wird. Da diese digital signiert sind, können Sie
 			nicht verändert werden. Systemapps und Hintergrundprozesse nutzen diese
-			Berechtigung besonders oft, da dies verhindert, dass der relevante Prozess als
-			root laufen muss. Zusätzlich verringert dies das Risiko einer ungewollten
-			Rechteerweiterung durch einen manipulierten Hintergrundprozess oder einer
+			Berechtigung besonders oft, da dies verhindert, dass der relevante Prozess
+			mit Root-Rechten laufen muss. Zusätzlich verringert dies das Risiko einer
+			ungewollten Rechteerweiterung durch einen manipulierten Hintergrundprozess oder einer
 			Systemapp.
 		
 		\subsubsection{ASLR}
@@ -84,8 +93,10 @@
 			randomization}\cite[S.1]{iOS4SecurityEvalutaion} ab iOS 4.3 eingeführt. Dies
 			weist Programmen zufällige Speicheradressen zu. Somit sollen Angriffe die auf
 			Speicherüberläufen basieren verhindert werden\cite[S.131]{Levin2012}. Jedoch
-			wird nur der Heap und die Bibliotheken der App durch ASLR geschützt, wenn
-			die App nicht mit einer Unterstützung für \textsl{Position Independent
+			wird nur der Heap und die Bibliotheken der App durch
+			ASLR\footnote{ASLR: Address space layout randomization}
+			%TODO: shortly explain PIE!
+			geschützt, wenn die App nicht mit einer Unterstützung für \textsl{Position Independent
 			Executables} compiliert wurde.
 			\begin{figure}[h]
 				\centering

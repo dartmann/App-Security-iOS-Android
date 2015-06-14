@@ -1,8 +1,9 @@
 \section{Härten von iOS}
-	Trotz aller vorhandenen Hilfsmittel sollte man nicht auf die Sicherheit von iOS
-	vertrauen. Deshalb liste ich abschließend je ein Unterkapitel für Entwickler
-	und für Endnutzer, in welchen mögliche Verbesserungen für die
-	Entwicklung einer App oder für das Einrichten von iDevices gelistet werden.
+	Trotz aller vorhandenen Hilfsmittel sollte man nicht allein auf die Sicherheit
+	von iOS vertrauen. Deshalb listet der Author abschließend je ein Unterkapitel
+	für Entwickler und für Endnutzer, in welchen mögliche Verbesserungen für die
+	Entwicklung einer App oder für das Einrichten von iOS Geräten aufgezeigt
+	werden.
 	\subsection{Relevantes für den Entwickler}
 		Der Entwickler ist verantwortlich für die Sicherheit seiner Anwendung und
 		sollte jegliche mögliche Option der zusätzlichen Absicherung seiner
@@ -10,9 +11,9 @@
 		Auflistung der wichtigsten Maßnahmen zum Schutz der eigens entwickelten App
 		dar. An dieser Stelle gilt es zu erwähnen, dass es sich hier nicht um nicht
 		alle Möglichkeiten handelt und vor allem, dass keine Applikation absolut
-		sicher gemacht werden kann. Ein Einsetzen der folgenden Herangehensweisen
-		steigert die Sicherheit aber dennoch und kann die Zeit, welche für einen
-		erfolgreichen Angriff nötig ist, um ein Vielfaches erhöhen.
+		sicher gemacht werden kann. Aber zieht man die folgenden Herangehensweisen in
+		Betracht, kann dies die Sicherheit einer App steigern und die
+		Zeit enorm erhöhen, welche für einen erfolgreichen Angriff nötig ist.
 		\subsubsection{Passwortstärke}
 			Die Verschlüsselung ist eine der wichtigsten Arten seine Daten zu schützen,
 			aber auch die kritischste, wenn es um die Implementierung geht. Daher richten
@@ -31,16 +32,16 @@
 			(3CC oder auch CCCrypt) eine Möglichkeit auf C-Ebene 
 			Verschlüsselungsalgorithmen wie AES, DES oder 3DES einzusetzen. Dabei bietet
 			3CC je nach eingesetztem Algorithmus Block- beziehungsweise Stromchiffre an.
-			Zusätzlich wird mit dem \textsl{Cipher Block Chaining} (CBC) eine
+			Zusätzlich wird mit dem \textsl{Cipher Block Chaining} eine
 			Möglichkeit angeboten, um Man-In-The-Middle, sowie Replay-Angriffe zu
-			verhindern. Dies ist möglich, da bei CBC jeder Klartext-Block mit dem
-			vorherigen verschlüsselten Chiffre XOR-verknüpft wird und anschließend
+			verhindern. Dies ist möglich, da bei CBC\footnote{Cipher Block Chaining: CBC}
+			jeder Klartext-Block mit dem vorherigen verschlüsselten Chiffre XOR-verknüpft wird und anschließend
 			ebenfalls chiffriert wird. Somit ist jeder Block von der bisherigen Ketten
 			verschlüsselter Daten abhängig.
 		\subsubsection{Sicherung des Hauptschlüssels}\label{sec:master-key}		
 			Falls ein Master-Key - also ein übergeordneter Schlüssel - zur
 			Verschlüsselung eingesetzt wird, sollte dieser zwingend ebenso verschlüsselt
-			werden. Das National Institute of Standards and Technology (NIST)
+			werden. Das National Institute of Standards and Technology
 			empfiehlt\cite{NISTPBKDF2010} dazu Passwort basierte 
 			Schlüsselableitungsfunktionen (Password-Based Key Derivation Function),
 			allgemein unter dem Kürzel \textsl{PBKDF2} bekannt.
@@ -51,11 +52,13 @@
 			Master-Key nie geändert werden muss. Wenn der Nutzer beispielsweise sein
 			Passwort ändert, muss der Master-Key nur mit dem neuen Passwort abgeleitet
 			über die PBKDF verschlüsselt werden. Außerdem ist es bei diesem Ansatz
-			möglich mehrere Kopien des Hauptschlüssel in verschiedenen Wegen
-			abgespeichert werden können. Ein Anwendungsbeispiel stellt die
+			möglich mehrere Kopien des Hauptschlüssel auf verschiedenen Wegen
+			abzuspeichern. Ein Anwendungsbeispiel stellt die
 			Verwendung von Rücksetzungsmechanismen von Passwörtern dar, wobei der
 			Benutzer aufgefordert wird die Antwort auf eine bestimmte Frage zu geben,
-			welche er zur Erstellung des Passwortes festgelegt hat.
+			welche er zur Erstellung des Passwortes festgelegt hat. Hier wird der
+			Master-Key also einmal mit der Passphrase des Nutzers verschlüsselt und
+			einmal mit der Antwort der Sicherheitsfrage.
 		\subsubsection{Lokations- und Tempusberücksichtigung}
 			Sogenannte Geo-Encryption bringt einen weiteren Faktor in die Kette der
 			möglichen Verbesserungen des Schutzes für unsere Applikation. Damit wird
@@ -68,45 +71,46 @@
 			Abhängigkeit im Entschlüsselungsprozess dar. Hierbei werden zwei Schlüssel
 			beim erstmaligen Start der Applikation erzeugt und mit einander
 			XOR-verknüpft. Dieses Ergebnis wird dann zum Verschlüsseln des
-			Hauptschlüssels (siehe: \ref{sec:master-key}) verwendet. Einer der beiden
-			Schlüssel wird durch die Passphraseeingabe des Nutzers erzeugt wird und der
-			andere ein Zufallswert ist, welcher an einen entfernten Server geschickt
-			wird. Beim Start der App muss sich der Benutzer sowohl durch seine
-			gewählte Passphrase lokal authentifizieren, als auch beim Server anmelden, um
-			den dort gespeicherten Zufallswert zu erhalten. Diese beiden Werte werden
+			Hauptschlüssels (Kapitel \ref{sec:master-key}) verwendet. Einen Anteil des
+			Schlüssels stellt die Passphrase des Nutzers dar. Die andere ein
+			erzeugter Zufallswert, welcher an einen entfernten Authorisierungsserver
+			geschickt wird. Beim Start der App muss sich der Benutzer sowohl durch seine
+			gewählte Passphrase lokal Authentifizieren, als auch beim Server anmelden,
+			um den dort gespeicherten Zufallswert zu erhalten. Diese beiden Werte werden
 			anschließend XOR-verknüpft, um damit den Master-Key zu entschlüsseln, mit
-			welchem die Daten entschlüsselt werden. Falls ein Gerät als
-			gestohlen vermutet wird, kann hier einfach der Serverseitige Schlüssel verworfen
+			welchem die Daten entschlüsselt werden. Falls ein Gerät als gestohlen
+			vermutet wird, kann hier einfach der Serverseitige Schlüssel verworfen
 			werden und jegliche Bemühungen des Angreifers, an die Daten zu kommen, wären
 			vergebens.
 		\subsubsection{Manipulationsschutz}
 			Wenn ein Gerät gestohlen wurde, gibt es verschiedene Möglichkeiten den
-			Schaden minimal zu halten und weiteren zu verhindern. Das löschen von lokalen
+			Schaden minimal zu halten und weiteren zu verhindern. Das Löschen von lokalen
 			Benutzerdaten zählt zu diesen Maßnahmen. Dabei muss im Idealfall nur der
 			Master-Key, welcher die relevanten Daten verschlüsselt,	überschrieben,
 			beziehungsweise gelöscht werden und die Nutzerdaten sind unwiederherstellbar
-			für den Angreifer. Diese Herangehensweise ist unauffälliger, als
-			beispielsweise ein komplettes "`Nullen"' der Datenbank und kostet den
-			Angreifer frustrierende Zeit.\\
+			für den Angreifer(Vergleiche Kapitel \ref{sec:filesecurity}). Diese
+			Herangehensweise ist unauffälliger, als beispielsweise ein komplettes
+			"`Nullen"' der Datenbank und kostet den Angreifer frustrierende Zeit.\\
 			Im Falle einer Manipulation muss davon ausgegangen werden, dass der Benutzer
-			nicht mehr vertrauenswürdig ist. Somit sollte eine eventuell vorhandene
-			Anbindung an entfernte Resourcen (z.B. Server, welche Daten für die App
-			speichern) unterbrochen werden. Dies kann bereits mit dem Setzen eines Flags
-			in einer Konfigurationsdatei, oder dem Deaktivieren der Credentials des
-			Nutzers auf Serverseite realisiert werden. Auf diese Weise handeln wir
-			präventiv gegen weitere Schäden, ohne dass der Angreifer davon etwas
-			erfährt.\\
+			nicht mehr vertrauenswürdig ist. Somit sollte parallel zur Löschung der
+			lokalen Daten eine eventuell vorhandene Anbindung an entfernte Resourcen
+			(zum Beispiel Server, welche Daten für die App speichern) unterbrochen
+			werden.	Dies kann bereits mit dem Setzen eines Flags in einer
+			Konfigurationsdatei, oder dem Deaktivieren der Credentials des Nutzers auf
+			Serverseite realisiert werden. Auf diese Weise handeln wir präventiv gegen
+			weitere Schäden, ohne dass der Angreifer davon etwas erfährt.\\
 		\subsubsection{Jailbreakerkennung}
 			Es kann erwünscht sein, dass die entwickelte App nicht auf
-			\textsl{jailbroken} iOS Geräten installiert werden darf. Da man sich bei
-			diesen Geräten nicht mehr auf den nativen von iOS gegebenen Schutz (siehe:
-			Kapitel \ref{sec:components-syssec}) verlassen kann (siehe: Kapitel
-			\ref{sec:jailbreaking}). Diese Erkennung wird über einen
-			Integritätstest der Sandbox mit dem Ausführen des Befehls \textsl{fork}
-			getestet\cite[S.328]{Zdziarski2012}. Dieser erlaubt der App einen
-			Kinds-Prozess zu starten. Wenn die Sandbox kompromittiert wurde, oder die App
-			außerhalb dieser läuft, wird die Operation erfolgreich ausgeführt. Folgender
-			Programmcodeauszug zeigt besagten Vorgang:
+			jailbroken\footnote{Jailbroken: bezeichnet Geräte auf denen ein Jailbreak
+			installiert ist} iOS Geräten installiert werden darf.
+			Da man sich bei diesen Geräten nicht mehr auf den nativen von iOS gegebenen Schutz (Kapitel
+			\ref{sec:components-syssec}) verlassen kann (Kapitel \ref{sec:jailbreaking}).
+			Diese Erkennung wird über einen Integritätstest der Sandbox mit dem
+			Ausführen des Befehls \textsl{fork} getestet\cite[S.328]{Zdziarski2012}.
+			Dieser erlaubt der App einen Kinds-Prozess zu starten. Wenn die Sandbox
+			kompromittiert wurde, oder die App außerhalb dieser läuft, wird die
+			Operation erfolgreich ausgeführt. Folgender Programmcodeauszug zeigt
+			besagten Vorgang:
 			\lstdefinestyle{customc}{
 				belowcaptionskip=1\baselineskip,
 			  	breaklines=true,
