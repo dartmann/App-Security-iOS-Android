@@ -41,6 +41,10 @@
 \renewcommand{\bibname}{Literatur}
 %Festlegung des Zitierstiles
 \bibliographystyle{plain}
+%Inhaltsverzeichnis Tiefe erweitern
+\setcounter{tocdepth}{5}
+%Nummerierung Tiefe erweitern
+\setcounter{secnumdepth}{5}
 
 %\makeatletter
 %\newcommand\footnoteref[1]{\protected@xdef\@thefnmark{\ref{#1}}\@footnotemark}
@@ -62,12 +66,12 @@
 	\newpage
 	\input{general/preface/vorwort.tex}
 	
-	%Das Android Betriebssystem 
 	\newpage
+	%Kapitel: Betriebssystem
+	\section{Betriebssystem}
+	%Das Android Betriebssystem
 	\input{android_pages/Das_Android_Betriebssystem.tex}
-	
 	%Das iOS Betriebssystem
-	\newpage
 	\input{ios/pages/1_introduction/das_ios_betriebssystem.tex}
 	
 	%Apple's law enforcement process guidelines
