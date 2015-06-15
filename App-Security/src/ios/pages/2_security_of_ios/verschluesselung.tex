@@ -1,9 +1,9 @@
-\section{Verschlüsselung unter iOS}
+\subsection{iOS}
 	In diesem Kapitel werden die Kryptographie von iOS genauer vor gestellt.
 	Dazu geht der Author zu Beginn auf eingesetzte Hardware ein und anschließend
 	auf die logische Ebene mit einem Fokus auf Dateizugriff.
-	\subsection{Kryptographische Hardware}\label{sec:crypto-engine}
-		Für eine native Verschlüsselung sorgt in jedem iOS Gerät eine 256 bit
+	\subsubsection{Kryptographische Hardware}\label{sec:crypto-engine}
+		Für eine native Verschlüsselung sorgt in jedem iOS Gerät eine 256-Bit
 		basierte AES Hardware-Engine, welche zwischem dem Flash	Speicher und dem
 		Systemspeicher liegt. Diese Positionierung sorgt für hohe Performance und
 		niedrige Latenzen beim Verschlüsseln von Dateien. Die geräteeigene Unique ID
@@ -25,7 +25,7 @@
 		weitere bei Kryptografischen Operationen benötigte Schlüssel werden von einem
 		Random Number Generator (RNG) mit einem auf	CTR\_DRBG\cite{NISTDRBG2012}
 		basierenden Algorithmus erzeugt.
-	\subsection{Schutz auf Dateiebene}\label{sec:filesecurity}
+	\subsubsection{Schutz auf Dateiebene}\label{sec:filesecurity}
 		Zusätzlich zur Hardwareverschlüsselung nutzt iOS ein Feature namens \textsl{Data
 		Protection} um Daten im Flash Speicher zu schützen. Dieser Mechanismus
 		wird bei allen System Apps und ab iOS 7 auch bei Drittanbieter Apps

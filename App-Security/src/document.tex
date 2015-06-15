@@ -62,29 +62,39 @@
 	%Abbildungsverzeichnis
 	\listoffigures
 	
+	%-----------------------------------
 	%Vorwort
+	%-----------------------------------
 	\newpage
 	\input{general/preface/vorwort.tex}
 	
-	\newpage
+	%-----------------------------------
 	%Kapitel: Betriebssystem
-	\section{Betriebssystem}
+	%-----------------------------------
+	\newpage
+	\input{general/betriebssystem/betriebssystem.tex}
 	%Das Android Betriebssystem
 	\input{android_pages/Das_Android_Betriebssystem.tex}
 	%Das iOS Betriebssystem
 	\input{ios/pages/1_introduction/das_ios_betriebssystem.tex}
 	
-	%Apple's law enforcement process guidelines
-	\newpage
-	\input{ios/pages/1_introduction/apple_law_enforcement.tex}
-	
 	%Grundlegender Aufbau einer Android App
 	\newpage
 	\input{android_pages/Grundlegender_Aufbau_einer_Android_App}
+	%TODO: app structure of ios
 	
 	%Sicherheitsarchitektur iOS
 	\newpage
 	\input{ios/pages/2_security_of_ios/systemsicherheit.tex}
+	
+	%-----------------------------------
+	%Kapitel: Verschlüsselung
+	%-----------------------------------
+	\newpage
+	\input{general/verschlüsselung/verschlüsselung.tex}
+	%Verschlüsselung unter Android
+	\input{android_pages/verschlüsselung_android.tex}
+	%Verschlüsselung unter iOS
 	\input{ios/pages/2_security_of_ios/verschluesselung.tex}
 	
 	%Sicherheit Android
