@@ -53,7 +53,7 @@
 %Dokumentbeginn
 \begin{document}
 	
-	\input{general/titlepage.tex}
+	\input{general/pages/titlepage.tex}
 
 	%Inhaltsverzeichnis
 	\tableofcontents
@@ -66,36 +66,41 @@
 	%Vorwort
 	%-----------------------------------
 	\newpage
-	\input{general/preface/vorwort.tex}
+	\input{general/pages/preface/vorwort.tex}
 	
 	%-----------------------------------
 	%Kapitel: Betriebssystem
 	%-----------------------------------
 	\newpage
-	\input{general/betriebssystem/betriebssystem.tex}
+	\input{general/pages/betriebssystem/header.tex}
 	%Das Android Betriebssystem
 	\input{android_pages/Das_Android_Betriebssystem.tex}
 	%Das iOS Betriebssystem
-	\input{ios/pages/1_introduction/das_ios_betriebssystem.tex}
+	\input{ios/pages/1_betriebssystem/das_ios_betriebssystem.tex}
 	
-	%Grundlegender Aufbau einer Android App
+	%-----------------------------------
+	%Kapitel: Applikationsaufbau
+	%-----------------------------------
 	\newpage
+	\input{general/pages/app-aufbau/header.tex}
+	%Aufbau einer Android App
 	\input{android_pages/Grundlegender_Aufbau_einer_Android_App}
-	%TODO: app structure of ios
+	%Aufbau einer iOS App
+	\input{ios/pages/2_app-aufbau/app-aufbau.tex}
 	
 	%Sicherheitsarchitektur iOS
 	\newpage
-	\input{ios/pages/2_security_of_ios/systemsicherheit.tex}
+	\input{ios/pages/3_sicherheit/systemsicherheit.tex}
 	
 	%-----------------------------------
 	%Kapitel: Verschlüsselung
 	%-----------------------------------
 	\newpage
-	\input{general/verschlüsselung/verschlüsselung.tex}
+	\input{general/pages/verschlüsselung/header.tex}
 	%Verschlüsselung unter Android
 	\input{android_pages/verschlüsselung_android.tex}
 	%Verschlüsselung unter iOS
-	\input{ios/pages/2_security_of_ios/verschluesselung.tex}
+	\input{ios/pages/3_sicherheit/verschluesselung.tex}
 	
 	%Sicherheit Android
 	\newpage 
@@ -103,11 +108,11 @@
 	
 	%Applikationssicherheit unter iOS
 	\newpage
-	\input{ios/pages/2_security_of_ios/app-sicherheit.tex}
+	\input{ios/pages/3_sicherheit/app-sicherheit.tex}
 	
 	%Proprietaet und undokumentierte Dienste
 	\newpage
-	\input{ios/pages/3_proprietary_and_opensource/proprietaet.tex}
+	\input{ios/pages/4_proprietaer-und-opensource/proprietaet.tex}
 	
 	%Rooting von Android Geräten
 	\newpage
@@ -122,7 +127,7 @@
 	
 	%Härten von iOS
 	\newpage
-	\input{ios/pages/4_hardening/haerten.tex}
+	\input{ios/pages/5_haerten/haerten.tex}
 	
 	%Härten von Android
 	\newpage
@@ -130,7 +135,7 @@
 	
 	%Schlusswort
 	\newpage
-	\input{general/conclusion/conclusion.tex}
+	\input{general/pages/conclusion/conclusion.tex}
 
 	%Referenzen zum Ende
 	%bibtex referenzen
