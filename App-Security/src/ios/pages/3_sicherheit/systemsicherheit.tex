@@ -53,8 +53,8 @@ iOS}\label{sec:components-syssec}
 		Anti-Replay Wert und die eindeutige ID des Gerätes
 		verschickt. Die Clientdaten werden gegen eine Auflistung authorisierter Hardware, für die ein
 		Update genehmigt sind, geprüft. Bei Übereinstimmung wird die eindeutige
-		ECID\footnote{ECID: Exclusive Chip ID - eine einzigartige ID eines iOS
-		Gerätes} zu den Informationen hinzugefügt und das Ergebnis signiert, was einer Personalisierung der Daten gleicht.
+		ECID\footnote{ECID: Exclusive Chip ID - eine einzigartige 64-Bit ID auf jedem
+		iOS Gerät} zu den Informationen hinzugefügt und das Ergebnis signiert, was einer Personalisierung der Daten gleicht.
 		Anschließend werden alle nötigen Daten vom Server signiert und zum Gerät
 		geschickt. Die sichere Startkette von Prozessen (Kapitel
 		\ref{sec:secure-boot-chain}) verifiziert die Signatur der empfangenen Daten
@@ -70,20 +70,21 @@ iOS}\label{sec:components-syssec}
 		vor. Er verwendet seinen eigenen sicheren Startvorgang, ist separiert vom
 		Applikations Prozessor und verwendet verschlüsselten Speicher, sowie einen
 		Hardware Zufallszahlen Generator. Die Technologie basiert auf ARM's
-		TrustZone\cite{TrustZone2015}
-		und wurde von Apple für die eigenen Ansprüche angepasst. Der Kernel dieser
-		Einheit basiert auf der L4
-		Mikrokernel-Familie\cite{L4MicroKernel2015} mit leichten
-		Modifikationen. Die auf Interrupts basierende Kommunikation zwischen dem
-		Applikationsprozessor und dem Secure Enclave läuft über einem nur den beiden zur Verfügung stehenden Speicherbereich.
+		TrustZone\cite{TrustZone2015} und wurde von Apple für die eigenen Ansprüche
+		angepasst. Der Kernel dieser Einheit basiert auf der L4
+		Mikrokernel-Familie\cite{L4MicroKernel2015} mit leichten Modifikationen. Die
+		auf Interrupts basierende Kommunikation zwischen dem Applikationsprozessor
+		und dem Secure Enclave läuft über einem nur den beiden zur Verfügung
+		stehenden Speicherbereich.
 		Der SE\footnote{SE: Secure Enclave - Co-Prozessor von iOS Geräten} ist
-		verantwortlich für das Schlüssel Management der Datenverschlüsselung und stellt die Integrität dieser sicher, auch wenn der
-		Kernel des iOS Systems kompromitiert ist. Beim Herstellungsprozess erhält
-		jeder SE eine einzigartige ID, auf welche nur er zugreifen kann. Selbst Apple,
-		oder anderen an der Produktionskette beteiligten Herstellern ist diese nicht bekannt.
-		Mit dieser UID\footnote{UID: Unique ID - einzigartige in Hardware gegossene ID
-		eines iOS Gerätes} wird beim Systemstart der Speicherbereich des SE zusammen mit einem
-		einmaligen Schlüssel verschlüsselt.
+		verantwortlich für das Schlüssel Management der Datenverschlüsselung und
+		stellt die Integrität dieser sicher, auch wenn der Kernel des iOS Systems
+		kompromitiert ist. Beim Herstellungsprozess erhält jeder SE eine einzigartige
+		ID, auf welche nur er zugreifen kann. Selbst Apple, oder anderen an der
+		Produktionskette beteiligten Herstellern ist diese nicht bekannt.
+		Mit dieser UID\footnote{UID: Unique ID - pro iOS Gerät einzigartiger,
+		in Hardware gegossener 256-Bit AES Schlüssel} wird beim Systemstart der
+		Speicherbereich des SE zusammen mit einem einmaligen Schlüssel verschlüsselt.
 		Zusätzlich werden jegliche vom SE in den Speicher geschriebene Daten mit der
 		UID und einem Anti-Replay Zufallswert verschlüsselt. Eine der Hauptaufgaben
 		des Secure Enclave ist die verarbeitung der Fingerabdruck-Daten des Touch ID
@@ -99,21 +100,18 @@ iOS}\label{sec:components-syssec}
 		Verschlüsselungsverfahren zum Ummanteln von Schlüsseln} realisiert.
 		Dabei erzeugen beide Seiten einen zufälligen Schlüssel, welche den Sitzungsschlüssel bilden.
 		Zum verschlüsselten Transport wird AES-CCM\footnote{CCM: Counter with CBC -
-		ein Verfahren, um Blockchiffren mit Integrität und Vertraulichkeit zu
-		versehen} genutzt.
+		ein Verfahren, um Blockchiffren mit Integrität zu versehen} genutzt.
 	\subsubsection{Touch ID}\label{sec:touch_id}
 		Touch ID bezeichnet den Fingerabdrucksensor der in allen iPhone 5s und neuer
 		, sowie iPad Air 2 und iPad mini 3 verbaut ist. Es können bis zu 5
-		%TODO: check if advantage is the locking or maybe ENCRYPTION, when s/w-button
-		% is pressed
-		Fingerabdrücke gespeichert werden. Eine der größten Vorteile dabei ist das
-		sofortige Sperren des Gerätes beim drücken des Sleep/Wake-Buttons. Dies gilt
-		auch bei aktiviertem Passcode. Vor der Einführung von Touch ID haben viele
-		%TODO: details of Passcode in footmark, or in sentence after mention it?
-		Nutzer eine möglichst lange Zeit eingestellt, bis das Eingeben des Passcodes
-		nötig wurde, nachdem das Gerät gesperrt wurde. Dies entfällt nun bei
-		aktivierter Touch ID, da der Nutzer nur noch mit seinem Finger Entsperren
-		muss.
+		Fingerabdrücke gespeichert werden. Einer der größten Vorteile ist das
+		sofortige Sperren des Gerätes beim Drücken des Sleep/Wake-Buttons. Vor der
+		Einführung von Touch ID haben viele Nutzer eine möglichst lange Zeit
+		eingestellt, bis das Eingeben des \textsl{passcode}\footnote{passcode -
+		Passwort für den Zugang zu einem iOS Gerät, entweder simple (4 Zahlen), oder
+		komplex ((Sonder-)Zeichen und Zahlen)} nötig wurde, nachdem das Gerät gesperrt
+		wurde. Dies entfällt nun bei aktivierter Touch ID, da der Nutzer nur noch mit
+		seinem Finger Entsperren muss.
 		Touch ID kann zusätzlich zum Entsperren des Gerätes auch mit dem Zahlungsdienst Apple
 		Pay und für Einkäufe in iTunes, dem App Store und im iBook Store genutzt
 		werden. Für Entwickler steht eine API bereit mit der rudimentärste
