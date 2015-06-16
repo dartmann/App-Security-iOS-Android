@@ -1,4 +1,4 @@
-\section{Komponenten der Systemsicherheit unter
+\subsection{Komponenten der Systemsicherheit unter
 iOS}\label{sec:components-syssec} 
 	Eine Kette von aneinander gereihten und von einander abhängigen Prozessen trägt
 	maßgeblich zur Systemsicherheit von iOS bei. Dies berücksichtigt vor allem den
@@ -24,7 +24,7 @@ iOS}\label{sec:components-syssec}
 
 	%TODO: look at learning ios security, there this whole process is explained
 	% good
-	\subsection{Secure boot chain}\label{sec:secure-boot-chain}
+	\subsubsection{Secure boot chain}\label{sec:secure-boot-chain}
 		Dieses Verfahren stellt eine Manipulation der Low-Level Software sicher. Nur
 		iOS Geräte, deren Vertrauenskette erfolgreich validiert wurde, starten
 		ordnungsgemäß. Dabei wird nach dem Start eines iOS Gerätes zuerst Code aus
@@ -42,7 +42,7 @@ iOS}\label{sec:components-syssec}
 		Basisband Untersystem seinen eigenen ähnlichen Prozess mit signierter 
 		Software und verifizierten Schlüsseln des Basisband Prozessors durch.
 		
-	\subsection{Authorisierung von System Software}\label{sec:code-signing}
+	\subsubsection{Authorisierung von System Software}\label{sec:code-signing}
 		Dieser Prozess soll einen Downgrade auf eine ältere Version von iOS
 		verhindern. Der im folgenden Kapitel besprochene Secure Enclave Co-Prozessor
 		nutzt diese Technik für Integritätsprüfung seiner Software ebenfalls. Im Falle
@@ -65,7 +65,7 @@ iOS}\label{sec:components-syssec}
 		Geräte sicher gestellt. Außerdem verhindert der Anti-Replay Wert ein
 		Manipulieren der Serverdaten, oder ein Mitschneiden dieser für
 		das Verwenden auf anderen, nicht authorisierten Geräten.
-	\subsection{Secure Enclave}\label{sec:secure_enclave}
+	\subsubsection{Secure Enclave}\label{sec:secure_enclave}
 		%TODO: get more details for ensuring the facts in this chapter
 		Dieser Co-Prozessor kommt in Geräten mit A7 oder jüngeren A-Serien Prozessoren
 		vor. Er verwendet seinen eigenen sicheren Startvorgang, ist separiert vom
@@ -98,7 +98,7 @@ iOS}\label{sec:components-syssec}
 		beide Seiten einen zufälligen Schlüssel, welche den Sitzungsschlüssel bilden.
 		%TODO: long form of AES-CCM in footmark
 		Zum verschlüsselten Transport wird AES-CCM genutzt.
-	\subsection{Touch ID}\label{sec:touch_id}
+	\subsubsection{Touch ID}\label{sec:touch_id}
 		Touch ID bezeichnet den Fingerabdrucksensor der in allen iPhone 5s und neuer
 		, sowie iPad Air 2 und iPad mini 3 verbaut ist. Es können bis zu 5
 		%TODO: check if advantage is the locking or maybe ENCRYPTION, when s/w-button

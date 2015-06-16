@@ -1,4 +1,4 @@
-\section{Proprietät von iOS}
+\subsection{Proprietät von iOS}
 	Definition Proprietär:
 	\begin{quote}
 		Proprietäre Software (lateinisch proprie "`eigentümlich"', "`eigen"',
@@ -15,7 +15,8 @@
 	sollen. Außerdem hat sich gezeigt, dass die Nutzergemeinde versucht aus der
 	Proprietät zu entkommen bzw. sie zu umgehen (Kapitel \ref{sec:jailbreaking}).
 	
-	\subsection{Undokumentierte und kritische Dienste}\label{sec:undocumented-services}
+	\subsubsection{Undokumentierte und kritische
+	Dienste}\label{sec:undocumented-services}
 		%TODO: rewrite this header
 		% Drei Dienste wurden erst im Juni 2013 offiziell dokumentiert, siehe:
 		% https://support.apple.com/en-us/HT203034 und das auch erst nachdem sie
@@ -25,7 +26,7 @@
 		dokumentierte Dienste, welche auf jedem Gerät mit iOS installiert sind. In
 		diesem Kapitel will ich auf diese Dienste eingehen und deren genauen
 		Einsatzzweck erläutern.
-		\subsubsection{lockdownd - remote access}
+		\paragraph{lockdownd - remote access}
 			Der Dienst \textsl{lockdownd} ermöglicht den Zugriff auf ein iOS Gerät
 			%TODO: check if lockdownd also could be connected over wifi?!
 			per TCP auf Port 62078 über einen USB-Anschluss.
@@ -34,7 +35,7 @@
 			%TODO: double check this!
 			übergebenen	Portnummern. Der lockdownd Deamon erstellt nach eingehender
 			Anfrage eine TCP-Verbindung auf localhost unter dem angegebenen Port.
-		\subsubsection{com.apple.mobile.pcapd}
+		\paragraph{com.apple.mobile.pcapd}
 			Pcapd stellt einen Überwachungsdienst dar, welcher auf der
 			Programmierschnittstelle
 			pcap\cite{PCAP2015} aufbaut und
@@ -46,7 +47,7 @@
 			wenn dieser Dienst aktiviert ist. Zusätzlich ist kein Entwickler-Modus von
 			nöten, um diesen zu aktivieren. Seit iOS 8 ist es nicht mehr möglich diesen
 			Dienst über WiFi anzusprechen.
-		\subsubsection{com.apple.mobile.file\_relay}
+		\paragraph{com.apple.mobile.file\_relay}
 			Hinter diesem Paket verbirgt sich ein Dienst mit dem auf sensible und
 			persönliche Daten zugegriffen werden kann. Darunter auch das Adressbuch, GPS
 			Daten, Fotos und der Möglichkeit ein Image der Metadaten des Dateisystems
@@ -58,7 +59,7 @@
 			Was eventuell auf eine Verbesserung des Zugriffs auf diesen Dienst hinweisen
 			könnte. Beispielsweise nur noch authorisierter vom Benutzer genehmigter
 			Zugriff.
-		\subsubsection{com.apple.mobile.house\_arrest}
+		\paragraph{com.apple.mobile.house\_arrest}
 			Apple dokumentiert hier eine Verwendung von iTunes für den Transfer von Daten
 			mit einem iOS Gerät. Zusätzlich wird dieses Feature von Xcode verwendet,
 			wenn Testdaten zu einem Gerät geschickt werden sollen und sich die relevante
@@ -68,16 +69,16 @@
 			Daten beinhalten - wie den Zwischenspeicher des sozialen Streams von Facebook
 			oder Twitter - obwohl die iTunes GUI dies nicht erlaubt.
 			
-	\subsection{Historische Exploits}
+	\subsubsection{Historische Exploits}
 		In der Geschichte von iOS hat es bereits diverse Exploits\cite{Exploit2015}
 		gegeben. In diesem Kapitel will ich einige der bekanntesten vorstellen.
-		\subsubsection{libTiff Exploit} 
+		\paragraph{libTiff Exploit} 
 			Eine auf einem Pufferüberlauf der libtiff Bibliothek basierenden
 			Sicherheitslücke. Dabei wurde die genannte Bibliothek gepatcht, um einen
 			Jailbreak zu starten\cite{LibTiffExploit2015}. Dieser Exploit
 			stammt aus der Anfangszeit von iOS in der alle Prozesse noch mit root
 			Rechten liefen.
-		\subsubsection{Ikee Virus}\label{sec:ikee-exploit}
+		\paragraph{Ikee Virus}\label{sec:ikee-exploit}
 			Dabei handelt es sich um einen der ersten Würmer unter iOS. Der	Author Ashley Towns
 			wollte 2009 damit auf nicht veränderte Standardpasswörter der SSH Zugänge,
 			bei iPhones mit Jailbreak hinweisen. Er nutzte mit dem in C geschriebenen
@@ -87,7 +88,7 @@
 			IP-Adressen auszuführen.\cite{IkeeExploit2009}. Eine unter dem Namen
 			\textsl{Ikee.B} veränderte Variante stahl Inhalte des Gerätes und machte
 			dieses zum Zombie und somit Teil eines Botnetzes.
-		\subsubsection{SpyPhone}
+		\paragraph{SpyPhone}
 			%TODO: maybe reference to equal android example???
 			Diese App wurde vom Author Seriot Nicolas als
 			\textsl{proof of concept} erstellt. Dabei nutzte er nur die gegebenen
@@ -103,7 +104,7 @@
 				\item{WLAN Zugangspunkte auslesen}
 			\end{itemize}
 			
-	\subsection{Jailbreaking}\label{sec:jailbreaking}
+	\subsubsection{Jailbreaking}\label{sec:jailbreaking}
 		%TODO: check writing
 		Der aus dem englischsprachligen Raum stammende Begriff bezeichnet unter iOS
 		das gezielte Aushebeln der von Apple vorgegebenen Restriktionen. Oft werden
@@ -124,7 +125,7 @@
 		Betriebssystem zu nutze machen.
 		%TODO: extend this section with more details
 	
-	\subsection{Vorteile der Proprietät}
+	\subsubsection{Vorteile der Proprietät}
 		Obwohl der Nutzer unter iOS dazu gezwungen wird, sich den Vorgaben durch Apple
 		zu beugen, hat es auch seine Vorteile, dies zu akzeptieren. So sind bei
 		aktivem Jailbreak Sicherheitsmechanismen wie die Signaturprüfung (Kapitel

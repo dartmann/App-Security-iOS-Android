@@ -88,9 +88,25 @@
 	%Aufbau einer iOS App
 	\input{ios/pages/2_app-aufbau/app-aufbau.tex}
 	
-	%Sicherheitsarchitektur iOS
+	%-----------------------------------
+	%Kapitel: Systemsicherheit
+	%-----------------------------------
 	\newpage
+	\input{general/pages/systemsicherheit/header.tex}
+	%Systemsicherheit Android
+	\input{android_pages/Sicherheitsaspekter_der_Android_Architektur.tex}
+	%Systemsicherheit iOS
 	\input{ios/pages/3_sicherheit/systemsicherheit.tex}
+	
+	%-----------------------------------
+	%Kapitel: Applikationssicherheit
+	%-----------------------------------
+	\newpage
+	\input{general/pages/appsicherheit/header.tex}
+	%Appsicherheit Android
+	\input{android_pages/app_sicherheit.tex}
+	%Appsicherheit iOS
+	\input{ios/pages/3_sicherheit/app-sicherheit.tex}
 	
 	%-----------------------------------
 	%Kapitel: Verschlüsselung
@@ -102,36 +118,25 @@
 	%Verschlüsselung unter iOS
 	\input{ios/pages/3_sicherheit/verschluesselung.tex}
 	
-	%Sicherheit Android
-	\newpage 
-	\input{android_pages/Sicherheitsaspekter_der_Android_Architektur}
-	
-	%Applikationssicherheit unter iOS
+	%-----------------------------------
+	%Kapitel: Systemkultur
+	%-----------------------------------
 	\newpage
-	\input{ios/pages/3_sicherheit/app-sicherheit.tex}
-	
+	\input{general/pages/syskultur/header.tex}
+	%Sicherheit durch Open-Source
+	\input{android_pages/Sicherheit_durch_Open_Source.tex}
 	%Proprietaet und undokumentierte Dienste
-	\newpage
 	\input{ios/pages/4_proprietaer-und-opensource/proprietaet.tex}
 	
 	%Rooting von Android Geräten
 	\newpage
 	\input{android_pages/Rooting_von_Android_Geraeten.tex}
 	
-	%Sicherheit durch Open-Source
-	\newpage
-	\input{android_pages/Sicherheit_durch_Open_Source.tex}
-	
-	\newpage
-	\input{android_pages/Update_Problem.tex}
-	
-	%Härten von iOS
+	%-----------------------------------
+	%Kapitel: Härten von mobilen Anwendungen
+	%-----------------------------------
 	\newpage
 	\input{ios/pages/5_haerten/haerten.tex}
-	
-	%Härten von Android
-	\newpage
-	\input{android_pages/Haerten_von_Android.tex}
 	
 	%Schlusswort
 	\newpage

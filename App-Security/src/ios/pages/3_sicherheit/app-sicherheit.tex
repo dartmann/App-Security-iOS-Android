@@ -1,4 +1,4 @@
-\section{Applikationssicherheit unter iOS}
+\subsection{iOS}
 	Mobile Betriebssysteme bauen zum größten Teil auf Applikationen - weiter
 	\textsl{Apps} genannt - auf, welche die produktive Nutzung eines mobilen
 	Endgerätes erheblich verbessern können. Dabei ist es allerdings
@@ -10,7 +10,7 @@
 	\ref{sec:appsigning}), sowie ein Sandboxing (Kapitel \ref{sec:sandboxing}) der
 	Apps sicherzustellen.
 	
-	\subsection{Signieren von Applikationen}\label{sec:appsigning}
+	\subsubsection{Signieren von Applikationen}\label{sec:appsigning}
 		Nach dem Start des iOS Kernels, stellt dieser sicher, welche Nutzerprozesse
 		und Apps gestartet werden dürfen. Dazu werden diese auf eine Signierung durch
 		ein von Apple ausgestelltes Zerifikat geprüft. Das zwingende Vorhandensein
@@ -46,12 +46,12 @@
 		%TODO: check if really signature or some kind of checksum??!!
 		Signatur der App mit denen der letzten Änderung verglichen.
 		
-	\subsection{Schutz zur Laufzeit}
+	\subsubsection{Schutz zur Laufzeit}
 		Apple realisierte mehrere Sicherheitsmaßnahmen, um Applikationen und System zu
 		schützen. Diese werden vom Author in diesem Kapitel erläutert und 
 		beschrieben.
 		
-		\subsubsection{Sandboxing}\label{sec:sandboxing}
+		\paragraph{Sandboxing}\label{sec:sandboxing}
 			Sobald eine App erfolgreich durch einen gültigen Author verifiziert wurde,
 			%TODO: add the directory in which the app got moved to be in a valid sandbox!
 			wird von iOS eine \textsl{Sandbox} geschaffen, was die Domäne der App
@@ -77,7 +77,7 @@
 			%TODO: explain AppGroup!
 			gemeinsamen \textsl{Key-Chain} pro AppGroup dazu\cite[S.83]{Banks2015}.
 				
-		\subsubsection{Entitlements}
+		\paragraph{Entitlements}
 			%TODO: check Entitlements for more possible infos!
 			Einen weiteren Schutz zur Laufzeit stellen sogenannte \textsl{Entitlements}
 			dar, mit denen der Zugriff auf iCloud, Push	Notifications und
@@ -88,7 +88,7 @@
 			ungewollten Rechteerweiterung durch einen manipulierten Hintergrundprozess oder einer
 			Systemapp.
 		
-		\subsubsection{ASLR}
+		\paragraph{ASLR}
 			Für zusätzlichen Laufzeitschutz wurde \textsl{Address space layout
 			randomization}\cite[S.1]{iOS4SecurityEvalutaion} ab iOS 4.3 eingeführt. Dies
 			weist Programmen zufällige Speicheradressen zu. Somit sollen Angriffe die auf
@@ -106,7 +106,7 @@
 				\label{fig:aslr}
 			\end{figure}
 		
-		\subsubsection{ARM Never eXecute}
+		\paragraph{ARM Never eXecute}
 			Mit dem \textsl{NX-Bit} markiert iOS einzelne Speicherseiten entweder mit dem
 			\textsl{Code-Flag} oder mit dem \textsl{Data-Flag}. Speicherseiten mit
 			Data-Markierung starten einen \textsl{Page-Fault}, wenn ein Programm in

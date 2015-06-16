@@ -1,13 +1,13 @@
-\section{Sicherheitsaspekte der Android-Architektur}
+\subsection{Sicherheitsaspekte der Android-Architektur}
 
 	Bereits durch die Architektur des Betriebssystems, insbesondere durch die restriktive Rechtevergabe und das Sandboxing, wird versucht, ein möglichst sicheres System bereitzustellen. Ab Android Version 4.3 kommt zusätzlich noch \textit{Security-Enhanced Linux (SELinux)} zum Einsatz.\\
 	Verschlüsselungen und Signaturen werden Hardwareseitig durch eine \textit{Trusted Execution Environment (TEE)} unterstützt. TEE stellt einen besonders geschützten Bereich auf dem Prozessor dar, auf dem nur berechtige Anwendungen ausgeführt werden können, wie beispielsweiße die Verifikation des Bootmediums und Verschlüsselungsverfahren. Die Implementierung ist dabei Prozessor Hersteller abhängig - auf ARM wird dabei, wie bei iOS, auf \textit{TrustZone}\cite{TEE_ARM} zurückgegriffen.
 	
-	\subsection{Verifikation der Bootmedien} \label{sec:VerifikationDerBootmedien}
-	Um bereits bei Systemstart eine Veränderung oder Ersetzung der Paritionen zu erkennen, wurde mit Android 4.4 eine Boot Verification eingeführt. Das Verfahren basiert auf der Funktion dm-verity des Device Mappers, welcher im Linux Kernel zu finden ist. Da diese Überprüfung durch den Kernel ausgeführt wird, muss vor dem Start von dm-verity erst der Bootloader und die Boot-Partition selbst auf ihre Integrität überprüft werden.
+	\subsubsection{Verifikation der Bootmedien}
+	\label{sec:VerifikationDerBootmedien} Um bereits bei Systemstart eine Veränderung oder Ersetzung der Paritionen zu erkennen, wurde mit Android 4.4 eine Boot Verification eingeführt. Das Verfahren basiert auf der Funktion dm-verity des Device Mappers, welcher im Linux Kernel zu finden ist. Da diese Überprüfung durch den Kernel ausgeführt wird, muss vor dem Start von dm-verity erst der Bootloader und die Boot-Partition selbst auf ihre Integrität überprüft werden.
 	Die Verifikation des Bootloaders ist nur schwer möglich, daher wird hierbei auf eine Hardware basierende root-of-trust, hier auf Basis des TEE, gesetzt. \\
 	
-	\subsubsection{Integritätscheck durch den Bootloader}
+	\paragraph{Integritätscheck durch den Bootloader}
 	Grundsätzlich ist Implementierung des Bootloader und dessen Vorgehen stark Geräteabhängig, daher werde ich hier im Folgenden lediglich das prinzipielle Vorgehen, welches durch das AOSP unterstützt wird, erläutern.\\
 	Um die Boot- und Recovery-Partition (\textit{/boot, /recovery}) zu validieren gibt es zwei Möglichkeiten. Ist auf den beiden Partition jeweils ein offizielles Images des Smartphone Herstellers, kann auf einen OEM Key zurückgegriffen werden. Dieser ist in einem read-only in der Hardware festgeschrieben und wird vom Hersteller des Systems - zumeist der Smartphone Hersteller - festgelegt. Sollte eine Veränderung des Images vorgenommen worden sein, egal ob bewusst durch den Nutzer oder durch Schadcode, ist dieses Vorgehen nicht mehr möglich. Um aber dennoch eine Modifikation durch den Nutzer grundsätzlich zu ermöglichen, gibt es noch einen zweiten Weg. Dabei wird auf ein, in der Paritionssignatur gespeichertes, Zertifikat zurückgegriffen.\\\\
 	Um zu unterscheiden ob ein offizielles oder inoffizielles Image erwartet wird, kann der Bootloader zwischen zwei Status unterscheiden:\\
@@ -35,7 +35,7 @@
 	Um zu verhindern, dass Angreifer einfach den Bootloader manipulieren um an Daten heranzukommen, muss die Partition welche die Nutzerdaten beinhaltet (\textit{/userdata}) vor einer Veränderung an dem Bootsystem formatiert werden.
 \end{flushleft}
 	
-	\subsubsection{Integritätscheck mittels dm-verity}
+	\paragraph{Integritätscheck mittels dm-verity}
 	Weitere Integritätschecks werden von der Kernelfunktion dm-verity übernommen.
 	dm-verity arbeitet mit einem SHA-256 Hash-tree, der wie folgt aufgebaut ist:\\
 	Für jeden 4K Sektor auf der Parition wird ein Hashwert berechnet. Jeweils zwei dieser Werte werden wiederum zu einem Neuen verrechnet. Dies wird solange wiederholt, bis nur noch ein Hashwert, der \textit{root-hash}, übrig ist. Um nun die Integrität sicherzustellen wird dieser root-hash, mit einem bereits berechneten Soll-Wert verglichen. Sind diese identisch, ist die Parition integer.
@@ -52,13 +52,13 @@
 	Welche Paritionen mittels vm-verity auf ihre Integrität überprüft werden sollen, wird über einen Eintrag zu der jeweiligen Partition in der fstab-Datei festgelegt.
 \end{flushleft}
 
-	\subsection{Basis Rechtesystem}\label{sec:BasisRechteSystem}
+	\subsubsection{Basis Rechtesystem}\label{sec:BasisRechteSystem}
 	Von Linux wurde auch das Basis-Rechtesystem Übernommen, allerdings wird es leicht abgewandelt genutzt. Anstatt das ein Nutzer - im Sinne von der Person, die das Gerät bedient - des Mobilsystems eine eindeutige User-ID (UID) zugewiesen bekommt, wird jede Applikation auf dem System als ein Nutzer angesehen und bekommt zur Installationszeit eine UID. Jeder Nutzer, und somit jede App, arbeitet grundsätzlich erst einmal nur innerhalb der ihm zugewiesenen virtuellen Maschine und dem damit verbundenen Dateisystem.\\\\
 	Da es dennoch in vielen Fällen nötig ist, Daten zwischen verschiedenen Apps auszutauschen, gibt es mehrer Möglichkeiten dies zu tun. Die üblichen Wege wären Intends oder Contentprovider. Zusätzlich gibt es noch die Möglichkeit mehreren Apps dieselbe UID zuweisen zu lassen. Dies ist allerdings nur möglich, wenn die entsprechenden Applikationen mit dem selben Zertifikat signiert wurden und in deren Manifest Datei eine gemeinsame UID festgelegt wurde.
 	Mittlerweile bieten die meisten Android Geräte auch einen Multiuser-Betrieb an. Da ein Linux-Nutzer eine (oder mehrere) Apps darstellt, wird um zwischen verschiedenen Endnutzern zu unterscheiden an die UID der Apps für jeden Endnutzer noch ein Prä- oder Suffix der den physikalischen Nutzer identifiziert hinzugefügt.\\
 	Auch bekommt durch dieses Vorgehen jede Applikation ihren eigenen Speicherbereich, welcher nur für dieser zugänglich ist. Durch dieses Rechtesystem wird versucht sicherzustellen, dass kein Nutzerprogramm als \textit{root} ausgeführt wird.\\
 	
-	\subsection{SELinx in Android}
+	\subsubsection{SELinx in Android}
 	Das \textit{Discretionary Access Control (DAC)} System des Linux Kernels lässt nur relativ grobe Einstellungen zu. Hat man beispielsweiße eine Applikation, die höhere Rechte für die Ausführung benötigt, so bekommt diese unter Nutzung von DAC oftmals noch zusätzliche Rechte, welche die App nicht haben sollte.\\
 	Um dieses Problem zu beheben wird seit Android 4.4 zusätzlich zum DAC noch SELinux und dessen \textit{Mandatory Access Control (MAC)} System genutzt.\\	
 	\begin{quote}
@@ -70,14 +70,14 @@
 	Dabei sind zwei Nutzungsmodi zu unterscheiden. Während im \textit{permissive mode} Regelverstöße nur geloggt werden, wird im \textit{enforcing mode} die strikte Einhaltung erzwungen. In den Versionen 4.3 bis exklusive 5.0 war der \textit{enforcing mode} nicht überall in Nutzung. Dies änderte sich mit Version 5.0, seit dem läuft nur noch dieser Modus.
 \end{flushleft}
 	
-	\subsection{Sandboxing und Permissions} \label{sec:SandBoxingNPermissions}
+	\subsubsection{Sandboxing und Permissions} \label{sec:SandBoxingNPermissions}
 	%Jede Applikation hat läuft in ihrer eigenen Sandbox. Die Sandbox umfasst den Schutz eines Speicherbereichs, des genutzten Arbeitsspeichers und aller Prozesse der in der Sandbox laufenden Anwendungen.
 	Wie bereits erwähnt, laufen die Applikationen jeweils in ihrer eigenen Sandbox. Grundsätzlich ist die App damit erst einmal in ihrer Ausführung auf ihren Bereich beschränkt und kann nicht mit anderen Prozessen und Daten außerhalb interagieren. Dennoch ist es in den meisten Fällen sinnvoll mit Systemservices und Nutzerdaten zu interagieren, die nicht in der eigenen Sandbox verfügbar sind. Um solche Zugriffe zu regeln, werden sogenannte Permissions genutzt.
 	
-	\subsubsection{Sandboxing}
+	\paragraph{Sandboxing}
 	Die Hauptmerkmale der Sandbox sind, dass Prozesse eines Nutzer nicht die eines anderen beeinflussen, noch auf dessen Arbeitspeicher oder App internen Dateien zugreifen können. Diese Beschränkungen werden durch in erster Linie durch das Berechtigungssystem des Kernels festgelegt und durch den Einsatz von SELinux unterstützt. Eine App hat einen persistenten Speicherbeich (\textit{Internal Storage}) in welchem nur diese Zugriffsrechte besitzt. Außerdem wird durch den Kernel eine Isolation der Prozesse geregelt. Die genutzte JVM wirkt nicht direkt am Sandboxing mit, dennoch wird durch diese eine weitere Abstraktionsebene eingeführt, welche die Möglichkeit bietet weitere Regelungen vorzunehmen. %\cite[S.26]{Drake2014} .
 	
-	\subsubsection{Permissions im Detail}
+	\paragraph{Permissions im Detail}
 	Um nun die bestehenden Zugriffsrechte erweitern zu können, müssen die entsprechenden Rechte (Permissions) in der Manifest Datei deklariert und angefordert werden. Zu Installationszeit werden diese Permissions dem Nutzer angezeigt und dieser wird gefragt, ob er den Rechtswünschen der App zustimmt oder nicht. Dabei gilt das \textit{Alles-Oder-Nichts-Prinzip}, d.h. entweder bekommt die Anwendung alle Rechte oder keine - was eine nicht Installation zur Folge hat. Des weiteren können die Berechtigungen nach der Installation nicht mehr angepasst werden.	Berechtigungen sind beispielsweise für Zugriffe auf externe Speichermedien oder auch die Kamera nötig. Dabei ist allerdings zu beachten, dass die Permissions zum Teil sehr grob definiert sind. Wodurch für den Nutzer nicht unbedingt erkenntlich ist, welche Informationen eine App warum abgreift und ob die App wirklich Gebrauch des Rechts macht.\\\\
 	Anhand der folgenden Permission lässt sich die daraus resultierende Problematik gut erkennen:\\
 	RECORD\_AUDIO Permission:
@@ -90,7 +90,7 @@
 	Mit Android 4.3 (Kitkat) wurde eine versteckte Einstellungs-Activity namens \textit{App Ops} eingeführt. Darin konnte man einsehen welche App, wann welche Permission genutzt hat, und dieser einzelne Rechte zu entziehen und wieder zu erlauben. Diese Funktion konnte nur durch das Anlegen eines Activity Shortcuts und der direkten Verwendung in einer App genutzt werden. Leider wurde diese versteckte Einstellung aus den nächsten Versionen entfernt - bis Android M. \cite{HiddenActivity} \\
 	Für Android M wurde mittlerweile angekündigt, dass eine derartige Einstellung nun fest mit eingebaut sein wird.\cite{AndroidMPermission} Allerdings wird es wohl kein Update für ältere Versionen geben, wodurch das Problem in diesen bestehen bleibt.
 	
-	\subsubsection{Besonderheit: Systemapps}
+	\paragraph{Besonderheit: Systemapps}
 	Apps der System Hersteller können Rechte besitzen, die für normale Anwendungen nicht verfügbar sind, um Basis Apps und Services bereitzustellen. Hierfür werden alle Hersteller Applikationen mit sogenannten \textit{Publisher Keys} signiert und bekommen ggf. im Kernel festgeschriebene UIDs zugewiesen, welche erweiterte Rechte besitzen.
 	
 	
