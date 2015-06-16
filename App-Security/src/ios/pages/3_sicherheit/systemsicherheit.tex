@@ -22,18 +22,19 @@ iOS}\label{sec:components-syssec}
 		\label{fig:security-model}
 	\end{figure}
 
-	%TODO: look at learning ios security, there this whole process is explained
-	% good
 	\subsubsection{Secure boot chain}\label{sec:secure-boot-chain}
-		Dieses Verfahren stellt eine Manipulation der Low-Level Software sicher. Nur
-		iOS Geräte, deren Vertrauenskette erfolgreich validiert wurde, starten
+		Dieses Verfahren stellt eine Manipulation der Software auf niederer
+		Systemebene sicher.
+		Nur iOS Geräte, deren Vertrauenskette erfolgreich validiert wurde, starten
 		ordnungsgemäß. Dabei wird nach dem Start eines iOS Gerätes zuerst Code aus
-		einem nur lesbaren Speicherbereich ausgeführt. Dieser \textit{hardware of
-		trust} genannte und unveränderbare Code ist bei der Manufaktur der Chips
-		eingebettet worden und somit implizit vertraulich. Das Boot ROM enthält
-		zusätzlich den öffentlichen Schlüssel der Wurzel Zertifizierungsstelle von
-		Apple, welcher eine Signierung des Low-Level-Bootloaders durch Apple sicher
-		stellt, bevor er ausgeführt wird.
+		einem nur lesbaren Speicherbereich gelesen. Dieser \textit{hardware of
+		trust} genannte und unveränderbare Code ist bei der
+		Manufaktur der Chips eingebettet worden und somit implizit vertraulich.
+		Er enthält einen Wurzelschlüssel, einen gerätespezifischen Schlüssel 
+		(UID\footnote{UID: Unique ID - pro iOS Gerät und Prozessor einzigartiger,
+		in Hardware gegossener 256-Bit AES Schlüssel}) und einen Gruppenschlüssel
+		(GID). Der Wurzelschlüssel stellt eine Signierung des Low-Level-Bootloaders
+		durch Apple sicher, bevor er ausgeführt wird.
 		Dies ist der erste Schritt in der "`chain of trust"', in welcher jeder
 		Teilnehmer sicher stellt, dass der darauf folgende von Apple signiert ist. 		
 		Nach erfolgreicher Abarbeitung aller Aufgaben des LLB, überprüft und startet
@@ -44,31 +45,32 @@ iOS}\label{sec:components-syssec}
 		
 	\subsubsection{Authorisierung von System Software}\label{sec:code-signing}
 		Dieser Prozess soll einen Downgrade auf eine ältere Version von iOS
-		verhindern. Der im folgenden Kapitel besprochene Secure Enclave Co-Prozessor
-		nutzt diese Technik für Integritätsprüfung seiner Software ebenfalls. Im Falle
-		eines iOS Updates wird entweder von iTunes oder vom Gerät selbst einer der
-		autorisierenden Installationsserver von Apple kontaktiert. Diesem
-		wird eine Liste von verschlüsselten Informationen pro am Update beteiligter
-		Komponente gesandt. Zusätzlich wird ein zufälliger
-		Anti-Replay Wert und die eindeutige ID des Gerätes
+		verhindern und benötigt eine Internetverbindung. Der im folgenden Kapitel
+		besprochene Secure Enclave Co-Prozessor nutzt diese Technik für
+		Integritätsprüfung seiner Software ebenfalls. Im Falle eines iOS Updates wird
+		entweder von iTunes oder ab iOS 5 vom Gerät selbst einer der autorisierenden
+		Installationsserver von Apple kontaktiert. Diesem wird eine Liste von
+		verschlüsselten Informationen pro am Update beteiligter Komponente gesandt.
+		Zusätzlich wird ein zufälliger Anti-Replay Wert und die eindeutige ID des Gerätes
 		verschickt. Die Clientdaten werden gegen eine Auflistung authorisierter Hardware, für die ein
 		Update genehmigt sind, geprüft. Bei Übereinstimmung wird die eindeutige
 		ECID\footnote{ECID: Exclusive Chip ID - eine einzigartige 64-Bit ID auf jedem
-		iOS Gerät} zu den Informationen hinzugefügt und das Ergebnis signiert, was einer Personalisierung der Daten gleicht.
+		iOS Gerät} zu den Informationen hinzugefügt und das Ergebnis signiert, was
+		einer Personalisierung der Daten gleicht.
 		Anschließend werden alle nötigen Daten vom Server signiert und zum Gerät
 		geschickt. Die sichere Startkette von Prozessen (Kapitel
 		\ref{sec:secure-boot-chain}) verifiziert die Signatur der empfangenen Daten
 		auf den Absender Apple und gleicht die Prüfsumme der Signatur mit dem lokalen
 		Ergebnis von verschlüsselten Informationen und ECID ab.\\
-		Mit diesen Schritten wird eine Authorisierung ausschließlich für authorisierte
+		Mit diesen Schritten wird eine Authorisierung ausschließlich für frei gegebene
 		Geräte sicher gestellt. Außerdem verhindert der Anti-Replay Wert ein
 		Manipulieren der Serverdaten, oder ein Mitschneiden dieser für
 		das Verwenden auf anderen, nicht authorisierten Geräten.
+		
 	\subsubsection{Secure Enclave}\label{sec:secure_enclave}
-		%TODO: get more details for ensuring the facts in this chapter
-		Dieser Co-Prozessor kommt in Geräten mit A7 oder jüngeren A-Serien Prozessoren
-		vor. Er verwendet seinen eigenen sicheren Startvorgang, ist separiert vom
-		Applikations Prozessor und verwendet verschlüsselten Speicher, sowie einen
+		Dieser Co-Prozessor kommt in Geräten mit A7 oder jüngeren A-Serien
+		Prozessoren - ab dem iPhone 5s - vor. Er verwendet seinen eigenen
+		sicheren Startvorgang, ist separiert vom Applikations Prozessor und verwendet verschlüsselten Speicher, sowie einen
 		Hardware Zufallszahlen Generator. Die Technologie basiert auf ARM's
 		TrustZone\cite{TrustZone2015} und wurde von Apple für die eigenen Ansprüche
 		angepasst. Der Kernel dieser Einheit basiert auf der L4
@@ -76,15 +78,17 @@ iOS}\label{sec:components-syssec}
 		auf Interrupts basierende Kommunikation zwischen dem Applikationsprozessor
 		und dem Secure Enclave läuft über einem nur den beiden zur Verfügung
 		stehenden Speicherbereich.
-		Der SE\footnote{SE: Secure Enclave - Co-Prozessor von iOS Geräten} ist
-		verantwortlich für das Schlüssel Management der Datenverschlüsselung und
-		stellt die Integrität dieser sicher, auch wenn der Kernel des iOS Systems
-		kompromitiert ist. Beim Herstellungsprozess erhält jeder SE eine einzigartige
-		ID, auf welche nur er zugreifen kann. Selbst Apple, oder anderen an der
-		Produktionskette beteiligten Herstellern ist diese nicht bekannt.
-		Mit dieser UID\footnote{UID: Unique ID - pro iOS Gerät einzigartiger,
-		in Hardware gegossener 256-Bit AES Schlüssel} wird beim Systemstart der
-		Speicherbereich des SE zusammen mit einem einmaligen Schlüssel verschlüsselt.
+		Der SE\footnote{SE: Secure Enclave - Co-Prozessor von iOS Geräten ab A7
+		Chipsatz} ist verantwortlich für das Schlüsselmanagement der
+		Datenverschlüsselung und stellt die Integrität dieser sicher, auch wenn der
+		Kernel des iOS Systems kompromitiert ist. Beim Herstellungsprozess erhält
+		jeder SE, wie der Applikationsprozessor eine einzigartige gerätespezifische
+		ID (UID) und Gruppen-ID (GID), auf welche nur er zugreifen kann (vgl. Kapitel
+		\ref{sec:secure-boot-chain}).
+		Selbst Apple, oder anderen an der Produktionskette beteiligten Herstellern
+		ist diese unbekannt. Mit dieser UID wird beim
+		Systemstart der Speicherbereich des SE zusammen mit einem einmaligen
+		Schlüssel chiffriert.
 		Zusätzlich werden jegliche vom SE in den Speicher geschriebene Daten mit der
 		UID und einem Anti-Replay Zufallswert verschlüsselt. Eine der Hauptaufgaben
 		des Secure Enclave ist die verarbeitung der Fingerabdruck-Daten des Touch ID
@@ -92,15 +96,17 @@ iOS}\label{sec:components-syssec}
 		Alle Kommunikation zwischen Touch ID und SE wird über einen seriellen Bus
 		abgearbeitet. Der Applikationsprozessor leitet die Fingerabdrucksdaten an den
 		SE weiter kann diese aber aufgrund einer Verschlüsselung der Daten mit einem
-		Sitzungsschlüssel nicht lesen. Dieser Session Key wurde durch den für Touch
-		ID und SE bereit gestellten öffentlichen Schlüssel erzeugt. Der Austausch des
-		Sitzungsschlüssels wird durch AES\footnote{AES: Advanced Encryption Standard
-		- ein symmetrisches Verschlüsselungsverfahren} Key
-		Wrapping\footnote{Key Wrap beschreibt ein symmetrisches
-		Verschlüsselungsverfahren zum Ummanteln von Schlüsseln} realisiert.
-		Dabei erzeugen beide Seiten einen zufälligen Schlüssel, welche den Sitzungsschlüssel bilden.
-		Zum verschlüsselten Transport wird AES-CCM\footnote{CCM: Counter with CBC -
-		ein Verfahren, um Blockchiffren mit Integrität zu versehen} genutzt.
+		Sitzungsschlüssel nicht lesen. Dieser Session Key wird durch einen
+		ausschließlich für Touch ID und SE vom System bereit gestellten öffentlichen
+		Schlüssel erzeugt. Der Austausch des Sitzungsschlüssels wird durch
+		AES\footnote{AES: Advanced Encryption Standard - ein symmetrisches
+		Verschlüsselungsverfahren} Key Wrapping\footnote{Key Wrap - symmetrisches
+		Verschlüsselungsverfahren zum Ummanteln von Schlüsseln} realisiert. Dabei
+		erzeugen beide Seiten einen zufälligen Schlüssel, welche den
+		Sitzungsschlüssel bilden. Zum verschlüsselten Transport wird
+		AES-CCM\footnote{CCM: Counter with CBC - ein Verfahren, um Blockchiffren
+		zusätzlich mit Integrität zu versehen} genutzt.
+		
 	\subsubsection{Touch ID}\label{sec:touch_id}
 		Touch ID bezeichnet den Fingerabdrucksensor der in allen iPhone 5s und neuer
 		, sowie iPad Air 2 und iPad mini 3 verbaut ist. Es können bis zu 5
@@ -120,12 +126,12 @@ iOS}\label{sec:components-syssec}
 		Apple unterbunden. Touch ID wird aktiviert, wenn der kapazitive Stahlring um
 		den Sensor einen Fingerdruck wahrnimmt. Anschließend wird dieser gescannt und
 		an den Secure Enclave gesandt. Der Abdruck wird kurzzeitig im veschlüsselten
-		%TODO: better description?!
-		Speicher des SE für eine Vektorisierung der Fingerabdruckdaten gespeichert, um
-		danach verworfen zu werden. Die Schlüssel, welche von Touch ID zum
-		Entschlüsseln des Gerätes benötigt werden, sind nach 48 Stunden ungültig,
-		beziehungsweise wenn das iOS Gerät neu gestartet wurde, oder der
-		Fingerabdruck fünf mal falsch registriert wurde.\\
+		Speicher des SE für eine Vektorisierung\footnote{Vektorisierung - Konvertieren
+		von Rastergrafiken in Vektorgrafiken} der Fingerabdruckdaten gespeichert, um
+		danach verworfen zu werden.
+		Die Schlüssel, welche von Touch ID zum Entschlüsseln des Gerätes benötigt
+		werden, sind nach 48 Stunden ungültig, beziehungsweise wenn das iOS Gerät neu
+		gestartet wurde, oder der Fingerabdruck fünf mal falsch registriert wurde.\\
 		Dass diese Technik nicht als Sicher angesehen werden darf, haben bereits
 		Miglieder des Chaos Computer Club gezeigt\cite{CCCBreakTouch2015}, dabei 
 		wurde mit simpelsten Haushaltsmitteln ein Fingerabdruck gefälscht, den das
