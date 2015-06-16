@@ -1,0 +1,152 @@
+%Papierformat, mit Koma-Script Dokumentenklasse (Europäisches Design)
+\documentclass[12pt,a4paper]{scrartcl}
+%Deutsche Silbentrennung
+\usepackage[ngerman]{babel}
+%Listen einrücken
+\usepackage{enumitem}
+%Deutsche Umlaute
+\usepackage[utf8]{inputenc}
+%Trennung von deutschen Umlauten
+\usepackage[T1]{fontenc}
+%Bibtex für Zitate,
+% see: https://en.wikibooks.org/wiki/LaTeX/Bibliography_Management#Customization
+\usepackage[]{natbib}
+%Grafikpaket laden
+\usepackage{graphicx}
+%Grafik Floating einschränken
+\usepackage{placeins}
+%Referenzierung mit Name
+\usepackage{titleref}
+%Unterschritszeilen
+\usepackage{tabularx}
+%Verlinkung
+% see:https://en.wikibooks.org/wiki/LaTeX/Hyperlinks
+\usepackage[hidelinks]{hyperref}
+%Urls sollen erkannt werden
+\usepackage{url}
+%Ermöglicht es von Schrift umflossene Bilder und Tabellen einzufügen
+\usepackage{wrapfig}
+%Sourcecode anzeigen lassen
+\usepackage{listings}
+%Farbenpaket laden
+\usepackage{xcolor}
+%Einrichten des Linking
+%\hypersetup{
+%    colorlinks,
+%    linkcolor={red!50!black},
+%    citecolor={blue!50!black},
+%    urlcolor={blue!80!black}
+%}
+%Umbennen der Bibliography Angabe in Literatur
+\renewcommand{\bibname}{Literatur}
+%Festlegung des Zitierstiles
+\bibliographystyle{plain}
+%Inhaltsverzeichnis Tiefe erweitern
+\setcounter{tocdepth}{5}
+%Nummerierung Tiefe erweitern
+\setcounter{secnumdepth}{5}
+
+%\makeatletter
+%\newcommand\footnoteref[1]{\protected@xdef\@thefnmark{\ref{#1}}\@footnotemark}
+%\makeatotherâ€‹
+
+%Dokumentbeginn
+\begin{document}
+	
+	\input{general/pages/titlepage.tex}
+
+	%Inhaltsverzeichnis
+	\tableofcontents
+	\newpage
+	
+	%Abbildungsverzeichnis
+	\listoffigures
+	
+	%-----------------------------------
+	%Vorwort
+	%-----------------------------------
+	\newpage
+	\input{general/pages/preface/vorwort.tex}
+	
+	%-----------------------------------
+	%Kapitel: Betriebssystem
+	%-----------------------------------
+	\newpage
+	\input{general/pages/betriebssystem/header.tex}
+	%Das Android Betriebssystem
+	\input{android_pages/Das_Android_Betriebssystem.tex}
+	%Das iOS Betriebssystem
+	\input{ios/pages/1_betriebssystem/das_ios_betriebssystem.tex}
+	
+	%-----------------------------------
+	%Kapitel: Applikationsaufbau
+	%-----------------------------------
+	\newpage
+	\input{general/pages/app-aufbau/header.tex}
+	%Aufbau einer Android App
+	\input{android_pages/Grundlegender_Aufbau_einer_Android_App}
+	%Aufbau einer iOS App
+	\input{ios/pages/2_app-aufbau/app-aufbau.tex}
+	
+	%-----------------------------------
+	%Kapitel: Systemsicherheit
+	%-----------------------------------
+	\newpage
+	\input{general/pages/systemsicherheit/header.tex}
+	%Systemsicherheit Android
+	\input{android_pages/Sicherheitsaspekter_der_Android_Architektur.tex}
+	%Systemsicherheit iOS
+	\input{ios/pages/3_sicherheit/systemsicherheit.tex}
+	
+	%-----------------------------------
+	%Kapitel: Applikationssicherheit
+	%-----------------------------------
+	\newpage
+	\input{general/pages/appsicherheit/header.tex}
+	%Appsicherheit Android
+	\input{android_pages/app_sicherheit.tex}
+	%Appsicherheit iOS
+	\input{ios/pages/3_sicherheit/app-sicherheit.tex}
+	
+	%-----------------------------------
+	%Kapitel: Verschlüsselung
+	%-----------------------------------
+	\newpage
+	\input{general/pages/verschluesselung/header.tex}
+	%Verschlüsselung unter Android
+	\input{android_pages/verschluesselung_android.tex}
+	%Verschlüsselung unter iOS
+	\input{ios/pages/3_sicherheit/verschluesselung.tex}
+	
+	%-----------------------------------
+	%Kapitel: Systemkultur
+	%-----------------------------------
+	\newpage
+	\input{general/pages/syskultur/header.tex}
+	%Sicherheit durch Open-Source
+	\input{android_pages/Sicherheit_durch_Open_Source.tex}
+	%Proprietaet und undokumentierte Dienste
+	\input{ios/pages/4_proprietaer-und-opensource/proprietaet.tex}
+	
+	%Rooting von Android Geräten
+	\newpage
+	\input{android_pages/Rooting_von_Android_Geraeten.tex}
+	
+	%-----------------------------------
+	%Kapitel: Härten von mobilen Anwendungen
+	%-----------------------------------
+	\newpage
+	\input{ios/pages/5_haerten/haerten.tex}
+	
+	%Schlusswort
+	\newpage
+	\input{general/pages/conclusion/conclusion.tex}
+
+	%Referenzen zum Ende
+	%bibtex referenzen
+	\newpage
+	\bibliography{general/bibtex/bibtex.bib}
+	%Bibliography im Inhaltsverzeichnis anzeigen(muss unterhalb von bibliography
+	% sein)
+	\addcontentsline{toc}{section}{Literatur}
+\end{document}

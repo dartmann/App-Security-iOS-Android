@@ -15,16 +15,14 @@
 		\item Content Provider - stellt Daten für die eigene und evtl für andere Apps zur Verfügung
 		\item Broadcast Receiver - um Systemweite Benachrichtigungen zu empfangen (z.B dass ein Download beendet wurde)
 	\end{itemize}
-	In der Manifest-Datei werden Eigenschaften der App definiert. Darunter zählen beispielsweiße:
+	In der Manifest-Datei werden Eigenschaften der App definiert. Darunter zählen beispielsweise:
 	\begin{itemize}\itemsep0pt
 		\item Name der App
 		\item Ziel SDK-Versionen
 		\item Versionsnummer
 		\item optional eine UserId ( siehe \ref*{sec:BasisRechteSystem} )
 		\item Permissions ( siehe \ref*{sec:SandBoxingNPermissions} )
+		\item Startpunkt der Applikation
 	\end{itemize}
-	Des weiteren muss jede App signiert werden. Das hierfür benötigte Zertifikat kann sich jeder Entwickler selbst generieren und muss nicht durch einen Certification Authority (CA) beglaubigt werden. Dabei wird angeraten, dass ein Entwickler für all seine Apps dasselbe Zertifikat nutzt. Mithilfe der dadurch gegebenen Signatur wird eine \textit{Same-Origin-Policy} erschaffen, die bei jedem Update sicherstellt, dass dieses wirklich vom Entwickler der Applikation stammt und nicht durch einen dritten eingebracht wurde.
-	Hauptquelle für Anwendungen auf der Android Plattform ist der \textit{Google Play Store}. Mittlerweile gibt es allerdings auch andere vertrauenswürdige Quellen, z.B. Amazons \textit{App Shop}.
-	
-	\subsubsection{Sicherheit durch eine zentrale App Quelle}
-	Dadurch, dass Apps für Android im Normalfall über den \textit{Google Play Store} verbreitet und von dort aus installiert werden, kann diese zentrale Quelle als weiterer Sicherheitsfaktor angesehen werde - zumindest bis zu einem gewissen Grad. Google hat bereits in der Vergangenheit Applikationen, welche Schadcode enthielten, aus dem Store entfernt. Zusätzlich dazu, ist per Default die Installation aus anderen Quellen, als dem Play Store, nicht möglich. Wodurch eine heimliche oder auch fehlerhafte Installation unterbunden werden soll. Sollte der Nutzer dennoch Anwendungen aus Drittquellen installieren wollen, beispielsweiße um Firmen interne Apps zu nutzen, kann der Nutzer diesen Schutz in den Einstellungen des Geräts deaktivieren.
+	Des Weiteren muss jede App signiert werden. Das hierfür benötigte Zertifikat kann sich jeder Entwickler selbst generieren und muss nicht durch einen Certification Authority (CA) beglaubigt werden. Dabei wird angeraten, dass ein Entwickler für all seine Apps dasselbe Zertifikat nutzt. Mithilfe der dadurch gegebenen Signatur wird eine \textit{Same-Origin-Policy} erschaffen, die bei jedem Update sicherstellt, dass dieses wirklich vom Entwickler der Applikation stammt und nicht durch Dritte eingebracht wurde.\\\\
+	Hauptquelle für Anwendungen der Android Plattform ist der \textit{Google Play Store}. Mittlerweile gibt es allerdings auch andere vertrauenswürdige Quellen, z.B. Amazons \textit{App Shop}.
