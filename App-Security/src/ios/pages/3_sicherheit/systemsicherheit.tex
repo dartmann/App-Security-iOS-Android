@@ -96,11 +96,11 @@ iOS}\label{sec:components-syssec}
 		Sitzungsschlüssels wird durch AES\footnote{AES: Advanced Encryption Standard
 		- ein symmetrisches Verschlüsselungsverfahren} Key
 		Wrapping\footnote{Key Wrap beschreibt ein symmetrisches
-		Verschlüsselungsverfahren zum Ummanteln von Schlüsseln, meist für
-		asymmetrische Verfahren} realisiert.
+		Verschlüsselungsverfahren zum Ummanteln von Schlüsseln} realisiert.
 		Dabei erzeugen beide Seiten einen zufälligen Schlüssel, welche den Sitzungsschlüssel bilden.
-		%TODO: long form of AES-CCM in footmark
-		Zum verschlüsselten Transport wird AES-CCM genutzt.
+		Zum verschlüsselten Transport wird AES-CCM\footnote{CCM: Counter with CBC -
+		ein Verfahren, um Blockchiffren mit Integrität und Vertraulichkeit zu
+		versehen} genutzt.
 	\subsubsection{Touch ID}\label{sec:touch_id}
 		Touch ID bezeichnet den Fingerabdrucksensor der in allen iPhone 5s und neuer
 		, sowie iPad Air 2 und iPad mini 3 verbaut ist. Es können bis zu 5
