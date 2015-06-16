@@ -1,13 +1,13 @@
 \subsection{Android}\label{sec:app-android}
 	\begin{quote}
-	Android apps are written in the Java programming language. The Android SDK tools compile your code - along with any data and resource files - into an APK: an \textit{Android package}, which is an archive file with an .apk suffix. One APK file contains all the contents of an Android app and is the file that Android-powered devices use to install the app.\\
-	(Android: Application Fundamentals,\\ http://developer.android.com/guide/components/fundamentals.html,\\ 20.5.2015)
+	Android apps are written in the Java programming language. The Android SDK tools compile your code - along with any data and resource files - into an APK: an \textit{Android package}, which is an archive file with an .apk suffix. One APK file contains all the contents of an Android app and is the file that Android-powered devices use to install the app.\cite{AndroidApp}
 	\end{quote}
 	
 \begin{flushleft}
 	Applikationen werden zumeist in Java oder C/C++ geschrieben; selten kommen auch andere JVM-Sprachen zum Einsatz.
 	Eine Android App besteht im Kern unter anderem aus zwei wichtigen Teilen. Den eigentlichen Programmkomponenten und einer Manifest Datei (AndroidManifest.xml).\\
 \end{flushleft}
+	\subsubsection{Programmkomponenten}
 	Als Programmkomponenten können unter anderem vorkommen:
 	\begin{itemize}\itemsep0pt
 		\item Activities - stellen die Benutzeroberfläche dar
@@ -15,6 +15,7 @@
 		\item Content Provider - stellt Daten für die eigene und evtl für andere Apps zur Verfügung
 		\item Broadcast Receiver - um Systemweite Benachrichtigungen zu empfangen (z.B dass ein Download beendet wurde)
 	\end{itemize}
+	\subsubsection{Manifest-Datei}
 	In der Manifest-Datei werden Eigenschaften der App definiert. Darunter zählen beispielsweise:
 	\begin{itemize}\itemsep0pt
 		\item Name der App
@@ -24,5 +25,10 @@
 		\item Permissions ( siehe \ref*{sec:SandBoxingNPermissions} )
 		\item Startpunkt der Applikation
 	\end{itemize}
+	\subsubsection{Signatur}
 	Des Weiteren muss jede App signiert werden. Das hierfür benötigte Zertifikat kann sich jeder Entwickler selbst generieren und muss nicht durch einen Certification Authority (CA) beglaubigt werden. Dabei wird angeraten, dass ein Entwickler für all seine Apps dasselbe Zertifikat nutzt. Mithilfe der dadurch gegebenen Signatur wird eine \textit{Same-Origin-Policy} erschaffen, die bei jedem Update sicherstellt, dass dieses wirklich vom Entwickler der Applikation stammt und nicht durch Dritte eingebracht wurde.\\\\
 	Hauptquelle für Anwendungen der Android Plattform ist der \textit{Google Play Store}. Mittlerweile gibt es allerdings auch andere vertrauenswürdige Quellen, z.B. Amazons \textit{App Shop}.
+	
+	\subsubsection{Entwicklung}
+	Java als Programmiersprache bringt mehrere Vorteile mit sich. Mit die wichtigsten sind, dass Java leicht zu lernen ist, was sich entsprechend auch auf die Anzahl der Apps für Android niederschlägt. Aber auch das es eine große Anzahl an Entwicklungsumgebungen gibt, die oftmals sogar kostenlos nutzbar sind.\\
+	Dass Apps somit schnell programmiert werden können, kann allerdings auch ein Nachteil sein, z.B. wenn Entwickler aufgrund von unwissen Nutzerdaten nicht korrekt schützt, oder sogar versehentlich eine Sicherheitslücke zur Verfügung stellt.
