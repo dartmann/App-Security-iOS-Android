@@ -26,9 +26,8 @@
 		Program}\cite{AppleDevProg2015}
 		erlaubt und so Apps auch ohne das Veröffentlichen im AppStore auf iOS Geräte
 		installiert werden können. Dabei prüft Apple das anfragende Unternehmen auf
-		%TODO: add footmark of DUNS
-		Eignung durch deren D-U-N-S Nummer - einem Zahlensystem zur eindeutigen
-		Identifizierung von Firmen. Populär wurde eine jüngste Ausnutzung dieses
+		Eignung durch deren D-U-N-S Nummer\footnote{D-U-N-S: Data Universal Numbering
+		System - Zahlensystem zur eindeutigen Identifizierung von Firmen}. Populär wurde eine jüngste Ausnutzung dieses
 		Privileges, bei welcher über eine Webseite die der Nutzer mit seinem iOS
 		Gerät besucht ein Dialog erscheint, der bei Einwilligung eine App
 		installiert, welche dann ein Abonnement verkaufen will
@@ -38,13 +37,14 @@
 		schlichtweg missbraucht.\\
 		Ab iOS 8 wird es Entwicklern erlaubt in ihren Apps Frameworks zu verwenden. Um
 		hier ein Laden von unsigniertem Code zu verhindern, wird beim Start einer App
-		die \textsl{Team-ID} geprüft - ein 10 stelliger alphanumerischer String,
-		welcher aus dem von Apple ausgestellten Entwicklerzertifikat extrahiert wird.
-		Eine App darf nur Code laden, welcher entweder vom System kommt, oder die selbe
-		Team-ID besitzt. Weiterhin ist es unter iOS untersagt Apps von ungeprüften
-		Drittanbietern zu installieren. Dazu wird vom System zur Laufzeit die
-		%TODO: check if really signature or some kind of checksum??!!
-		Signatur der App mit denen der letzten Änderung verglichen.
+		die \textsl{Team-ID}\footnote{Team-ID - 10 stelliger
+		alphanumerischer String, extrahiert aus einem von Apple ausgestellten
+		Zertifikat} geprüft. Eine App darf nur Code aus anderen Bibliotheken laden,
+		welche entweder vom System stammen, oder die selbe Team-ID besitzten.
+		Weiterhin ist es unter iOS untersagt Apps von ungeprüften Drittanbietern zu
+		installieren. Zusätzlich wird vom System zur Laufzeit der ausführbare
+		Speicherbereich auf Änderungen zum Zeitpunkt der Installation, oder dem
+		letzten Update überprüft.
 		
 	\subsubsection{Schutz zur Laufzeit}
 		Apple realisierte mehrere Sicherheitsmaßnahmen, um Applikationen und System zu
@@ -53,11 +53,12 @@
 		
 		\paragraph{Sandboxing}\label{sec:sandboxing}
 			Sobald eine App erfolgreich durch einen gültigen Author verifiziert wurde,
-			%TODO: add the directory in which the app got moved to be in a valid sandbox!
 			wird von iOS eine \textsl{Sandbox} geschaffen, was die Domäne der App
 			darstellt. Alle Drittanbieter und die meisten Systemapps laufen unter dem
 			Unix Benutzer \textsl{mobile}, welcher mit minimal nötigen Rechten
-			ausgestattet ist, um alle nötigen Apps starten zu können.
+			ausgestattet ist, um alle nötigen Apps starten zu können. Die
+			Drittanbieter Apps werden unter "`/private/var/mobile/Applications"'
+			abgelegt.
 			\begin{figure}[h]
 				\centering
 				\includegraphics[width=0.9\linewidth]{ios/media/sandboxing.png}
@@ -67,26 +68,27 @@
 			\end{figure}
 			Aufgrund der virtuellen Sperre durch die Sandbox ist es einer App nicht
 			möglich Daten anderer Drittanbieter- oder Systemapps anzusprechen. Jede App
-			%TODO: what does random mean??
-			hat ein zufälliges bei der Installation zugewieses Home-Verzeichnis, in
+			hat ein bei der Installation zugewieses Home-Verzeichnis, in
 			welchem Sie ihre Dateien hält. Wenn andere als die eigenen Daten benötigt
 			werden, wird dies nur mit vom System vorgeschriebenen APIs ermöglicht. Zu
 			Beginn war dies offiziell nicht vorgesehen und so hat sich die
 			Entwicklergemeinde selbst einen Weg in Form von \textsl{URL-Schemas}
 			gebahnt. Später kam eine weitere Möglichkeit mit dem Nutzen einer
-			%TODO: explain AppGroup!
-			gemeinsamen \textsl{Key-Chain} pro AppGroup dazu\cite[S.83]{Banks2015}.
+			gemeinsamen \textsl{Key-Chain} pro \textsl{App Group}
+			dazu\cite[S.83]{Banks2015}. Diese App Groups müssen vom Entwickler explizit
+			angelegt werden, um anschließend die benötigten Apps darin zu registrieren.
 				
 		\paragraph{Entitlements}
-			%TODO: check Entitlements for more possible infos!
 			Einen weiteren Schutz zur Laufzeit stellen sogenannte \textsl{Entitlements}
 			dar, mit denen der Zugriff auf iCloud, Push	Notifications und
 			Nutzerinformationen geregelt wird. Da diese digital signiert sind, können Sie
-			nicht verändert werden. Systemapps und Hintergrundprozesse nutzen diese
-			Berechtigung besonders oft, da dies verhindert, dass der relevante Prozess
-			mit Root-Rechten laufen muss. Zusätzlich verringert dies das Risiko einer
-			ungewollten Rechteerweiterung durch einen manipulierten Hintergrundprozess oder einer
-			Systemapp.
+			nicht verändert werden. Entitlements sind Schlüssel-Werte Paare, welche eine
+			Authentifizierung ungeachtet der zur Laufzeit, wie UNIX Benutzer, zulassen
+			und explizit einer App zugeordnet sind.
+			Systemapps und Hintergrundprozesse nutzen diese Berechtigung besonders oft,
+			da dies verhindert, dass der relevante Prozess mit Root-Rechten laufen muss.
+			Zusätzlich verringert dies das Risiko einer ungewollten Rechteerweiterung
+			durch einen manipulierten Hintergrundprozess oder einer Systemapp.
 		
 		\paragraph{ASLR}
 			Für zusätzlichen Laufzeitschutz wurde \textsl{Address space layout
@@ -94,10 +96,10 @@
 			weist Programmen zufällige Speicheradressen zu. Somit sollen Angriffe die auf
 			Speicherüberläufen basieren verhindert werden\cite[S.131]{Levin2012}. Jedoch
 			wird nur der Heap und die Bibliotheken der App durch
-			ASLR\footnote{ASLR: Address space layout randomization}
-			%TODO: shortly explain PIE!
-			geschützt, wenn die App nicht mit einer Unterstützung für \textsl{Position Independent
-			Executables} compiliert wurde.
+			ASLR geschützt, wenn die App nicht mit einer Unterstützung für
+			\textsl{Position Independent Executables}\footnote{PIE: Position-Independent
+			Executable - Code der, ungeachtet seiner absoluten Adresse im Hauptspeicher,
+			ausgeführt werden kann} compiliert wurde.
 			\begin{figure}[h]
 				\centering
 				\includegraphics[width=0.9\linewidth]{ios/media/aslr-pie.jpg}
