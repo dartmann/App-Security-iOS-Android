@@ -8,8 +8,8 @@ iOS}\label{sec:components-syssec}
 	ohne dabei die Nutzerfreundlichkeit zu beeinflussen. Wenn dabei einer dieser
 	Schritte fehlschlägt, unterbricht der Startvorgang und das Gerät wird in den
 	Recovery Modus versetzt. Wenn der Boot-ROM nicht geladen werden kann, wird der
-	DFU\footnote{Device Firmware Upgrade: DFU} Modus
-	betreten.\\
+	DFU\footnote{DFU: Device Firmware Upgrade - Modus zum Upgraden von USB-Geräten}
+	Modus betreten.\\
 	Nachfolgend werden die Komponenten, welche maßgeblich zur Wahrung der
 	Systemsicherheit und der Integrität dieser beteiligt sind, detailliert
 	vorgestellt und beschrieben.
@@ -50,12 +50,11 @@ iOS}\label{sec:components-syssec}
 		autorisierenden Installationsserver von Apple kontaktiert. Diesem
 		wird eine Liste von verschlüsselten Informationen pro am Update beteiligter
 		Komponente gesandt. Zusätzlich wird ein zufälliger
-		%TODO: add long version of ECID
 		Anti-Replay Wert und die eindeutige ID des Gerätes
 		verschickt. Die Clientdaten werden gegen eine Auflistung authorisierter Hardware, für die ein
-		Update genehmigt sind geprüft. Bei Übereinstimmung wird die
-		ECID\footnote{Eindeutige ID: ECID} zu den Informationen hinzugefügt und das
-		Ergebnis signiert, was einer Personalisierung der Daten gleicht.
+		Update genehmigt sind, geprüft. Bei Übereinstimmung wird die eindeutige
+		ECID\footnote{ECID: Exclusive Chip ID - eine einzigartige ID eines iOS
+		Gerätes} zu den Informationen hinzugefügt und das Ergebnis signiert, was einer Personalisierung der Daten gleicht.
 		Anschließend werden alle nötigen Daten vom Server signiert und zum Gerät
 		geschickt. Die sichere Startkette von Prozessen (Kapitel
 		\ref{sec:secure-boot-chain}) verifiziert die Signatur der empfangenen Daten
@@ -77,13 +76,14 @@ iOS}\label{sec:components-syssec}
 		Mikrokernel-Familie\cite{L4MicroKernel2015} mit leichten
 		Modifikationen. Die auf Interrupts basierende Kommunikation zwischen dem
 		Applikationsprozessor und dem Secure Enclave läuft über einem nur den beiden zur Verfügung stehenden Speicherbereich.
-		Der SE\footnote{SE: Secure Enclave} ist verantwortlich für das Schlüssel
-		Management der Datenverschlüsselung und stellt die Integrität dieser sicher, auch wenn der
+		Der SE\footnote{SE: Secure Enclave - Co-Prozessor von iOS Geräten} ist
+		verantwortlich für das Schlüssel Management der Datenverschlüsselung und stellt die Integrität dieser sicher, auch wenn der
 		Kernel des iOS Systems kompromitiert ist. Beim Herstellungsprozess erhält
 		jeder SE eine einzigartige ID, auf welche nur er zugreifen kann. Selbst Apple,
 		oder anderen an der Produktionskette beteiligten Herstellern ist diese nicht bekannt.
-		Mit dieser UID\footnote{Einzigartige ID: UID} wird beim Systemstart der
-		Speicherbereich des SE zusammen mit einem einmaligen Schlüssel verschlüsselt.
+		Mit dieser UID\footnote{UID: Unique ID - einzigartige in Hardware gegossene ID
+		eines iOS Gerätes} wird beim Systemstart der Speicherbereich des SE zusammen mit einem
+		einmaligen Schlüssel verschlüsselt.
 		Zusätzlich werden jegliche vom SE in den Speicher geschriebene Daten mit der
 		UID und einem Anti-Replay Zufallswert verschlüsselt. Eine der Hauptaufgaben
 		des Secure Enclave ist die verarbeitung der Fingerabdruck-Daten des Touch ID
@@ -93,9 +93,12 @@ iOS}\label{sec:components-syssec}
 		SE weiter kann diese aber aufgrund einer Verschlüsselung der Daten mit einem
 		Sitzungsschlüssel nicht lesen. Dieser Session Key wurde durch den für Touch
 		ID und SE bereit gestellten öffentlichen Schlüssel erzeugt. Der Austausch des
-		%TODO: long form of AES in footmark
-		Sitzungsschlüssels wird durch AES Key Wrapping realisiert. Dabei erzeugen
-		beide Seiten einen zufälligen Schlüssel, welche den Sitzungsschlüssel bilden.
+		Sitzungsschlüssels wird durch AES\footnote{AES: Advanced Encryption Standard
+		- ein symmetrisches Verschlüsselungsverfahren} Key
+		Wrapping\footnote{Key Wrap beschreibt ein symmetrisches
+		Verschlüsselungsverfahren zum Ummanteln von Schlüsseln, meist für
+		asymmetrische Verfahren} realisiert.
+		Dabei erzeugen beide Seiten einen zufälligen Schlüssel, welche den Sitzungsschlüssel bilden.
 		%TODO: long form of AES-CCM in footmark
 		Zum verschlüsselten Transport wird AES-CCM genutzt.
 	\subsubsection{Touch ID}\label{sec:touch_id}
