@@ -11,7 +11,7 @@
 	Anhand der folgenden Permission lässt sich die daraus resultierende Problematik gut erkennen:\\\\
 	RECORD\_AUDIO Permission:
 	\begin{quote}
-	Allows an application to record audio \footnote{https://developer.android.com/reference/android/Manifest.permission.html\#RECORD\_AUDIO}
+	Allows an application to record audio \cite{RECORD_AUDIO}
 	\end{quote} 
 	Für den Nutzer ist nicht sichtbar, wann eine Aufnahme läuft, ausser die Applikation stellt dafür einen Hinweis bereit - wobei hier die Frage ist, ob dieser auch wirklich verlässlich ist. Stellt die App einen Service bereit, kann ein solcher Mitschnitt auch im Hintergrund geschehen, und damit auch während eines Telefonats. Die einzige Chance RECORD\_AUDIO zur Laufzeit zu unterbinden ist, den Service bzw. die App über den Anwendungsmanager zu beenden.	Ausnahmen für diese Problematik sind Module wie GPS, WLAN und Bluetooth. Diese kann der Nutzer des Geräts abschalten und damit den Zugriff darauf verweigern.
 	Dennoch ist das Problem auf viele Permissions übertragbar.\\\\
@@ -21,6 +21,9 @@
 	
 	\paragraph{Besonderheit: Systemapps}
 	Apps der System Hersteller können Rechte besitzen, die für normale Anwendungen nicht verfügbar sind, um Basis Apps und Services bereitzustellen. Hierfür werden alle Hersteller Applikationen mit sogenannten \textit{Publisher Keys} signiert und bekommen ggf. im Kernel festgeschriebene UIDs zugewiesen, welche erweiterte Rechte besitzen.
+	
+	\subsubsection{ASLR}
+	Mittels \textit{Address Space Layout Randomization} wird versucht, Speicherüberläufen und Angriffe die dem Schema des \textit{Return Oriented Programming (ROP)} folgen entgegen zu wirken. Android hat diesen Sicherheitsmechanismus mit der Version 4.0 eingeführt \cite{AslrAndroid}.Jedoch waren immernoch etliche Speicherbereiche mit einer statischen Addressierung versehen. Dies wurde in der nächsten Version (4.1) geändert, indem eine vollständige Verwürfelung des Arbeitsspeichers hinzugefügt wurde\cite{BetterAslrAndroid}. Trotz des vollständigen ASLRs hat die Implementierung in Android noch mindestens eine Schwachstelle - den 32-Bit Adressraum\cite{AslrAndroid32}. Dieser ist vergleichsweise klein und vereinfacht das \textit{Spraying}. Mit Android 5.0 kam das erste reine 64-Bit System heraus, hier ist die Entropie um ein Vielfaches höher, was auch zu einer erhöhten Sicherheit durch ASLR führt. Um Applikationen in einem System mit ASLR ausführen zu können, ist es nötig, dass diese dem PIE Schema entsprechen (siehe \ref{sec:ios-aslr})
 	
 	
 	\subsubsection{Sicherheit durch eine zentrale App Quelle}
