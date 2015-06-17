@@ -1,27 +1,29 @@
 \subsection{iOS}
-	In diesem Kapitel werden die Kryptographie von iOS genauer vor gestellt.
-	Dazu geht der Author zu Beginn auf eingesetzte Hardware ein und anschließend
-	auf die logische Ebene mit einem Fokus auf Dateizugriff.
+	Das Kapitel Verschlüsselung unter iOS stellt zu Beginn eingesetzte Hardware vor
+	und anschließend rückt der Fokus auf die logische Ebene, mit einem zusätzlichen
+	Blick auf den Dateizugriff.
 	\subsubsection{Kryptographische Hardware}\label{sec:crypto-engine}
 		Für eine native Verschlüsselung sorgt in jedem iOS Gerät eine 256-Bit
 		basierte AES Hardware-Engine, welche zwischem dem Flash	Speicher und dem
-		Systemspeicher liegt. Diese Positionierung sorgt für hohe Performance und
-		niedrige Latenzen beim Verschlüsseln von Dateien. Die geräteeigene Unique ID
-		wird beim Herstellungsprozess in den Applikationsprozessor und den Secure
-		Enclave eingebrannt und die Group ID wird compiliert, somit ist es keiner
-		Soft- oder Firmware möglich diese direkt zu lesen. Dies verhindert eine
-		Manipulation oder ein Umgehen dieser Schlüssel, sowie einen Zugriff außerhalb
-		der Krypto-Engine. Die UID\footnote{Unique ID: UID} erlaubt außerdem eine
-		Gerätspezifische Bindung von Daten. Apple beteuert unter anderem
+		Systemspeicher liegt (vgl. Abb. \ref{fig:security-model}). Diese
+		Positionierung sorgt für hohe Performance und niedrige Latenzen beim
+		Ver- und Entschlüsseln von Dateien. Die geräteeigene Unique ID wird beim
+		Herstellungsprozess in den Applikationsprozessor und den Secure Enclave
+		eingebrannt und die Group ID wird compiliert, somit ist es keiner Soft- oder
+		Firmware möglich diese direkt zu lesen (vgl. Kapitel
+		\ref{sec:secure-boot-chain}). Dies verhindert eine Manipulation oder ein
+		Umgehen dieser Schlüssel, sowie einen Zugriff außerhalb der Krypto-Engine.
+		Die UID erlaubt außerdem eine gerätespezifische Bindung von Daten. Apple
+		beteuert unter anderem
 		\begin{quote}
 			The UIDs are unique to each device and are not recorded by Apple or any of its
 			suppliers.\cite[S.9]{iOSSecurityApr2015}
 		\end{quote}
-		Die GID\footnote{Group ID: GID} hingegen ist allen Geräten einer
+		Die GID hingegen ist allen Geräten einer
 		Prozessorklasse bekannt, z.B.
 		all jenen die einen Apple A7 nutzen. Dies liegt an der weniger
 		Sicherheitskritischen Nutzung dieser Schlüssel für Vorgänge,
-		wie beispielsweise die Übertragung von System Software bei Updates. Jegliche
+		wie beispielsweise die Übertragung von Systemsoftware bei Updates. Jegliche
 		weitere bei Kryptografischen Operationen benötigte Schlüssel werden von einem
 		Random Number Generator (RNG) mit einem auf	CTR\_DRBG\cite{NISTDRBG2012}
 		basierenden Algorithmus erzeugt.
@@ -31,7 +33,7 @@
 		Mechanismus wird bei allen System Apps und ab iOS 7 auch bei Drittanbieter Apps
 		automatisch angewendet. Die Funktionsweise ist in Form einer
 		Schlüsselhierarchie im Verbund mit Hardwareverschlüsselung realisiert. Jede
-		Datei, die in den Speicher geschrieben wird, erhält einen 256 Bit, explizit
+		Datei, die in den Speicher geschrieben wird, erhält einen 256-Bit, explizit
 		ihr zugewiesenen, \textsl{Per-File} Schlüssel. Dieser wird von der
 		Verschlüsselungsengine (Kapitel \ref{sec:crypto-engine}) mit Hilfe von
 		AES CBC\footnote{CBC: Cipher Block Chaining - Betriebsart für Blockchiffren}
@@ -39,19 +41,20 @@
 		Klassenschlüsseln ummantelt und in den Meta-Daten gespeichert. Die vier
 		möglichen Schlüssel sind:
 		\begin{itemize}
-		  \item Complete Protection: Klassenschlüssel wird mit Schlüssel, abgeleitet
-		  aus passcode und UID, verschlüsselt. 10 Sekunden (wenn das sofortige
-		  "`Passwort benötigt"' Funktion eingestellt wurde) nach Sperren des Gerätes
-		  wird dieser Schlüssel verworfen.
-		  \item Protected Unless Open: Während das Gerät gesperrt ist, können
-		  bestimmte Dateien, wie ein E-Mail Anhang, der heruntergeladen wird, dennoch
-		  geschrieben werden. Hier werden asymmetrische elliptische Kurven eingesetzt
-		  (ECDH).
-		  \item Protected Until First User Authentication: Der einzige unterscheid zu
-		  \textsl{Complete Protection} besteht darin, dass der genutzte Schlüssel beim
-		  Sperren des Gerätes nicht verworfen wird. Diese Klasse wird per Standard für
-		  Drittanbieter Apps verwendet, wenn nicht explizit anders angewiesen.
-		  \item No Protection: Hier wird der Klassenschlüssel nur mit der UID
+		  \item \textsl{Complete Protection}: Klassenschlüssel wird mit einem
+		  Schlüssel, abgeleitet aus passcode und UID, verschlüsselt. 10 Sekunden (wenn
+		  die "`Passwort benötigt"' Funktion ohne Verzögerung eingestellt wurde) nach
+		  Sperren des Gerätes wird dieser Schlüssel verworfen.
+		  \item \textsl{Protected Unless Open}: Während das Gerät gesperrt ist, können
+		  bestimmte Dateien, wie beispielsweise ein E-Mail Anhang der heruntergeladen
+		  wird, dennoch geschrieben werden. Hier werden asymmetrische elliptische
+		  Kurven eingesetzt (ECDH\footnote{ECDH: Elliptic curve Diffie–Hellman -
+		  ein auf elliptischen Kurven basierendes Schlüsselaustauschverfahren}).
+		  \item \textsl{Protected Until First User Authentication}: Der Unterscheid zu
+		  \textsl{Complete Protection} besteht darin, dass der genutzte Schlüssel
+		  beim Sperren des Gerätes nicht verworfen wird. Diese Klasse wird per
+		  Standard für Drittanbieter Apps verwendet, wenn nicht explizit angepasst.
+		  \item \textsl{No Protection}: Hier wird der Klassenschlüssel nur mit der UID
 		  verschlüsselt und im \textsl{Effaceable
 		  Storage}\footnote{Effaceable Storage - dedizierter Bereich im NAND-Speicher,
 		  welcher direkt adressiert und sicher gelöscht werden kann} gespeichert.

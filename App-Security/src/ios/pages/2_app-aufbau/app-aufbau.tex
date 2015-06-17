@@ -1,11 +1,12 @@
 \subsection{iOS}
-	Eine Applikation unter iOS kommuniziert wie unter Android ebenso (Kapitel:
-	\ref{sec:app-android}) nicht direkt mit der Hardware sondern mit zwischen der
-	App und der Hardware liegenden, nativ gegebenen Schnittstellen, welche wie ein
-	Schichtensystem angesehen werden können. Dabei nimmt die Komplexität, ebenso wie
-	Nutzungsmöglichkeiten pro hinzu kommender Schicht zu. Durch diese vorgegebene
-	Art der Hardwarenutzung wird ein immer gleich bleibender Standard und eine
-	gewisse Einheitlichkeit garantiert.
+	Eine Applikation unter iOS kommuniziert wie auch unter Android (Kapitel:
+	\ref{sec:app-android}) nicht direkt mit  der Hardware sondern mit nativ
+	gegebenen Schnittstellen, welche sich zwischen der App und der Hardware
+	befinden und wie ein Schichtensystem angesehen werden können. Dabei nimmt die
+	Komplexität, ebenso wie Nutzungsmöglichkeiten pro hinzukommender Schicht zu.
+	Durch diese vorgegebene Art der Hardwarenutzung wird ein immer gleich
+	bleibender Standard und eine gewisse Einheitlichkeit im Bereich der Entwicklung
+	garantiert.
 	\begin{figure}[h]
 		\centering
 		\includegraphics[width=0.5\linewidth]{ios/media/ios-layers.png}
@@ -31,22 +32,22 @@
 			"`controller-Rolle"' ist der Vermittler zwischen view und model und kann
 			unter anderem den \textsl{App-Lifecycle} anderer Objekte beeinflussen.
 		\paragraph{Entwicklungsumgebung und Lizenzen}
-			IOS Apps können nur mit der integrierten Entwicklungsumgebung Xcode
+			iOS Apps können nur mit der integrierten Entwicklungsumgebung Xcode
 			entwickelt werden. Diese stellt Apple \textsl{OS X Yosemite}
 			Benutzern, als auch registrierten Entwicklern kostenlos zur Verfügung.
 			Eine Entwickler Lizenz kostet im Jahr 99 US-Dollar. Eine Teilnahme am
-			\textsl{iOS Developer Enterprise Program} (Kapitel: \ref{sec:appsigning})
+			\textsl{iOS Developer Enterprise Program} (vgl. Kapitel \ref{sec:appsigning})
 			kostet Firmen jährlich 299 US-Dollar \cite{AppleDev2015}.
 		\paragraph{Technologien zur App-Entwicklung}
-			Unter IOS werden ein Fülle an Bibliotheken mitgeliefert, welche von der
-			tiefen und hardwarenahen Programmierung abstrahieren. Dies ermöglicht mit weniger
-			Programmierarbeit Mehr zu erreichen und eventuell komplexe Aufgaben, wie
-			Speicherallokation oder Multithreading an tiefere Schichten abzugeben
-			\cite{AboutiOSTech2015}.
+			iOS stellt eine Fülle an Bibliotheken bereit, welche von der
+			tiefen und hardwarenahen Programmierung abstrahieren. Dies ermöglicht mit
+			weniger Programmierarbeit bessere Ergebnisse zu erzielen und eventuell
+			komplexe Aufgaben, wie Speicherallokation oder Multithreading an tiefere
+			Schichten abzugeben \cite{AboutiOSTech2015}.
 			Apple empfiehlt eine Arbeitsweise auf möglichst abstrahierter Ebene.
 			Nachfolgend wird auf einzelne Bestandteile dieser Schichtenarchitektur
-			eingegangen. Es gilt hier anzumerken, dass nur wenige genannt werden, da die
-			Nennung und Erläuterung aller den Rahmen dieser Arbeit überlaufen würde.
+			eingegangen. Es gilt hier anzumerken, dass dies keine vollständige Nennung
+			darstellt, da dies den Rahmen dieser Arbeit	übersteigen würde.
 			\subparagraph{Cocoa Touch Layer}
 				Das \textsl{Cocoa Touch Framework} enthält Bibliotheken welche unter anderem
 				für das Erscheinungsbild einer App verantwortlich sind. Zusätzlich werden
@@ -63,15 +64,16 @@
 				Schnittstellen für Peer-to-Peer und andere Netzwerktechnologien angeboten.
 				Weiterhin ist es möglicht auf den iCloud Dienst, dem unter Kapitel
 				\ref{sec:filesecurity} dokumentierten sicherheitsessentiellen \textsl{Data
-				Protection}, sowie die SQLite Unterstützung zurückzugreifen.
+				Protection}, sowie die SQLite Unterstützung zuzugreifen.
 			\subparagraph{Core OS Layer}
-				Die unterste der vier Schichten liegt am hardwarenahesten und hält somit
-				Möglichkeiten auf den Zugriff dieser vor. Dazu zählen das \textsl{Accelerate
-				Framework} - unter anderem für Bildbearbeitung und lineare Algebra sowie das
-				\textsl{Core Bluetooth Framework} - speziell für die Kommunikation mit
-				Bluetooth LE\footnote{LE: Low-Energy} Geräten. Außerdem wird ab iOS 7
-				die Unterstützung für native 64-Bit Apps angeboten. Als ein der wichtigsten
-				Komponenten soll zuletzt das \textsl{Security Framework} erwähnt werden.
+				Die unterste der vier Schichten liegt der Hardware am nächsten und
+				hält dadurch Möglichkeiten für den direkten Zugriff auf diese. Dazu zählen
+				das \textsl{Accelerate Framework} - unter anderem für Bildbearbeitung und
+				lineare Algebra, sowie das \textsl{Core Bluetooth Framework} - speziell für
+				die Kommunikation mit Bluetooth LE\footnote{LE: Low-Energy} Geräten.
+				Außerdem wird ab iOS 7 die Unterstützung für native 64-Bit Apps angeboten.
+				Als einer der wichtigsten Komponenten soll zuletzt das \textsl{Security
+				Framework} erwähnt werden.
 				Dieses bietet Schnittstellen für das Management von Zertifikaten, Richtlinien
 				und privaten, sowie öffentlichen Schlüsseln. Außerdem wird das Erstellen von
 				Zufallszahlen durch den in Kapitel \ref{sec:crypto-engine}
