@@ -37,7 +37,7 @@
 	\paragraph{Integritätscheck mittels dm-verity}
 	Weitere Integritätschecks werden von der Kernelfunktion dm-verity übernommen.
 	dm-verity arbeitet mit einem SHA-256 Hash-tree, der wie folgt aufgebaut ist:\\
-	Für jeden 4K Sektor auf der Partition wird ein Hashwert berechnet. Jeweils zwei dieser Werte werden wiederum zu einem Neuen verrechnet. Dies wird solange wiederholt, bis nur noch ein Hashwert, der \textit{root-hash}, übrig ist. Zur Sicherstellung der Integrität wird dieser root-hash, mit einem bereits berechneten Soll-Wert verglichen. Sind diese identisch, ist die Partition integer.
+	Für jeden 4K Sektor auf der Partition wird ein Hashwert berechnet. Jeweils \textit{n} dieser Werte werden wiederum zu einem Neuen verrechnet, wobei \textit{n} ein Parameter für diese Funktion ist und während der Implementierung festgelegt wird. Dies wird solange wiederholt, bis nur noch ein Hashwert, der \textit{root-hash}, übrig ist. Zur Sicherstellung der Integrität wird dieser root-hash, mit einem bereits berechneten Soll-Wert verglichen. Sind diese identisch, ist die Partition integer.
 	
 	\begin{figure}[h]
 		\centering
