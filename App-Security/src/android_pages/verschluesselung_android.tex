@@ -1,7 +1,7 @@
 \subsection{Android}
 	Im Themengebiet Verschlüsselung sind hier zwei Bereiche zu unterscheiden. Zum Einen die Verschlüsselung auf Systemebene, z.B von Datenträgern, und zum Anderen die auf Nutzerebene, z.B von einzelnen Dateien.
 
-	\subsubsection{Verschlüsselung von Datenträgern}
+	\subsubsection{Verschlüsselung von Datenträgern}\label{sec:encrypt-volume}
 	Mit Android 3.0 (Honeycomb) wurde die Möglichkeit eingeführt, die userdata-Partition vollständig zu verschlüsseln (Fulldisk Encryption - FDE). Basis der Verschlüsselung ist, wie bei der Verifikation der Partitionen (\ref{sec:VerifikationDerBootmedien}), eine Funktion des Device Mappers - dm-crypt.\\\\
 	Zum Ent-/Verschlüsseln wird der Blockchiffrenmodus \textit{Cipher Block Chaining (CBC)} mit einem zufällig generierten 128-Bit AES Schlüssel (Disk Encryption Key, \textit{DEK}) verwendet. Die Verschlüsselung erfolgt sektorweise. Da nicht immer seriell aus dem Speicher gelesen wird, kann nicht nur ein Initialisationsvektor (\textit{IV}) für die komplette Ent- und Verschlüsselung genutzt werden. Daher wird stattdessen für jeden Sektor anhand eines, vom Disk Encryption Key abgeleiteten, Salts \textit{S} und der Sektornummer \textit{SN} ein eigener IV berechnet.\\
 	Somit gilt:

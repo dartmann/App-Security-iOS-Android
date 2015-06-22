@@ -36,7 +36,7 @@
 		Datei, die in den Speicher geschrieben wird, erhält einen 256-Bit, explizit
 		ihr zugewiesenen, \textsl{Per-File} Schlüssel. Dieser wird von der
 		Verschlüsselungsengine (Kapitel \ref{sec:crypto-engine}) mit Hilfe von
-		AES CBC\footnote{CBC: Cipher Block Chaining - Betriebsart für Blockchiffren}
+		AES CBC (vgl. Kapitel \ref{sec:encrypt-volume})
 		verschlüsselt. Der Per-File Schlüssel wird mit einem von vier
 		Klassenschlüsseln ummantelt und in den Meta-Daten gespeichert. Die vier
 		möglichen Schlüssel sind:
@@ -47,9 +47,12 @@
 		  Sperren des Gerätes wird dieser Schlüssel verworfen.
 		  \item \textsl{Protected Unless Open}: Während das Gerät gesperrt ist, können
 		  bestimmte Dateien, wie beispielsweise ein E-Mail Anhang der heruntergeladen
-		  wird, dennoch geschrieben werden. Hier werden asymmetrische elliptische
-		  Kurven eingesetzt (ECDH\footnote{ECDH: Elliptic curve Diffie–Hellman -
-		  ein auf elliptischen Kurven basierendes Schlüsselaustauschverfahren}).
+		  wird, dennoch geschrieben werden. Um dies zu ermöglichen wird
+		  Elliptische-Kurven-Kryptographie eingesetzt (ECDH\footnote{ECDH: Elliptic
+		  curve Diffie–Hellman - ein auf elliptischen Kurven basierendes
+		  Schlüsselaustauschverfahren} mit Curve25519\footnote{Curve25519 - eine
+		  elliptische Kurve, welche auch für Schlüsselaustauschprotokolle genutzt
+		  wird}).
 		  \item \textsl{Protected Until First User Authentication}: Der Unterscheid zu
 		  \textsl{Complete Protection} besteht darin, dass der genutzte Schlüssel
 		  beim Sperren des Gerätes nicht verworfen wird. Diese Klasse wird per
