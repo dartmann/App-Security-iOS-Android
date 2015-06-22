@@ -42,12 +42,12 @@
 	\begin{figure}[h]
 		\centering
 		\includegraphics[width=0.7\linewidth]{android_pages/graphics/dm_verity_hash_tree.png}
-		\caption[Aufbau des Hash-Trees]{Aufbau des von dm-verity erstellten Hash-Trees\protect\cite[S. 255]{Drake2014}}
+		\caption[Aufbau des Hash-Trees]{Aufbau des von dm-verity erstellten Hash-Trees \protect\cite[S. 255]{Drake2014}}
 		\label{fig:dm-verity-table}
 	\end{figure}
 	
 \begin{flushleft}
-	Um Manipulationen am Soll-Wert zu unterbinden, wird der Hash-Tree und ein Salt mit einem RSA Schlüssel signiert. Der genutzte RSA Public Key wird in der Boot-Partition abgelegt\cite[S. 255]{Drake2014}. Der Hash-Tree und der Salt hingegen werden hinter dem letzten Datenblock auf die zu verifizierenden Partitionen geschrieben. Besonders geeignet ist dieses Verfahren für Read-Only Partitionen, wie die System-Partition (\textit{/system}), welche das Betriebssystem beherbergt.\\
+	Um Manipulationen am Soll-Wert zu unterbinden, wird der Hash-Tree und ein Salt mit einem RSA Schlüssel signiert. Der genutzte RSA Public Key wird in der Boot-Partition abgelegt \cite[S. 255]{Drake2014}. Der Hash-Tree und der Salt hingegen werden hinter dem letzten Datenblock auf die zu verifizierenden Partitionen geschrieben. Besonders geeignet ist dieses Verfahren für Read-Only Partitionen, wie die System-Partition (\textit{/system}), welche das Betriebssystem beherbergt.\\
 	Welche Partitionen mittels dm-verity auf ihre Integrität überprüft werden sollen, wird über einen Eintrag zu der jeweiligen Partition in der fstab-Datei festgelegt.
 \end{flushleft}
 
@@ -55,17 +55,17 @@
 	Von Linux wurde auch das Basis-Rechtesystem übernommen, allerdings wird es leicht abgewandelt genutzt. Anstatt das ein Nutzer - im Sinne von der Person, die das Gerät bedient - des Mobilsystems eine eindeutige User-ID (UID) zugewiesen bekommt, wird jede Applikation auf dem System als ein Nutzer angesehen und bekommt zur Installationszeit eine UID. Jeder Nutzer, und somit jede App, arbeitet grundsätzlich erst einmal nur innerhalb der ihm zugewiesenen Sandbox und dem damit verbundenen Dateisystem.\\\\
 	Da es dennoch in vielen Fällen nötig ist, Daten zwischen verschiedenen Apps auszutauschen, gibt es mehrere Wege dies zu tun. Die üblichen Wege wären Intends oder Contentprovider. Zusätzlich gibt es noch die Möglichkeit mehreren Apps dieselbe UID zuweisen zu lassen. Allerdings ist das nur möglich, wenn die entsprechenden Applikationen mit dem selben Zertifikat signiert wurden und in deren Manifest Datei eine gemeinsame UID festgelegt wurde.
 	Mittlerweile bieten die meisten Android Geräte auch einen Multiuser-Betrieb an. Da ein Linux-Nutzer eine oder mehrere Apps darstellt, wird, um zwischen verschiedenen Endnutzern zu unterscheiden, an die UID der Apps für jeden Endnutzer noch ein Prä- oder Suffix der den physikalischen Nutzer identifiziert hinzugefügt.\\\\
-	Durch dieses Vorgehen bekommt jede Applikation ihren eigenen Speicherbereich, der nur für diese zugänglich ist. Durch dieses Rechtesystem wird versucht sicherzustellen, dass kein Nutzerprogramm als \textit{root} ausgeführt wird\cite[Kapitel Android's Security Model  - Application Sandboxing]{Drake2014}.
+	Durch dieses Vorgehen bekommt jede Applikation ihren eigenen Speicherbereich, der nur für diese zugänglich ist. Durch dieses Rechtesystem wird versucht sicherzustellen, dass kein Nutzerprogramm als \textit{root} ausgeführt wird \cite[Kapitel Android's Security Model  - Application Sandboxing]{Drake2014}.
 	
 	\subsubsection{SELinx in Android}
 	Das \textit{Discretionary Access Control (DAC)} System des Linux Kernels lässt nur relativ grobe Einstellungen zu. Hat man beispielsweiße eine Applikation, die höhere Rechte für die Ausführung benötigt, so bekommt diese unter Nutzung von DAC oftmals noch zusätzliche Rechte, welche die App nicht haben sollte.	Um dieses Problem zu beheben wird seit Android 4.4 zusätzlich zum DAC noch SELinux und dessen \textit{Mandatory Access Control (MAC)} System genutzt.
 	\begin{quote}
-	SELinux operates on the ethos of default denial. Anything that is not explicitly allowed is denied.\cite{SELinuxAndroid}
+	SELinux operates on the ethos of default denial. Anything that is not explicitly allowed is denied. \cite{SELinuxAndroid}
 	\end{quote}
 \begin{flushleft}
 	Dabei wird, nur sofern das DAC System einen Zugriff gewährt, das MAC System konsultiert. Welche Rechte eine Applikation hat und welche nicht, wird unter SELinux in MAC Policies festgehalten.\\
 	
-	Es sind zwei Nutzungsmodi zu unterscheiden. Während im \textit{permissive mode} Regelverstöße nur geloggt werden, wird im \textit{enforcing mode} die strikte Einhaltung erzwungen. In den Versionen 4.3 bis exklusive 5.0 war der \textit{enforcing mode} nicht überall in Nutzung. Dies änderte sich mit Version 5.0. Seitdem läuft nur noch dieser Modus\cite{SELinuxAndroid}.
+	Es sind zwei Nutzungsmodi zu unterscheiden. Während im \textit{permissive mode} Regelverstöße nur geloggt werden, wird im \textit{enforcing mode} die strikte Einhaltung erzwungen. In den Versionen 4.3 bis exklusive 5.0 war der \textit{enforcing mode} nicht überall in Nutzung. Dies änderte sich mit Version 5.0. Seitdem läuft nur noch dieser Modus \cite{SELinuxAndroid}.
 \end{flushleft}
 	
 	
