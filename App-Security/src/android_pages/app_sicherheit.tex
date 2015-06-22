@@ -4,27 +4,93 @@
 	Wie bereits erwähnt, laufen die Applikationen jeweils in ihrer eigenen Sandbox. Grundsätzlich ist die App damit erst einmal in ihrer Ausführung auf ihren Bereich beschränkt und kann nicht mit anderen Prozessen und Daten außerhalb interagieren. Dennoch ist es in den meisten Fällen sinnvoll mit Systemservices und Nutzerdaten zu interagieren, die nicht in der eigenen Sandbox verfügbar sind. Um solche Zugriffe zu regeln, werden sogenannte Permissions genutzt.
 	
 	\subsubsection{Sandboxing}
-	Die Hauptmerkmale der Sandbox sind, dass Prozesse eines Nutzer nicht die eines anderen beeinflussen, noch auf dessen Arbeitspeicher oder App internen Dateien zugreifen können. Diese Beschränkungen werden in erster Linie durch das Berechtigungssystem des Kernels festgelegt und durch den Einsatz von SELinux unterstützt. Eine App hat einen persistenten Speicherbereich (\textit{Internal Storage}), in welchem nur diese Zugriffsrechte besitzt. Durch den Kernel wird eine Isolation der Prozesse geregelt. Die genutzte JVM wirkt nicht direkt am Sandboxing mit, dennoch wird durch diese eine weitere Abstraktionsebene eingeführt, welche die Möglichkeit bietet weitere Regelungen vorzunehmen. %\cite[S.26]{Drake2014} .
+	Die Hauptmerkmale der Sandbox sind, dass Prozesse eines Nutzers nicht die eines
+	anderen beeinflussen, noch auf dessen Arbeitspeicher oder App internen Dateien
+	zugreifen können. Diese Beschränkungen werden in erster Linie durch das
+	Berechtigungssystem des Kernels festgelegt und durch den Einsatz von SELinux
+	unterstützt. Eine App hat einen persistenten Speicherbereich (\textit{Internal
+	Storage}), in welchem nur diese Zugriffsrechte besitzt. Durch den Kernel wird
+	eine Isolation der Prozesse geregelt. Die genutzte JVM wirkt nicht direkt am
+	Sandboxing mit, dennoch wird durch diese eine weitere Abstraktionsebene
+	eingeführt, welche die Möglichkeit bietet weitere Regelungen vorzunehmen. %\cite[S.26]{Drake2014} .
 	
 	\subsubsection{Permissions}
-	Um nun die bestehenden Zugriffsrechte erweitern zu können, müssen die entsprechenden Rechte (Permissions) in der Manifest Datei deklariert und angefordert werden. Zu Installationszeit werden diese Permissions dem Nutzer angezeigt, und dieser wird gefragt, ob er den Rechtswünschen der App zustimmt oder nicht. Dabei gilt das \textit{Alles-Oder-Nichts-Prinzip}, d.h. entweder bekommt die Anwendung alle Rechte oder keine - was eine nicht Installation zur Folge hat. Die Berechtigungen können nach der Installation nicht mehr angepasst werden. Berechtigungen sind beispielsweise für Zugriffe auf externe Speichermedien oder auch die Kamera nötig. Dabei ist allerdings zu beachten, dass die Permissions zum Teil sehr grob definiert sind. So ist für den Nutzer nicht unbedingt erkenntlich, welche Informationen eine App warum abgreift und ob die App wirklich Gebrauch des Rechts macht.\\\\
-	Anhand der folgenden Permission lässt sich die daraus resultierende Problematik gut erkennen:\\\\
+	Um nun die bestehenden Zugriffsrechte erweitern zu können, müssen die
+	entsprechenden Rechte (Permissions) in der Manifest Datei deklariert und
+	angefordert werden. Zu Installationszeit werden diese Permissions dem Nutzer
+	angezeigt, und dieser wird gefragt, ob er den Rechtswünschen der App zustimmt,
+	oder nicht. Dabei gilt das \textit{Alles-Oder-Nichts-Prinzip}, d.h. entweder
+	bekommt die Anwendung alle Rechte, oder keine - was einen Abbruch der
+	Installation zur Folge hat. Die Berechtigungen können nach der Installation nicht mehr
+	angepasst werden. Berechtigungen sind beispielsweise für Zugriffe auf externe
+	Speichermedien oder auch die Kamera nötig. Dabei ist allerdings zu beachten,
+	dass die Permissions zum Teil sehr grob definiert sind. So ist für den Nutzer
+	nicht unbedingt erkenntlich, welche Informationen eine App warum abgreift und
+	ob die App wirklich Gebrauch des Rechts macht.\\
+	Anhand der folgenden Permission lässt sich die daraus resultierende Problematik
+	gut erkennen.\\
 	RECORD\_AUDIO Permission:
 	\begin{quote}
-	Allows an application to record audio \cite{RECORD_AUDIO}
+		Allows an application to record audio \cite{RECORD_AUDIO}.
 	\end{quote} 
-	Für den Nutzer ist nicht sichtbar, wann eine Aufnahme läuft, ausser die Applikation stellt dafür einen Hinweis bereit - wobei hier die Frage ist, ob dieser auch wirklich verlässlich ist. Stellt die App einen Service bereit, kann ein solcher Mitschnitt auch im Hintergrund geschehen und damit auch während eines Telefonats. Die einzige Chance RECORD\_AUDIO zur Laufzeit zu unterbinden ist, den Service bzw. die App über den Anwendungsmanager zu beenden.	Ausnahmen für diese Problematik sind Module wie GPS, WLAN und Bluetooth. Diese kann der Nutzer des Geräts abschalten und damit den Zugriff darauf verweigern.
-	Dennoch ist das Problem auf viele Permissions übertragbar.\\\\
-	Systemintern werden Permissions durch Nutzergruppen im Linux Berechtigungssystem dargestellt \cite[S. 28]{Drake2014}. Jeder Linux-Nutzer wird allen Gruppen entsprechend der Berechtigungen zugewiesen.
-	Mit Android 4.3 (Kitkat) wurde eine versteckte Einstellungs-Activity namens \textit{App Ops} eingeführt. Darin konnte man einsehen welche App wann welche Permission genutzt hat, und dieser einzelne Rechte zu entziehen und wieder zu erlauben. Diese Funktion konnte nur durch das Anlegen eines Activity Shortcuts und der direkten Verwendung in einer App genutzt werden. Leider wurde diese versteckte Einstellung aus den nächsten Versionen entfernt - bis Android M \cite{HiddenActivity}. Für Android M wurde mittlerweile angekündigt, dass eine derartige Einstellung nun fest mit eingebaut sein wird \cite{AndroidMPermission}. Allerdings wird es wohl kein Update für ältere Versionen geben, wodurch das Problem in diesen bestehen bleibt.
-	
-\begin{flushleft}
-	Apps der Systemhersteller können Rechte besitzen, die für normale Anwendungen nicht verfügbar sind, um Basis Apps und Services bereitzustellen. Hierfür werden alle Herstellerapplikationen mit sogenannten \textit{Publisher Keys} signiert und bekommen ggf. im Kernel festgeschriebene UIDs zugewiesen, welche erweiterte Rechte besitzen.
-\end{flushleft}
+	Für den Nutzer ist nicht sichtbar, wann eine Aufnahme läuft, ausser die
+	Applikation stellt dafür einen Hinweis bereit - wobei hier die Frage ist, ob
+	dieser auch wirklich verlässlich ist. Stellt die App einen Service bereit,
+	kann ein solcher Mitschnitt auch im Hintergrund geschehen und damit auch
+	während eines Telefonats. Die einzige Chance RECORD\_AUDIO zur Laufzeit zu
+	unterbinden ist, den Service bzw. die App über den Anwendungsmanager zu
+	beenden. Ausnahmen für diese Problematik sind Module wie GPS, WLAN und
+	Bluetooth. Diese kann der Nutzer des Geräts abschalten und damit den Zugriff
+	darauf verweigern.
+	Dennoch ist das Problem auf viele Permissions übertragbar.\\
+	Systemintern werden Permissions durch Nutzergruppen im Linux
+	Berechtigungssystem dargestellt \cite[S. 28]{Drake2014}. Jeder Linux-Nutzer
+	wird allen Gruppen entsprechend der Berechtigungen zugewiesen.
+	Mit Android 4.3 (Kitkat) wurde eine versteckte Einstellungs-Activity namens
+	\textit{App Ops} eingeführt. Darin konnte man einsehen welche App wann welche
+	Permission genutzt hat und dieser einzelne Rechte zu entziehen, sowie diese
+	auch wieder gestatten. Diese Funktion konnte nur durch das Anlegen
+	eines Activity Shortcuts und der direkten Verwendung in einer App genutzt
+	werden. Diese versteckte Einstellung wurde aus den nächsten Versionen wieder
+	entfernt - bis Android M \cite{HiddenActivity}. Für Android M wurde
+	zum Stand der Arbeit angekündigt, dass eine derartige Einstellung nun fest mit
+	eingebaut wird \cite{AndroidMPermission}. Allerdings wird es wohl kein
+	Update für ältere Versionen geben, wodurch das Problem in diesen bestehen
+	bleibt.\\
+	Apps der Systemhersteller können Rechte besitzen, die für normale Anwendungen
+	nicht verfügbar sind, um Basis Apps und Services bereitzustellen. Hierfür
+	werden alle Herstellerapplikationen mit sogenannten \textit{Publisher Keys}
+	signiert und bekommen ggf. im Kernel festgeschriebene UIDs zugewiesen, welche
+	erweiterte Rechte besitzen.
 	
 	\subsubsection{ASLR}
-	Mittels \textit{Address Space Layout Randomization} wird versucht, Speicherüberläufen und Angriffe die dem Schema des \textit{Return Oriented Programming (ROP)} folgen entgegen zu wirken. Android hat diesen Sicherheitsmechanismus mit der Version 4.0 eingeführt \cite{AslrAndroid}. Jedoch waren immer noch etliche Speicherbereiche mit einer statischen Addressierung versehen. Dies wurde in der nächsten Version (4.1) geändert, indem eine vollständige Verwürfelung des Arbeitsspeichers hinzugefügt wurde \cite{BetterAslrAndroid}. Trotz des vollständigen ASLRs hat die Implementierung in Android noch mindestens eine Schwachstelle - den 32-Bit Adressraum \cite{AslrAndroid32}. Dieser ist vergleichsweise klein und vereinfacht das \textit{Spraying}\footnote{Hierbei wird der Schadcode mehrmals in den Arbeitsspeicher geschrieben, um somit die Chance auf einen Treffer zu erhöhen.}. Mit Android 5.0 kam das erste reine 64-Bit System heraus. Hier ist die Entropie um ein Vielfaches höher, was auch zu einer erhöhten Sicherheit durch ASLR führt. Um Applikationen in einem System mit ASLR ausführen zu können, ist es nötig, dass diese dem PIE Schema entsprechen (Kapitel \ref{sec:ios-aslr}).
+	Mittels \textit{Address Space Layout Randomization} wird versucht,
+	Speicherüberläufen und Angriffe die dem Schema des \textit{Return Oriented
+	Programming (ROP)} folgen entgegen zu wirken. Android hat diesen
+	Sicherheitsmechanismus mit der Version 4.0 eingeführt \cite{AslrAndroid}.
+	Jedoch waren immer noch etliche Speicherbereiche mit einer statischen
+	Addressierung versehen. Dies wurde in der nächsten Version (4.1) geändert,
+	indem eine vollständige Verwürfelung des Arbeitsspeichers hinzugefügt wurde
+	\cite{BetterAslrAndroid}. Trotz des vollständigen ASLRs hat die
+	Implementierung in Android noch mindestens eine Schwachstelle - den 32-Bit
+	Adressraum \cite{AslrAndroid32}. Dieser ist vergleichsweise klein und
+	vereinfacht das \textit{Spraying}\footnote{Spraying - Hierbei wird der
+	Schadcode mehrmals in den Arbeitsspeicher geschrieben, um somit die Chance auf
+	einen Treffer zu erhöhen.}. Mit Android 5.0 kam das erste reine 64-Bit System
+	heraus. Hier ist die Entropie um ein Vielfaches höher, was auch zu einer
+	erhöhten Sicherheit durch ASLR führt. Um Applikationen in einem System mit
+	ASLR ausführen zu können, ist es nötig, dass diese dem PIE Schema entsprechen
+	(vgl. Kapitel \ref{sec:ios-aslr}).
 	
 	
 	\subsubsection{Sicherheit durch eine zentrale App Quelle}
-	Dadurch, dass Apps für Android im Normalfall über den \textit{Google Play Store} verbreitet und von dort aus installiert werden, kann diese zentrale Quelle als weiterer Sicherheitsfaktor angesehen werde - zumindest bis zu einem gewissen Grad. Google hat bereits in der Vergangenheit Applikationen, welche Schadcode enthielten, aus dem Store entfernt. Zusätzlich dazu ist per Default die Installation aus anderen Quellen als dem Play Store nicht möglich. Dadurch soll eine heimliche oder auch fehlerhafte Installation unterbunden werden. Sollte der Nutzer dennoch Anwendungen aus Drittquellen installieren wollen, beispielsweiße um firmeninterne Apps zu nutzen, kann der Nutzer diesen Schutz in den Einstellungen des Geräts deaktivieren.
+	Dadurch, dass Apps für Android im Normalfall über den \textit{Google Play
+	Store} verbreitet und von dort aus installiert werden, kann diese zentrale
+	Quelle als weiterer Sicherheitsfaktor angesehen werde - zumindest bis zu einem
+	gewissen Grad. Google hat bereits in der Vergangenheit Applikationen, welche
+	Schadcode enthielten, aus dem Store entfernt. Zusätzlich dazu ist per Default
+	die Installation aus anderen Quellen als dem Play Store nicht möglich. Dadurch
+	soll eine heimliche oder auch fehlerhafte Installation unterbunden werden.
+	Sollte der Nutzer dennoch Anwendungen aus Drittquellen installieren wollen,
+	beispielsweiße um firmeninterne Apps zu nutzen, kann dieser den
+	Schutz in den Einstellungen des Geräts deaktivieren.

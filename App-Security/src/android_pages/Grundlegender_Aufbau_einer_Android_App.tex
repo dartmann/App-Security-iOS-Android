@@ -1,34 +1,56 @@
 \subsection{Android}\label{sec:app-android}
 	\begin{quote}
-	Android apps are written in the Java programming language. The Android SDK tools compile your code - along with any data and resource files - into an APK: an \textit{Android package}, which is an archive file with an .apk suffix. One APK file contains all the contents of an Android app and is the file that Android-powered devices use to install the app. \cite{AndroidApp}
+	Android apps are written in the Java programming language. The Android SDK
+	tools compile your code - along with any data and resource files - into an
+	APK: an \textit{Android package}, which is an archive file with an .apk
+	suffix. One APK file contains all the contents of an Android app and is the
+	file that Android-powered devices use to install the app \cite{AndroidApp}.
 	\end{quote}
+	Applikationen werden zumeist in Java oder C/C++ geschrieben; selten kommen
+	auch andere JVM-Sprachen zum Einsatz. Eine Android App besteht im Kern unter
+	anderem aus zwei wichtigen Teilen: den eigentlichen Programmkomponenten und
+	einer Manifest Datei (AndroidManifest.xml).
 	
-\begin{flushleft}
-	Applikationen werden zumeist in Java oder C/C++ geschrieben; selten kommen auch andere JVM-Sprachen zum Einsatz.
-	Eine Android App besteht im Kern unter anderem aus zwei wichtigen Teilen: den eigentlichen Programmkomponenten und einer Manifest Datei (AndroidManifest.xml).\\
-\end{flushleft}
 	\subsubsection{Programmkomponenten}
 	Als Programmkomponenten können unter anderem vorkommen:
 	\begin{itemize}\itemsep0pt
 		\item Activities - stellen die Benutzeroberfläche dar
 		\item Services - kann im Hintergrund laufen, auch wenn die App minimiert ist
-		\item Content Provider - stellt Daten für die eigene und evtl für andere Apps zur Verfügung
-		\item Broadcast Receiver - um Systemweite Benachrichtigungen zu empfangen (z.B dass ein Download beendet wurde)
+		\item Content Provider - stellt Daten für die eigene und evtl. für andere Apps
+		zur Verfügung
+		\item Broadcast Receiver - um Systemweite Benachrichtigungen zu empfangen
+		(z.B. dass ein Download beendet wurde)
 	\end{itemize}
 	\subsubsection{Manifest-Datei}
-	In der Manifest-Datei werden Eigenschaften der App definiert. Darunter zählen beispielsweise:
+	In der Manifest-Datei werden Eigenschaften der App definiert. Dazu zählen
+	beispielsweise:
 	\begin{itemize}\itemsep0pt
 		\item Name der App
 		\item Ziel SDK-Versionen
 		\item Versionsnummer
-		\item optional eine UserId (Kapitel \ref*{sec:BasisRechteSystem})
-		\item Permissions (Kapitel \ref*{sec:SandBoxingNPermissions})
+		\item optional eine UserId (Kapitel \ref{sec:BasisRechteSystem})
+		\item Permissions (Kapitel \ref{sec:SandBoxingNPermissions})
 		\item Startpunkt der Applikation
 	\end{itemize}
 	\subsubsection{Signatur}
-	Jede App muss signiert werden. Das hierfür benötigte Zertifikat kann sich jeder Entwickler selbst generieren und muss nicht durch eine \textit{Certification Authority (CA)} beglaubigt werden. Dabei wird angeraten, dass ein Entwickler für all seine Apps dasselbe Zertifikat nutzt. Mithilfe der dadurch gegebenen Signatur wird eine \textit{Same-Origin-Policy} erschaffen, die bei jedem Update sicherstellt, dass dieses wirklich vom Entwickler der Applikation stammt und nicht durch Dritte eingebracht wurde.\\\\
-	Hauptquelle für Anwendungen der Android Plattform ist der \textit{Google Play Store}\footnote{https://play.google.com/store}. Mittlerweile gibt es allerdings auch andere vertrauenswürdige Quellen, z.B. Amazons \textit{App Shop}\footnote{https://www.amazon.de/gp/feature.html/279-5944614-2192342?ie=UTF8\&docId=1000714243}.
+	Jede App muss signiert werden. Das hierfür benötigte Zertifikat kann sich jeder
+	Entwickler selbst generieren und dieses muss nicht durch eine
+	\textit{Certification Authority (CA)} beglaubigt werden. Dabei wird empfohlen,
+	dass ein Entwickler für all seine Apps dasselbe Zertifikat nutzt. Mithilfe der
+	dadurch gegebenen Signatur wird eine \textit{Same-Origin-Policy} geschaffen,
+	die bei jedem Update sicherstellt, dass dieses wirklich vom Entwickler der
+	Applikation stammt und nicht durch Dritte eingebracht wurde.\\
+	Hauptquelle für Anwendungen der Android Plattform ist der \textit{Google Play
+	Store}\footnote{https://play.google.com/store}. Mittlerweile gibt es
+	allerdings auch andere vertrauenswürdige Quellen, z.B. Amazons \textit{App
+	Shop}\footnote{https://www.amazon.de/gp/feature.html/279-5944614-2192342?ie=UTF8\&docId=1000714243}.
 	
 	\subsubsection{Entwicklung}
-	Java als Programmiersprache bringt mehrere Vorteile mit sich. Mit die wichtigsten sind, dass Java leicht zu lernen ist, was sich entsprechend auch auf die Anzahl der Apps für Android niederschlägt. Auch gibt es eine große Anzahl an Entwicklungsumgebungen, die oftmals sogar kostenlos nutzbar sind.\\
-	Dass Apps somit schnell programmiert werden können, kann allerdings auch ein Nachteil sein, z.B. wenn Entwickler aufgrund von Unwissen Nutzerdaten nicht korrekt schützen, oder sogar versehentlich eine Sicherheitslücke zur Verfügung stellen.
+	Java als Programmiersprache bringt mehrere Vorteile mit sich. Einige der
+	wichtigsten sind, dass Java leicht zu lernen ist, was sich entsprechend auch
+	auf die Anzahl der Apps für Android niederschlägt. Auch gibt es eine große
+	Anzahl an Entwicklungsumgebungen, die oftmals sogar kostenlos nutzbar sind.\\
+	Dass Apps somit schnell programmiert werden können, kann allerdings auch ein
+	Nachteil sein, z.B. wenn Entwickler aufgrund von Unwissen Nutzerdaten nicht
+	korrekt schützen, oder sogar versehentlich eine Sicherheitslücke zur Verfügung
+	stellen.

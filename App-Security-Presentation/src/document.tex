@@ -72,20 +72,22 @@ Würzburg-Schweinfurt
 
 \begin{document}
 
-\begin{frame}
-	\titlepage
-\end{frame}
+% titlepage
+\input{slides/general/titlepage.tex}
 
-\begin{frame}
-	\frametitle{Outline}
-	\tableofcontents
-	% You might wish to add the option [pausesections]
-\end{frame}
+% toc
+\input{slides/general/toc.tex}
 
 
 \section{Gegenüberstellung}
-
-\subsection[Short First Subsection Name]{First Subsection Name}
+\subsection[Gemeinsamkeiten]{Gemeinsamkeiten}
+\subsubsection{Secure Boot Chain}
+\subsubsection{Sandboxing und Rechte}
+\subsection[Unterschiede]{Unterschiede}
+\subsubsection{Hardwaresicherheit TEE: iOS (SE) und Android (ARM
+TrustZone)}
+\subsubsection{Rechtsystem: Android (SELinux) und iOS (UNIX und Entitlements)}
+\section{}
 
 \begin{frame}
 \frametitle{}

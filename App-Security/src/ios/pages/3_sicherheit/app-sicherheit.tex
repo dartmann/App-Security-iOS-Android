@@ -1,14 +1,13 @@
 \subsection{iOS}
-	Mobile Betriebssysteme bauen zum größten Teil auf Applikationen - weiter
-	\textsl{Apps} genannt - auf, welche die produktive Nutzung eines mobilen
-	Endgerätes erheblich verbessern können. Dabei ist es allerdings
-	essentiell, dass diese Apps korrekt durch das Betriebssystem behandelt werden,
-	da andernfalls die Systemsicherheit, die Stabilität oder gar die Nutzerdaten
-	gefährdet werden können. Wie bereits im Kapitel \ref{sec:components-syssec}
-	Systemsicherheit vorgestellt, wird auch hier eine Art
-	Schichtensystem angewandt, um eine Signierung und Verifikation (Kapitel
-	\ref{sec:appsigning}), sowie ein Sandboxing (Kapitel \ref{sec:sandboxing}) der
-	Apps sicherzustellen.
+	Mobile Betriebssysteme bauen zum größten Teil auf Applikationen auf, welche
+	die produktive Nutzung eines mobilen Endgerätes erheblich verbessern können.
+	Dabei ist es allerdings essentiell, dass diese Apps korrekt durch das
+	Betriebssystem behandelt werden, da andernfalls die Systemsicherheit, die
+	Stabilität oder gar die Nutzerdaten gefährdet werden können. Wie bereits im
+	Kapitel \ref{sec:components-syssec} Systemsicherheit vorgestellt, wird auch
+	hier eine Art Schichtensystem angewandt, um eine Signierung und Verifikation
+	(Kapitel \ref{sec:appsigning}), sowie ein Sandboxing (Kapitel
+	\ref{sec:sandboxing}) der Apps sicherzustellen.
 	
 	\subsubsection{Signieren von Applikationen}\label{sec:appsigning}
 		Nach dem Start des iOS Kernels, stellt dieser sicher, welche Nutzerprozesse
@@ -79,7 +78,7 @@
 			gebahnt. Später kam eine weitere Möglichkeit mit dem Nutzen einer
 			%TODO: footnote key chain
 			gemeinsamen \textsl{Key-Chain} pro \textsl{App Group}
-			dazu \cite[S.83]{Banks2015}. Diese App Groups müssen vom Entwickler explizit
+			dazu \cite[S. 83]{Banks2015}. Diese App Groups müssen vom Entwickler explizit
 			angelegt werden, um anschließend die benötigten Apps darin registrieren zu
 			können.
 				
@@ -100,10 +99,10 @@
 		\paragraph{ASLR}\label{sec:ios-aslr}
 			%TODO: refer to android too
 			Für zusätzlichen Laufzeitschutz wurde \textsl{Address space layout
-			randomization} \cite[S.1]{iOS4SecurityEvalutaion} ab iOS 4.3 eingeführt. Dies
-			weist Programmen zufällige Speicheradressen zu. Somit sollen Angriffe die auf
-			Speicherüberläufen basieren verhindert werden \cite[S.131]{Levin2012}. Jedoch
-			wird nur der Heap und die Bibliotheken der App durch
+			randomization} \cite[S. 1]{iOS4SecurityEvalutaion} ab iOS 4.3 eingeführt.
+			Dies weist Programmen zufällige Speicheradressen zu. Somit sollen Angriffe die auf
+			Speicherüberläufen basieren verhindert werden \cite[S. 131]{Levin2012}.
+			Jedoch wird nur der Heap und die Bibliotheken der App durch
 			ASLR geschützt, wenn die App nicht mit einer Unterstützung für
 			\textsl{Position Independent Executables}\footnote{PIE: Position-Independent
 			Executable - Code der, ungeachtet seiner absoluten Adresse im Hauptspeicher,
@@ -112,7 +111,7 @@
 				\centering
 				\includegraphics[width=0.9\linewidth]{ios/media/aslr-pie.jpg}
 				\caption{ASLR in Abhängigkeit von PIE
-				\cite[S.1]{iOS4SecurityEvalutaion}}
+				\cite[S. 1]{iOS4SecurityEvalutaion}}
 				\label{fig:aslr}
 			\end{figure}
 		
@@ -123,4 +122,4 @@
 			diesem nicht ausführbaren Speicherbereich versucht eine Adresse auszuführen
 			- was bedeuted, dass der Instruction Pointer versucht diesen Bereich
 			aufzurufen. Dieser Seitenfehler wird von iOS registriert und damit die
-			Ausführung des Programmes unterbunden \cite[S.310]{Levin2012}.
+			Ausführung des Programmes unterbunden \cite[S. 310]{Levin2012}.
