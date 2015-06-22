@@ -23,14 +23,15 @@
 		der Nutzer in die Qualität der Apps zur Folge hat.\\
 		Allerdings muss an diesem Punkt erwähnt werden, dass Apple Ausnahmen dieses
 		Verifikationsprozesses in Form des \textsl{iOS Developer Enterprise
-		Program}\cite{AppleDevProg2015}
+		Program} \cite{AppleDevProg2015}
 		erlaubt und so Apps auch ohne das Veröffentlichen im AppStore auf iOS Geräte
 		installiert werden können. Dabei prüft Apple das anfragende Unternehmen auf
 		Eignung durch deren D-U-N-S Nummer\footnote{D-U-N-S: Data Universal Numbering
 		System - Zahlensystem zur eindeutigen Identifizierung von Firmen}. Populär wurde eine jüngste Ausnutzung dieses
 		Privileges, bei welcher über eine Webseite die der Nutzer mit seinem iOS
 		Gerät besucht ein Dialog erscheint, der bei Einwilligung eine App
-		installiert, welche dann ein Abonnement verkaufen will\cite{HeiseCheatApp2015}. 
+		installiert, welche dann ein Abonnement verkaufen will
+		\cite{HeiseCheatApp2015}.
 		Die Installation ist hier also ohne den Aufruf des
 		App Store möglich. Apple dachte diese Möglichkeit nur für Firmen an, die ihr
 		eigenes Mobile Device Management betreiben. Hier wurde also entweder der
@@ -78,7 +79,7 @@
 			gebahnt. Später kam eine weitere Möglichkeit mit dem Nutzen einer
 			%TODO: footnote key chain
 			gemeinsamen \textsl{Key-Chain} pro \textsl{App Group}
-			dazu\cite[S.83]{Banks2015}. Diese App Groups müssen vom Entwickler explizit
+			dazu \cite[S.83]{Banks2015}. Diese App Groups müssen vom Entwickler explizit
 			angelegt werden, um anschließend die benötigten Apps darin registrieren zu
 			können.
 				
@@ -99,9 +100,9 @@
 		\paragraph{ASLR}\label{sec:ios-aslr}
 			%TODO: refer to android too
 			Für zusätzlichen Laufzeitschutz wurde \textsl{Address space layout
-			randomization}\cite[S.1]{iOS4SecurityEvalutaion} ab iOS 4.3 eingeführt. Dies
+			randomization} \cite[S.1]{iOS4SecurityEvalutaion} ab iOS 4.3 eingeführt. Dies
 			weist Programmen zufällige Speicheradressen zu. Somit sollen Angriffe die auf
-			Speicherüberläufen basieren verhindert werden\cite[S.131]{Levin2012}. Jedoch
+			Speicherüberläufen basieren verhindert werden \cite[S.131]{Levin2012}. Jedoch
 			wird nur der Heap und die Bibliotheken der App durch
 			ASLR geschützt, wenn die App nicht mit einer Unterstützung für
 			\textsl{Position Independent Executables}\footnote{PIE: Position-Independent
@@ -122,4 +123,4 @@
 			diesem nicht ausführbaren Speicherbereich versucht eine Adresse auszuführen
 			- was bedeuted, dass der Instruction Pointer versucht diesen Bereich
 			aufzurufen. Dieser Seitenfehler wird von iOS registriert und damit die
-			Ausführung des Programmes unterbunden\cite[S.310]{Levin2012}.
+			Ausführung des Programmes unterbunden \cite[S.310]{Levin2012}.

@@ -3,8 +3,8 @@
 	\begin{quote}
 		Proprietäre Software (lateinisch proprie "`eigentümlich"', "`eigen"',
 		"`ausschließlich"') wird eine Software bezeichnet, die das Recht und die
-		Möglichkeiten der Wieder- und Weiterverwendung durch Dritte stark einschränkt.
-		\cite{WikiProprietary2015}
+		Möglichkeiten der Wieder- und Weiterverwendung durch Dritte stark einschränkt
+		\cite{WikiProprietary2015}.
 	\end{quote}
 	Im Gegensatz zu anderen Herstellern mobiler Betriebssysteme lizenziert Apple
 	iOS nicht für andere Hardwarehersteller, sondern produziert alles im
@@ -38,10 +38,10 @@
 		\paragraph{com.apple.mobile.pcapd}
 			Pcapd stellt einen Überwachungsdienst dar, welcher auf der
 			Programmierschnittstelle
-			pcap\cite{PCAP2015} aufbaut und
+			pcap \cite{PCAP2015} aufbaut und
 			diese in Form der Bibliothek \textsl{libpcap} implementiert. Mit diesem
 			Dienst ist es möglich jeglichen Netzwerkverkehr mitzulesen und zu speichern.
-			Snifferprogramme wie Whireshark\cite{WHIRESHARK2015}, greifen auf
+			Snifferprogramme wie Whireshark \cite{WHIRESHARK2015}, greifen auf
 			diese Schnittstelle zurück, um Pakete direkt an der Netzwerkschnittstelle
 			abzufragen. Dem Benutzer des iOS Gerätes wird es visuell nicht erläutert,
 			wenn dieser Dienst aktiviert ist. Zusätzlich ist kein Entwickler-Modus von
@@ -54,7 +54,7 @@
 			abzugreifen. Apple schreibt dazu:
 			\begin{quote}
 				In iOS 8 and later, this capability requires additional configuration before
-				use.\cite{AppleDiagnosticCap2015}
+				use \cite{AppleDiagnosticCap2015}.
 			\end{quote}
 			Was eventuell auf eine Verbesserung des Zugriffs auf diesen Dienst hinweisen
 			könnte. Beispielsweise nur noch authorisierter vom Benutzer genehmigter
@@ -70,12 +70,12 @@
 			oder Twitter - obwohl die iTunes GUI dies nicht erlaubt.
 			
 	\subsubsection{Historische Exploits}
-		In der Geschichte von iOS hat es bereits diverse Exploits\cite{Exploit2015}
+		In der Geschichte von iOS hat es bereits diverse Exploits \cite{Exploit2015}
 		gegeben. In diesem Kapitel will ich einige der bekanntesten vorstellen.
 		\paragraph{libTiff Exploit} 
 			Eine auf einem Pufferüberlauf der libtiff Bibliothek basierenden
 			Sicherheitslücke. Dabei wurde die genannte Bibliothek gepatcht, um einen
-			Jailbreak zu starten\cite{LibTiffExploit2015}. Dieser Exploit
+			Jailbreak zu starten \cite{LibTiffExploit2015}. Dieser Exploit
 			stammt aus der Anfangszeit von iOS in der alle Prozesse noch mit root
 			Rechten liefen.
 		\paragraph{Ikee Virus}\label{sec:ikee-exploit}
@@ -85,7 +85,7 @@
 			Programm lediglich das Standardpasswort \textsl{alpine} des bei jailbroken
 			meist mit installierten SSH Dienstes, deaktivierte bei erfolgreichem login
 			den SSH Dienst und versuchte dann das Skript auf zufällig ausgewählten
-			IP-Adressen auszuführen.\cite{IkeeExploit2009}. Eine unter dem Namen
+			IP-Adressen auszuführen \cite{IkeeExploit2009}. Eine unter dem Namen
 			\textsl{Ikee.B} veränderte Variante stahl Inhalte des Gerätes und machte
 			dieses zum Zombie und somit Teil eines Botnetzes.
 		\paragraph{SpyPhone}
@@ -109,7 +109,7 @@
 		Der aus dem englischsprachligen Raum stammende Begriff bezeichnet unter iOS
 		das gezielte Aushebeln der von Apple vorgegebenen Restriktionen. Oft werden
 		dabei eigene Paketverwaltungstools wie
-		Cydia\cite{Cydia2015} installiert, um auch von Apple nicht
+		Cydia \cite{Cydia2015} installiert, um auch von Apple nicht
 		signierte Apps auf die modifizierten Geräte aufspielen zu können.\\
 		Es werden zwei Arten von Jailbreaks unterschieden, der \textsl{tethered
 		jailbreak} und der \textsl{untethered jailbreak}. Dabei bedeuted tethered,
@@ -136,4 +136,4 @@
 		gezeigt, dass zu viel Macht an falscher Stelle, verbunden mit Unwissenheit,
 		meist mehr Schaden anrichtet, als Besserung zu bringen. Das BSI warnt
 		zudem in einem Überblickspapier zu iOS offiziell vor dem Einsatz von
-		Jailbreaks\cite{BSIJailbreak2013}.
+		Jailbreaks \cite{BSIJailbreak2013}.
