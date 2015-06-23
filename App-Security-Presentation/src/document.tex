@@ -67,8 +67,7 @@ Würzburg-Schweinfurt
 
 % If you wish to uncover everything in a step-wise fashion, uncomment
 % the following command:
-
-%\beamerdefaultoverlayspecification{<+->}
+\beamerdefaultoverlayspecification{<+->}
 
 \begin{document}
 
@@ -80,22 +79,43 @@ Würzburg-Schweinfurt
 
 
 \section{Gegenüberstellung}
-\subsection[Gemeinsamkeiten]{Gemeinsamkeiten}
-\subsubsection{Secure Boot Chain}
-\subsubsection{Sandboxing und Rechte}
-\subsection[Unterschiede]{Unterschiede}
-\subsubsection{Hardwaresicherheit TEE: iOS (SE) und Android (ARM
-TrustZone)}
-\subsubsection{Rechtsystem: Android (SELinux) und iOS (UNIX und Entitlements)}
-\section{}
-
+	\subsection[Gemeinsamkeiten]{Gemeinsamkeiten}
+		%% grober aufbau ist sehr ähnlich, siehe:
+		%hardware (TEE, SE)
+		%bootvorgang (secure boot chain)
+		%userland (sandboxing, rechte)
+	\subsection[Unterschiede]{Unterschiede}
+		%% unterschiede liegen im detail, siehe:
+		%unterschied bei TEE und SE
+		%benutzerrechtesystem intern mit linux+unix usern
+		%berechtigungen der apps android vs. ios (alles oder nichts)
+\section{Systemkultur}
+	\subsection{Opensource von Android}
+	\subsection{Proprietät unter iOS}
+	%% opensource vs. proprietät
+	%nachteile: Android: updateproblematik, transparenzprobleme(drittanbieter
+	% eigenbauten) vorteile: closed source, proprietär
+	%MDM/BYOD: iOS einfacher, Android komplex, schwieriger
+	%% Systemmodifikation
+	%android erlaubt das rooten, ios nicht (exploits: jailbreak)
+	%Feststellen von Rooting unter Android sehr schwer, unter iOS relativ einfach
+	% (fork())
+	
+\section{Härten}
+	\subsection{Tips für Endnutzer}
+	%% generelle tips
+	%% spezifische tips
+	\subsection{Ratschläge für Entwickler}
+	%% generelle tips
+	%
+	%% spezifische tips
 \begin{frame}
-\frametitle{}
-\framesubtitle{Subtitles are optional}
+\frametitle{Gemeinsamkeiten}
+\framesubtitle{}
 
 \begin{itemize}
-  \item
-  \item
+  \item test
+  \item test
 \end{itemize}
 \end{frame}
 

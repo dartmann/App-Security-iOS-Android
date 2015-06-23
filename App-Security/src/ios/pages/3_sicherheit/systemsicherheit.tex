@@ -2,7 +2,7 @@
 	Eine Kette von aneinander gereihten und von einander abhängigen Prozessen trägt
 	maßgeblich zur Systemsicherheit von iOS bei. Dies berücksichtigt vor allem den
 	Startvorgang, die Softwareupdates - auch von Drittanbietern - und den Secure
-	Enclave (Kapitel \ref{sec:secure_enclave}). Dies stellt sicher, dass
+	Enclave (Kapitel \ref{sec:secure_enclave}). Somit wird sicher gestellt, dass
 	alle Kernkomponenten, ob Hard- oder Software, möglichst gefeit vor Angriffen sind,
 	ohne dabei die Nutzerfreundlichkeit zu beeinflussen. Wenn dabei einer dieser
 	Schritte fehlschlägt, unterbricht der Startvorgang und das Gerät wird in den
@@ -27,18 +27,19 @@
 		Nur iOS Geräte, deren Vertrauenskette erfolgreich validiert wurde, starten
 		ordnungsgemäß. Dabei wird nach dem Start eines iOS Gerätes zuerst Code aus
 		einem nur lesbaren Speicherbereich gelesen. Dieser \textit{hardware of
-		trust} genannte und unveränderbare Code ist bei der
+		trust} genannte, unveränderbare Code ist bei der
 		Manufaktur der Chips eingebettet worden und somit implizit vertraulich.
 		Er enthält das Wurzelzertifikat von Apple, einen gerätespezifischen
 		Schlüssel (UID\footnote{UID: Unique ID - pro iOS Gerät und Prozessor einzigartiger,
 		in Hardware gegossener 256-Bit AES Schlüssel}) und einen Gruppenschlüssel
 		(GID\footnote{GID: Group ID - ein 256-Bit AES Schlüssel der allen
 		Prozessoren einer Klasse (vgl. Kapitel \ref{sec:filesecurity}) bekannt ist}).
-		Das Wurzelzertifikat stellt eine Signierung des Low-Level-Bootloaders durch Apple sicher, bevor er ausgeführt wird.
-		Dies ist der erste Schritt in der "`chain of trust"', in welcher jeder
+		Das Wurzelzertifikat stellt eine Signierung des Low-Level-Bootloaders (LLB)
+		durch Apple sicher, bevor er ausgeführt wird.
+		Dies ist der erste Schritt in der \textsl{chain of trust}, in welcher jeder
 		Teilnehmer sicher stellt, dass der darauf folgende von Apple signiert ist. 		
 		Nach erfolgreicher Abarbeitung aller Aufgaben des LLB, überprüft und startet
-		dieser iBoot, den nächsten Bootloader, welcher wiederrum das selbe Prozedere
+		dieser iBoot, den nächsten Bootloader, welcher wiederum das selbe Prozedere
 		mit dem iOS Kernel beginnt. Bei Geräten mit Mobilfunk Zugang führt das
 		Basisband Untersystem seinen eigenen ähnlichen Prozess mit signierter 
 		Software und verifizierten Schlüsseln des Basisband Prozessors durch.
@@ -80,12 +81,11 @@
 		\ref{sec:android-hwsec}). Der Kernel dieser Einheit basiert auf der L4
 		Mikrokernel-Familie \cite{L4MicroKernel2015} mit leichten Modifikationen. Die
 		auf Interrupts basierende Kommunikation zwischen dem Applikationsprozessor
-		und dem Secure Enclave wird über einen ausschließlich beiden Parteien zur
-		Verfügung stehenden Speicherbereich abgearbeitet. Der SE\footnote{SE: Secure
-		Enclave - Co-Prozessor von iOS Geräten ab A7 Chipsatz} ist verantwortlich für
+		und dem Secure Enclave (SE) wird über einen ausschließlich beiden Parteien zur
+		Verfügung stehenden Speicherbereich abgearbeitet. Der SE ist verantwortlich für
 		das Schlüsselmanagement der Datenverschlüsselung und stellt die Integrität
 		dieser sicher, auch wenn der Kernel des iOS Systems kompromitiert ist. Beim
-		Herstellungsprozess erhält jeder SE, wie der Applikationsprozessor eine
+		Herstellungsprozess erhält jeder SE, wie auch der Applikationsprozessor eine
 		einzigartige gerätespezifische ID (UID) und Gruppen-ID (GID), auf welche nur
 		er zugreifen kann (vgl. Kapitel \ref{sec:secure-boot-chain}).
 		Selbst Apple, oder anderen an der Produktionskette beteiligten Herstellern
@@ -99,16 +99,15 @@
 		Jegliche Kommunikation zwischen Touch ID und SE wird über einen seriellen Bus
 		abgearbeitet. Der Applikationsprozessor leitet die Fingerabdrucksdaten an den
 		SE weiter, kann diese aber aufgrund einer Verschlüsselung der Daten mit einem
-		Sitzungsschlüssel nicht lesen. Dieser Session Key wird durch einen
-		für Touch ID und SE vom System bereit gestellten öffentlichen
-		Schlüssel erzeugt. Der Austausch des Sitzungsschlüssels wird durch
-		AES\footnote{AES: Advanced Encryption Standard - ein symmetrisches
-		Verschlüsselungsverfahren} Key Wrapping\footnote{Key Wrap - symmetrisches
-		Verschlüsselungsverfahren zum Ummanteln von Schlüsseln} realisiert. Dabei
-		erzeugen beide Seiten einen zufälligen Schlüssel, welche gemeinsam den
-		Sitzungsschlüssel bilden. Zum verschlüsselten Transport wird
-		AES-CCM\footnote{CCM: Counter with CBC - ein Verfahren, um Blockchiffren
-		zusätzlich mit Integrität zu versehen} genutzt.
+		Sitzungsschlüssel nicht lesen. Dieser Session Key wird durch einen für Touch
+		ID und SE vom System bereit gestellten gemeinsamen Schlüssel erzeugt. Der
+		Austausch des Sitzungsschlüssels wird durch AES\footnote{AES: Advanced
+		Encryption Standard - ein symmetrisches Verschlüsselungsverfahren} Key
+		Wrapping\footnote{Key Wrap - symmetrisches Verschlüsselungsverfahren zum
+		Ummanteln von Schlüsseln} realisiert. Dabei erzeugen beide Seiten einen
+		zufälligen Schlüssel, welche gemeinsam den Sitzungsschlüssel bilden. Zum
+		verschlüsselten Transport wird AES-CCM\footnote{CCM: Counter with CBC - ein
+		Verfahren, um Blockchiffren zusätzlich mit Integrität zu versehen} genutzt.
 		
 	\subsubsection{Touch ID}\label{sec:touch_id}
 		Touch ID bezeichnet den Fingerabdrucksensor der in allen iPhone 5s und neuer

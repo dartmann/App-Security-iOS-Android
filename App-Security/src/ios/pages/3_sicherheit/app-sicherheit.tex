@@ -107,7 +107,10 @@
 			ASLR geschützt, wenn die App nicht mit einer Unterstützung für
 			\textsl{Position Independent Executables}\footnote{PIE: Position-Independent
 			Executable - Code der, ungeachtet seiner absoluten Adresse im Hauptspeicher,
-			ausgeführt werden kann} kompiliert wurde.
+			ausgeführt werden kann} kompiliert wurde. Wie bereits im Kapitel
+			\ref{sec:android-aslr} beschrieben, bedeutet ein 64-Bit Adressraum größere
+			Sicherheit für ASLR durch größere Entropie. Dies ist mit iOS 7 erstmalig
+			ermöglicht worden (vgl. Kapitel \ref{sec:ios-coreoslayer}).
 			\begin{figure}[h]
 				\centering
 				\includegraphics[width=0.9\linewidth]{ios/media/aslr-pie.jpg}
