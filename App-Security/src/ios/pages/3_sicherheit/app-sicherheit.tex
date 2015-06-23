@@ -36,7 +36,6 @@
 		eigenes Mobile Device Management betreiben. Hier wurde also entweder der
 		ausstellende Account gekapert oder diese Lizenz vom Eigentümer schlichtweg
 		missbraucht.\\
-		%TODO: double check
 		Ab iOS 8 wird es Entwicklern erlaubt in ihren Apps Frameworks zu verwenden. Um
 		hier ein Laden von unsigniertem Code zu verhindern, wird beim Start einer App
 		die \textsl{Team-ID}\footnote{Team-ID - 10 stelliger
@@ -45,8 +44,9 @@
 		welche entweder vom System stammen, oder die selbe Team-ID besitzen.
 		Weiterhin ist es unter iOS untersagt Apps von ungeprüften Drittanbietern zu
 		installieren. Für zusätzliche Sicherheit wird vom System zur
-		Laufzeit der ausführbare Speicherbereich der Apps auf Änderungen zum
-		Zeitpunkt der Installation, beziehungsweise dem letzten Update überprüft.
+		Laufzeit der ausführbare Speicherbereich der Apps auf Änderungen im Vergleich
+		zum Zeitpunkt der Installation, beziehungsweise dem letzten Update dieser
+		überprüft.
 		
 	\subsubsection{Schutz zur Laufzeit}
 		Apple realisierte mehrere Sicherheitsmaßnahmen, um Applikationen und System
@@ -76,30 +76,31 @@
 			Beginn war dies offiziell nicht vorgesehen und so hat sich die
 			Entwicklergemeinde selbst einen Weg in Form von \textsl{URL-Schemas}
 			gebahnt. Später kam eine weitere Möglichkeit mit dem Nutzen einer
-			%TODO: footnote key chain
-			gemeinsamen \textsl{Key-Chain} pro \textsl{App Group}
-			dazu \cite[S. 83]{Banks2015}. Diese App Groups müssen vom Entwickler explizit
-			angelegt werden, um anschließend die benötigten Apps darin registrieren zu
+			gemeinsamen \textsl{Keychain}\footnote{Keychain (auch: Schlüsselbund) - ein
+			Passwortmanagementsystem von Apple} pro \textsl{App Group} dazu \cite[S.
+			83]{Banks2015}.
+			Diese App Groups müssen vom Entwickler explizit angelegt werden, um anschließend die benötigten Apps darin registrieren zu
 			können.
 				
 		\paragraph{Entitlements}
 			Einen weiteren Schutz zur Laufzeit stellen sogenannte \textsl{Entitlements}
 			dar, mit denen der Zugriff auf iCloud, Push	Notifications und
-			Nutzerinformationen geregelt wird. Da diese digital signiert sind, können Sie
-			nicht verändert werden. Entitlements sind Schlüssel-Werte Paare, welche eine
-			%TODO: clear this up a little bit more
-			Authentifizierung - im Gegensatz zu UNIX Benutzern - ungeachtet der Laufzeit
-			zulassen und explizit einer App zugeordnet sind.
-			Systemapps und Hintergrundprozesse nutzen diese Berechtigung besonders oft,
-			da so verhindert wird, dass der Prozess, welcher das Entitlement gestartet
-			hat, mit Root-Rechten laufen muss.
+			Nutzerinformationen geregelt wird. Entitlements sind Schlüssel-Werte Paare,
+			welche eine	Authentifizierung - im Gegensatz zu UNIX Benutzern - ungeachtet
+			der Laufzeit zulassen und explizit einer App zugeordnet sind. Da jede
+			Berechtigung über ihre zugehörige App signiert ist, kann Sie nicht
+			verändert werden. Jedes Entitlement besitzt einen Standardwert, welcher die
+			Fähigkeit dieser deaktiviert. Wird dieser Wert überschrieben aktiviert man
+			diese Berechtigung.	Systemapps und Hintergrundprozesse nutzen diese
+			Berechtigung besonders oft, da so verhindert wird, dass der Prozess, welcher
+			das Entitlement gestartet hat, mit Root-Rechten laufen muss.
 			Zusätzlich verringert dies das Risiko einer ungewollten Rechteerweiterung
 			durch einen manipulierten Hintergrundprozess oder einer Systemapp.
 		
 		\paragraph{ASLR}\label{sec:ios-aslr}
-			%TODO: refer to android too
 			Für zusätzlichen Laufzeitschutz wurde \textsl{Address space layout
-			randomization} \cite[S. 1]{iOS4SecurityEvalutaion} ab iOS 4.3 eingeführt.
+			randomization} \cite[S. 1]{iOS4SecurityEvalutaion} (vgl. Kapitel
+			\ref{sec:android-aslr}) ab iOS 4.3 eingeführt.
 			Dies weist Programmen zufällige Speicheradressen zu. Somit sollen Angriffe die auf
 			Speicherüberläufen basieren verhindert werden \cite[S. 131]{Levin2012}.
 			Jedoch wird nur der Heap und die Bibliotheken der App durch

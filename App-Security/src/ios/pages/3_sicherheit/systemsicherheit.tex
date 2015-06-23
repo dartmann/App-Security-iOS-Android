@@ -75,19 +75,19 @@
 		sicheren Startvorgang, ist separiert vom Applikationsprozessor und verwendet
 		verschlüsselten Speicher, sowie einen Hardware Zufallszahlen Generator. Die
 		Technologie basiert auf ARM's TrustZone \cite{TrustZone2015} und wurde von
-		%TODO: vergleich auf android mit tee
-		Apple für die eigenen Ansprüche angepasst. Der Kernel dieser Einheit basiert
-		auf der L4 Mikrokernel-Familie \cite{L4MicroKernel2015} mit leichten
-		Modifikationen. Die auf Interrupts basierende Kommunikation zwischen dem
-		Applikationsprozessor und dem Secure Enclave wird über einen
-		ausschließlich beiden Parteien zur Verfügung stehenden Speicherbereich
-		abgearbeitet. Der SE\footnote{SE: Secure Enclave - Co-Prozessor von iOS
-		Geräten ab A7 Chipsatz} ist verantwortlich für das Schlüsselmanagement der
-		Datenverschlüsselung und stellt die Integrität dieser sicher, auch wenn der
-		Kernel des iOS Systems kompromitiert ist. Beim Herstellungsprozess erhält
-		jeder SE, wie der Applikationsprozessor eine einzigartige gerätespezifische
-		ID (UID) und Gruppen-ID (GID), auf welche nur er zugreifen kann (vgl. Kapitel
-		\ref{sec:secure-boot-chain}).
+		Apple für die eigenen Ansprüche angepasst. Dieses Konzept ist ähnlich zu der
+		Trusted Execution Environment von Android (vgl Kapitel:
+		\ref{sec:android-hwsec}). Der Kernel dieser Einheit basiert auf der L4
+		Mikrokernel-Familie \cite{L4MicroKernel2015} mit leichten Modifikationen. Die
+		auf Interrupts basierende Kommunikation zwischen dem Applikationsprozessor
+		und dem Secure Enclave wird über einen ausschließlich beiden Parteien zur
+		Verfügung stehenden Speicherbereich abgearbeitet. Der SE\footnote{SE: Secure
+		Enclave - Co-Prozessor von iOS Geräten ab A7 Chipsatz} ist verantwortlich für
+		das Schlüsselmanagement der Datenverschlüsselung und stellt die Integrität
+		dieser sicher, auch wenn der Kernel des iOS Systems kompromitiert ist. Beim
+		Herstellungsprozess erhält jeder SE, wie der Applikationsprozessor eine
+		einzigartige gerätespezifische ID (UID) und Gruppen-ID (GID), auf welche nur
+		er zugreifen kann (vgl. Kapitel \ref{sec:secure-boot-chain}).
 		Selbst Apple, oder anderen an der Produktionskette beteiligten Herstellern
 		ist diese unbekannt. Mit dieser UID wird beim
 		Systemstart der Speicherbereich des SE zusammen mit einem einmaligen
@@ -135,7 +135,6 @@
 		Die Schlüssel, welche von Touch ID zum Entschlüsseln des Gerätes benötigt
 		werden, sind nach 48 Stunden ungültig, beziehungsweise wenn das iOS Gerät neu
 		gestartet wurde, oder der Fingerabdruck fünf mal falsch registriert wurde.
-		%TODO: double check this
 		Danach muss der passcode des Systems erneut eingegeben werden.\\
 		Dass diese Technik nicht als sicher angesehen werden darf, haben bereits
 		Miglieder des Chaos Computer Club gezeigt \cite{CCCBreakTouch2015}, dabei 
