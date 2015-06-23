@@ -9,8 +9,9 @@
 	auf dem Prozessor dar, auf dem nur berechtige Anwendungen ausgeführt werden
 	können, wie beispielsweiße die Verifikation des Bootmediums und
 	Verschlüsselungsverfahren. Die Implementierung ist dabei Prozessorhersteller
-	abhängig - auf ARM wird dabei, wie bei iOS, auf \textit{TrustZone}
-	\cite{TEE_ARM} zurückgegriffen.
+	abhängig - auf ARM wird dabei, wie bei iOS (vgl. Kapitel
+	\ref{sec:secure_enclave}), auf \textit{TrustZone} \cite{TEE_ARM}
+	zurückgegriffen.
 	
 	\subsubsection{Verifikation der Bootmedien}
 	\label{sec:VerifikationDerBootmedien} Um bereits bei Systemstart eine
@@ -20,11 +21,11 @@
 	Überprüfung durch den Kernel ausgeführt wird, muss vor dem Start von dm-verity
 	erst der Bootloader und die Boot-Partition selbst auf ihre Integrität
 	überprüft werden. Die Verifikation des Bootloaders ist nur schwer möglich,
-	daher wird hierbei auf eine Hardware basierende root-of-trust, hier auf Basis
+	daher wird auf eine hardwarebasierte root-of-trust, hier auf Basis
 	des TEE, gesetzt.
 	
 	\paragraph{Integritätscheck durch den Bootloader}
-	Grundsätzlich ist die Implementierung des Bootloader und dessen Vorgehen stark
+	Grundsätzlich ist die Implementierung des Bootloaders und dessen Vorgehen stark
 	geräteabhängig. Daher soll hier im Folgenden lediglich das prinzipielle
 	Vorgehen, welches durch das AOSP unterstützt wird, erläutert werden.\\
 	Um die Boot- und Recovery-Partition (\textit{/boot, /recovery}) zu validieren
@@ -36,8 +37,8 @@
 	vorgenommen worden sein, egal ob bewusst durch den Nutzer, oder durch
 	Schadcode, ist dieses Vorgehen nicht mehr möglich. Um aber dennoch eine
 	Modifikation durch den Nutzer grundsätzlich zu ermöglichen, gibt es noch einen
-	zweiten Weg. Dabei wird auf ein in der Paritionssignatur gespeichertes
-	Zertifikat zurückgegriffen.\\
+	zweiten Weg. Dabei wird auf ein gespeichertes Zertifikat in der
+	Partitionssignatur zurückgegriffen.\\
 	Um zu unterscheiden, ob ein offizielles oder inoffizielles Image erwartet
 	wird, kann der Bootloader zwischen zwei Status
 	unterscheiden \cite{VerifiedBoot}:
@@ -75,9 +76,10 @@
 	dm-verity arbeitet mit einem SHA-256 Hash-tree, der wie folgt aufgebaut ist:\\
 	Für jeden Sektor auf der Partition wird ein Hashwert berechnet. Jeweils
 	\textit{n} dieser Werte werden wiederum zu einem Neuen verrechnet, wobei
-	\textit{n} von der Sektorgröße und der Hashlänge abhängig ist (vgl. \cite{dm-verity-doc}). Dies wird solange wiederholt, bis nur noch ein
-	Hashwert, der \textit{root-hash}, übrig ist. Zur Sicherstellung der Integrität
-	wird dieser root-hash, mit einem bereits berechneten Soll-Wert verglichen.
+	\textit{n} von der Sektorgröße und der Hashlänge abhängig ist 
+	\cite{dm-verity-doc}. Dies wird solange wiederholt, bis nur noch ein Hashwert,
+	der \textit{root-hash}, übrig ist. Zur Sicherstellung der Integrität wird
+	dieser root-hash, mit einem bereits berechneten Soll-Wert verglichen.
 	Sind diese identisch, ist die Partition integer.
 	\begin{figure}[h]
 		\centering
@@ -102,10 +104,10 @@
 	leicht abgewandelt genutzt. Anstatt, dass ein Nutzer - im Sinne von der Person,
 	die das Gerät bedient - des Mobilsystems eine eindeutige User-ID (UID)
 	zugewiesen bekommt, wird jede Applikation auf dem System als ein Nutzer
-	angesehen und erhält zur Installationszeit eine UID. Jeder Nutzer, und somit
+	angesehen und erhält zur Installation eine UID. Jeder Nutzer, und somit
 	jede App, arbeitet nur innerhalb der ihm zugewiesenen Sandbox und dem damit
 	verbundenen Dateisystem.\\
-	Da es dennoch in vielen Fällen nötig ist, Daten zwischen verschiedenen Apps
+	Da es dennoch in vielen Fällen nötig ist, Daten zwischen Apps
 	auszutauschen, gibt es mehrere Wege dies zu tun. Gängig sind
 	Intends oder Contentprovider. Zusätzlich gibt es noch die Möglichkeit mehreren
 	Apps dieselbe UID zuzuweisen. Allerdings ist das nur möglich, wenn die
