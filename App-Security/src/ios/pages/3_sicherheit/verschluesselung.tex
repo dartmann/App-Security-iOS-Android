@@ -21,10 +21,10 @@
 		\end{quote}
 		Die GID hingegen ist allen Geräten einer
 		Prozessorklasse bekannt, z.B.
-		all jenen die einen Apple A7 nutzen. Dies liegt an der weniger
+		all jenen, die einen Apple A7 nutzen. Dies liegt an der weniger
 		Sicherheitskritischen Nutzung dieser Schlüssel für Vorgänge,
 		wie beispielsweise die Übertragung von Systemsoftware bei Updates. Jegliche
-		weitere bei Kryptografischen Operationen benötigte Schlüssel werden von einem
+		weitere bei kryptografischen Operationen benötigte Schlüssel werden von einem
 		Random Number Generator (RNG) mit einem auf	CTR\_DRBG \cite{NISTDRBG2012}
 		basierenden Algorithmus erzeugt.
 	\subsubsection{Schutz auf Dateiebene}\label{sec:filesecurity}
@@ -63,7 +63,7 @@
 		  welcher direkt adressiert und sicher gelöscht werden kann} gespeichert.
 		\end{itemize}
 		Jegliche Meta-Daten sind mit einem zufälligen Schlüssel verschlüsselt, welcher
-		beim installieren von iOS oder beim Löschen eines Gerätes durch den Benutzer
+		beim Installieren von iOS oder beim Löschen eines Gerätes durch den Benutzer
 		erstellt wird. Beim Entschlüsseln einer Datei, werden zuerst die Meta-Daten
 		mit dem \textsl{File System Key} entschlüsselt. Dieser ist im Effaceable Storage
 		gespeichert.

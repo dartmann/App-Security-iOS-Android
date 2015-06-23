@@ -92,17 +92,19 @@
 			verändert werden. Jedes Entitlement besitzt einen Standardwert, welcher die
 			Fähigkeit dieser deaktiviert. Wird dieser Wert überschrieben aktiviert man
 			diese Berechtigung.	Systemapps und Hintergrundprozesse nutzen diese
-			Berechtigung besonders oft, da so verhindert wird, dass der Prozess, welcher
+			Möglichkeit besonders oft, da so verhindert wird, dass der Prozess, welcher
 			das Entitlement gestartet hat, mit Root-Rechten laufen muss.
 			Zusätzlich verringert dies das Risiko einer ungewollten Rechteerweiterung
-			durch einen manipulierten Hintergrundprozess oder einer Systemapp.
+			durch einen manipulierten Hintergrundprozess, oder einer Systemapp.
 		
 		\paragraph{ASLR}\label{sec:ios-aslr}
 			Für zusätzlichen Laufzeitschutz wurde \textsl{Address space layout
-			randomization} \cite[S. 1]{iOS4SecurityEvalutaion} (vgl. Kapitel
-			\ref{sec:android-aslr}) ab iOS 4.3 eingeführt.
-			Dies weist Programmen zufällige Speicheradressen zu. Somit sollen Angriffe die auf
-			Speicherüberläufen basieren verhindert werden \cite[S. 131]{Levin2012}.
+			randomization} (vgl. Kapitel
+			\ref{sec:android-aslr}) ab iOS 4.3 eingeführt \cite[S.
+			1]{iOS4SecurityEvalutaion}.
+			Dies weist Programmen zufällige Speicheradressen zu. Somit sollen Angriffe,
+			die auf Speicherüberläufen basieren, verhindert werden \cite[S.
+			131]{Levin2012}.
 			Jedoch wird nur der Heap und die Bibliotheken der App durch
 			ASLR geschützt, wenn die App nicht mit einer Unterstützung für
 			\textsl{Position Independent Executables}\footnote{PIE: Position-Independent
@@ -121,7 +123,7 @@
 		
 		\paragraph{ARM Never eXecute}
 			Mit dem \textsl{NX-Bit} markiert iOS einzelne Speicherseiten entweder mit dem
-			\textsl{Code-Flag} oder mit dem \textsl{Data-Flag}. Speicherseiten mit
+			\textsl{Code-Flag}, oder mit dem \textsl{Data-Flag}. Speicherseiten mit
 			Data-Markierung starten einen \textsl{Page-Fault}, wenn ein Programm in
 			diesem nicht ausführbaren Speicherbereich versucht eine Adresse auszuführen
 			- was bedeuted, dass der Instruction Pointer versucht diesen Bereich
