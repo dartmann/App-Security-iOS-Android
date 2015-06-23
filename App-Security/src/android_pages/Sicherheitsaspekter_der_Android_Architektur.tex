@@ -53,7 +53,6 @@
 	Nutzer darauf hinzuweisen, dass die Partition nicht mittels des
 	festgeschrieben Keys verifiziert werden konnte. Daraus ergeben sich mehrere
 	mögliche Zustände des Systems:
-	
 	\begin{figure}[h]
 		\centering
 		\includegraphics[width=0.7\linewidth, height=0.5\textheight]{android_pages/graphics/VerifiedBoot}
@@ -61,14 +60,14 @@
 		\cite{VerifyingBoot}}
 		\label{fig:VerifiedBoot}
 	\end{figure}
-	
+	\\
 	Mit diesem Vorgehen wird auch die Integrität des Kernels sichergestellt, der
 	in der \textit{/boot-} Partition abgelegt ist. Die Steuerung wird nach diesem
 	Vorgang an den Kernel übergeben, welcher die Verifikation weiterer Partitionen
 	übernimmt.\\
 	Um zu verhindern, dass Angreifer einfach den Bootloader manipulieren, um an
 	Daten heranzukommen, muss die Partition, welche die Nutzerdaten beinhaltet
-	(\textit{/userdata}) vor einer Veränderung an dem Bootsystem formatiert
+	(\textit{/userdata}) vor einer Veränderung des Bootsystem formatiert
 	werden.
 	
 	\paragraph{Integritätscheck mittels dm-verity}
@@ -76,19 +75,17 @@
 	dm-verity arbeitet mit einem SHA-256 Hash-tree, der wie folgt aufgebaut ist:\\
 	Für jeden Sektor auf der Partition wird ein Hashwert berechnet. Jeweils
 	\textit{n} dieser Werte werden wiederum zu einem Neuen verrechnet, wobei
-	\textit{n} von der Sektorgröße und der Hashlänge abhängig ist (vgl. Kapitel
-	\cite{dm-verity-doc}). Dies wird solange wiederholt, bis nur noch ein
+	\textit{n} von der Sektorgröße und der Hashlänge abhängig ist (vgl. \cite{dm-verity-doc}). Dies wird solange wiederholt, bis nur noch ein
 	Hashwert, der \textit{root-hash}, übrig ist. Zur Sicherstellung der Integrität
 	wird dieser root-hash, mit einem bereits berechneten Soll-Wert verglichen.
 	Sind diese identisch, ist die Partition integer.
-	
 	\begin{figure}[h]
 		\centering
 		\includegraphics[width=0.7\linewidth]{android_pages/graphics/dm_verity_hash_tree.png}
 		\caption{Beispiel für einen von dm-verity erstellten Hash-Tree \cite[S. 255]{Drake2014}}
 		\label{fig:dm-verity-table}
 	\end{figure}
-	
+	\\
 	Um Manipulationen am Soll-Wert zu unterbinden, wird der Hash-Tree und ein Salt
 	mit einem RSA Schlüssel signiert. Der genutzte RSA Public Key wird in der
 	Boot-Partition abgelegt \cite[S. 255]{Drake2014}. Der Hash-Tree und der Salt
@@ -122,7 +119,7 @@
 	Durch dieses Vorgehen erhält jede Applikation ihren eigenen Speicherbereich,
 	der nur für diese zugänglich ist. Durch dieses Rechtesystem wird versucht
 	sicherzustellen, dass kein Nutzerprogramm als \textit{root} ausgeführt wird
-	\cite[Kapitel Android's Security Model  - Application Sandboxing]{Drake2014}.
+	\cite[S. 12-14]{Elenkov2014}.
 	
 	\subsubsection{SELinx in Android}
 	Das \textit{Discretionary Access Control (DAC)} System des Linux Kernels lässt
