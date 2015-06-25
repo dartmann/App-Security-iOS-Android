@@ -60,7 +60,7 @@ Würzburg-Schweinfurt
 \AtBeginSubsection[]
 {
 \begin{frame}<beamer>
-\frametitle{Outline}
+\frametitle{Gliederung}
 \tableofcontents[currentsection,currentsubsection]
 \end{frame}
 }
@@ -78,20 +78,28 @@ Würzburg-Schweinfurt
 \input{slides/general/toc.tex}
 
 
-\section{Gegenüberstellung}
-	\subsection[Gemeinsamkeiten]{Gemeinsamkeiten}
+\section{Gemeinsamkeiten und Unterschiede}
+	\subsection[Systemsicherheit]{Systemsicherheit}
+		\input{slides/gegenueberstellung/systemsicherheit.tex}
 		%% grober aufbau ist sehr ähnlich, siehe:
 		%hardware (TEE, SE)
 		%bootvorgang (secure boot chain)
 		%userland (sandboxing, rechte)
-	\subsection[Unterschiede]{Unterschiede}
+	\subsection[Applikationssicherheit]{Applikationssicherheit}
+		\input{slides/gegenueberstellung/applikationssicherheit.tex}
+		\input{slides/gegenueberstellung/appberechtigungen_screens.tex}
 		%% unterschiede liegen im detail, siehe:
 		%unterschied bei TEE und SE
 		%benutzerrechtesystem intern mit linux+unix usern
 		%berechtigungen der apps android vs. ios (alles oder nichts)
+		
+		
 \section{Systemkultur}
+	\subsection{Android vs. iOS}
+		\input{slides/systemkultur/general.tex}
 	\subsection{Opensource von Android}
 	\subsection{Proprietät unter iOS}
+		\input{slides/systemkultur/ios.tex}
 	%% opensource vs. proprietät
 	%nachteile: Android: updateproblematik, transparenzprobleme(drittanbieter
 	% eigenbauten) vorteile: closed source, proprietär
@@ -109,58 +117,50 @@ Würzburg-Schweinfurt
 	%% generelle tips
 	%
 	%% spezifische tips
-\begin{frame}
-\frametitle{Gemeinsamkeiten}
-\framesubtitle{}
+	
 
-\begin{itemize}
-  \item test
-  \item test
-\end{itemize}
-\end{frame}
-
-\begin{frame}
-\frametitle{}
+%\begin{frame}
+%\frametitle{}
 
 % You can create overlays
-\begin{itemize}
-  \item using the \texttt{pause} command:
-  \begin{itemize}
-    \item First item.
-    \pause
-    \item Second item.
-  \end{itemize}
-  \item using overlay specifications:
-  \begin{itemize}
-    \item<3-> First item.
-    \item<4-> Second item.
-  \end{itemize}
-  \item using the general \texttt{uncover} command:
-  \begin{itemize}
-    \uncover<5->{\item First item.}
-    \uncover<6->{\item Second item.}
-  \end{itemize}
-\end{itemize}
-\end{frame}
+%\begin{itemize}
+%  \item using the \texttt{pause} command:
+%  \begin{itemize}
+%    \item First item.
+%    \pause
+%    \item Second item.
+%  \end{itemize}
+%  \item using overlay specifications:
+%  \begin{itemize}
+%    \item<3-> First item.
+%    \item<4-> Second item.
+%  \end{itemize}
+%  \item using the general \texttt{uncover} command:
+%  \begin{itemize}
+%    \uncover<5->{\item First item.}
+%    \uncover<6->{\item Second item.}
+%  \end{itemize}
+%\end{itemize}
+%\end{frame}
 
-\section*{Summary}
+%\section*{Summary}
 
-\begin{frame}
-\frametitle<presentation>{Summary}
+%\begin{frame}
+%\frametitle<presentation>{Summary}
 
-\begin{itemize}
-  \item The \alert{first main message} of your talk in one or two lines.
-\end{itemize}
+%\begin{itemize}
+%  \item The \alert{first main message} of your talk in one or two lines.
+%\end{itemize}
 
 % The following outlook is optional.
-\vskip0pt plus.5fill
-\begin{itemize}
-  \item Outlook
-  \begin{itemize}
-    \item Something you haven't solved.
-    \item Something else you haven't solved.
-  \end{itemize}
-\end{itemize}
-\end{frame}
+%\vskip0pt plus.5fill
+%\begin{itemize}
+%  \item Outlook
+%  \begin{itemize}
+%    \item Something you haven't solved.
+%    \item Something else you haven't solved.
+%  \end{itemize}
+%\end{itemize}
+%\end{frame}
 
 \end{document}
