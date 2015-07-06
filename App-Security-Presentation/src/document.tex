@@ -80,30 +80,27 @@ Würzburg-Schweinfurt
 
 %% Section Gemeinsamkeiten und Unterschiede
 \section{Gemeinsamkeiten und Unterschiede}
+	%% Subsection Systemsicherheit
 	\subsection[Systemsicherheit]{Systemsicherheit}
 		\input{slides/gegenueberstellung/systemsicherheit.tex}
-		%% grober aufbau ist sehr ähnlich, siehe:
-		%hardware (TEE, SE)
-		%bootvorgang (secure boot chain)
-		%userland (sandboxing, rechte)
+	%% Subsection Applikationssicherheit
 	\subsection[Applikationssicherheit]{Applikationssicherheit}
 		\input{slides/gegenueberstellung/applikationssicherheit.tex}
 		\input{slides/gegenueberstellung/appberechtigungen_screens.tex}
-		%% unterschiede liegen im detail, siehe:
-		%unterschied bei TEE und SE
-		%benutzerrechtesystem intern mit linux+unix usern
-		%berechtigungen der apps android vs. ios (alles oder nichts)
 		
 %% Section Systemkultur
 \section{Systemkultur}
+	%% Subsection Systemkultur Generell
 	\subsection{Android vs. iOS}
 		\input{slides/systemkultur/general.tex}
 	\subsection{Opensource von Android}
+	%% Subsection Opensource von Android
 		\input{slides/systemkultur/android/open_source_android.tex}
 		\input{slides/systemkultur/android/android_rooting.tex}
 		\input{slides/systemkultur/android/beispiel_rooting_exploit.tex}
 		\input{slides/systemkultur/android/hersteller_apps.tex}
 		\input{slides/systemkultur/android/google_settings.tex}
+	%% Subsection Proprietär unter iOS
 	\subsection{Proprietät unter iOS}
 		\input{slides/systemkultur/ios/proprietaet-ios.tex}
 		\input{slides/systemkultur/ios/undokumentierte-dienste/intro.tex}
@@ -117,26 +114,22 @@ Würzburg-Schweinfurt
 		\input{slides/systemkultur/ios/historische-exploits/no-ios-zone.tex}
 		\input{slides/systemkultur/ios/jailbreaking/jb.tex}
 		\input{slides/systemkultur/ios/jailbreaking/vorteil-proprietaet.tex}
-	%% opensource vs. proprietät
-	%nachteile: Android: updateproblematik, transparenzprobleme(drittanbieter
-	% eigenbauten) vorteile: closed source, proprietär
-	%MDM/BYOD: iOS einfacher, Android komplex, schwieriger
-	%% Systemmodifikation
-	%android erlaubt das rooten, ios nicht (exploits: jailbreak)
-	%Feststellen von Rooting unter Android sehr schwer, unter iOS relativ einfach
-	% (fork())
 
 %% Section Härten
 \section{Härten}
+	%% Subsection Ratschläge für Entwickler
 	\subsection{Ratschläge für Entwickler}
 		\input{slides/haerten/entwickler-generell.tex}
 		\input{slides/haerten/entwickler-android-ios.tex}
-	\subsection{Tipps für Endnutzer}
+	%% Subsection Tips für Endnutzer
+	\subsection{Tips für Endnutzer}
 		\input{slides/haerten/endnutzer.tex}
 %% Verständnisfragen
 \input{slides/general/ende.tex}
 %% Diskussion
 \input{slides/general/discussion.tex}
+%% Bildquellen
+\input{slides/general/imagesrc.tex}
 
 %\begin{frame}
 %\frametitle{}
