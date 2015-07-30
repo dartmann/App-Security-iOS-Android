@@ -48,7 +48,7 @@
 		Basisband Untersystem seinen eigenen ähnlichen Prozess mit signierter 
 		Software und verifizierten Schlüsseln des Basisband Prozessors durch.
 		
-	\subsubsection{Authorisierung von System Software}\label{sec:code-signing}
+	\subsubsection{Autorisierung von System Software}\label{sec:code-signing}
 		Dieser Prozess soll einen Downgrade auf eine ältere Version von iOS
 		verhindern und benötigt eine Internetverbindung. Der in Kapitel
 		\ref{sec:secure_enclave} besprochene Secure Enclave Co-Prozessor nutzt diese
@@ -59,7 +59,7 @@
 		verschlüsselten Informationen für jede Komponente, die am Update beteiligt
 		ist.
 		Zusätzlich wird ein zufälliger Anti-Replay Wert und die UID des Gerätes
-		verschickt. Die Clientdaten werden gegen eine Auflistung authorisierter
+		verschickt. Die Clientdaten werden gegen eine Auflistung ermächtigter
 		Hardware geprüft, für die ein Update genehmigt ist. Bei
 		Übereinstimmung wird die eindeutige ECID\footnote{ECID: Exclusive Chip ID - eine einzigartige
 		64-Bit ID auf jedem iOS Gerät} zu den Informationen ergänzt und das
@@ -69,10 +69,10 @@
 		\ref{sec:secure-boot-chain}) verifiziert die Signatur der empfangenen Daten
 		auf den Absender Apple und startet anschließend einen Prüfsummenabgleich
 		der empfangenen Daten.\\
-		Mit diesen Schritten wird eine Authorisierung ausschließlich für freigegebene
+		Mit diesen Schritten wird eine Autorisierung ausschließlich für freigegebene
 		Geräte sicher gestellt. Außerdem verhindert der Anti-Replay Wert ein
 		Manipulieren der Serverdaten, oder ein Mitschneiden dieser für
-		das Verwenden auf anderen, nicht authorisierten Geräten.
+		das Verwenden auf anderen, nicht berechtigten Geräten.
 		
 	\subsubsection{Secure Enclave}\label{sec:secure_enclave}
 		Dieser Co-Prozessor kommt in Geräten mit A7 oder jüngeren A-Serien
